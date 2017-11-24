@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MyDiet</string>
+    <string name="my_diet">My Diet</string>
+    <string name="Inspiration_Image">Inspiration Image</string>
+    <string name="message">Inspiration Message</string>
+    <string name="message_of_the_day">Message of The Day</string>
+
+    <string-array name="stringMessages">
+        <item>Eat less? or eat right? Because result speak the work.</item>
+        <item>Health is a state of body. Wellness is a state of being.</item>
+        <item>"Your body can stand up to almost anything, it's your mind that you have to convince."</item>
+    </string-array>
+</resources>
