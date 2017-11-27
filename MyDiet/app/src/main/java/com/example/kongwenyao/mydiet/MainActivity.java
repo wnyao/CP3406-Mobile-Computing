@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
         String[] messages = getResources().getStringArray(R.array.stringMessages);
         int[] images = {R.drawable.food1, R.drawable.food2, R.drawable.food3};
 
-        setMessage(messages[rand.nextInt(4)]);
-        setImage(images[rand.nextInt(4)]);
+        setMessage(messages[rand.nextInt(3)]);
+        setImage(images[rand.nextInt(3)]);
 
     }
 
