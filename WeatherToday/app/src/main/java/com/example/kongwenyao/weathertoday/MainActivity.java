@@ -155,7 +155,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void getWeatherHourly(JSONObject jsonObject) throws JSONException, IOException {
-
+            //TODO: get data here as getWeather Today
+            //TODO: create display method fot main weather and sub weather
+            //TODO: set up settings
         }
 
         public void getWeatherToday(JSONObject jsonObject) throws JSONException, IOException {
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
             weatherView.setImageResource(weatherImageId);
         }
 
-        public int getWeatherImageID(String condition) throws IOException, JSONException {
+        private int getWeatherImageID(String condition) throws IOException, JSONException {
             JSONObject weatherKeywords = getWeathersKeywords();
             JSONArray weatherTypes = weatherKeywords.names();
             condition = condition.toLowerCase();
@@ -199,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
             return weatherID;
         }
 
-        public JSONObject getWeathersKeywords() throws IOException, JSONException {
+        private JSONObject getWeathersKeywords() throws IOException, JSONException {
             InputStream inputStream = getResources().openRawResource(R.raw.weathers_keywords);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
