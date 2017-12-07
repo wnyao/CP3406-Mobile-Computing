@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.kongwenyao.guessinggameapp.SettingActivity">
+
+    <TextView
+        android:id="@+id/settingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/settingsTitle"
+        android:textAllCaps="false"
+        android:textColor="@color/colorBlack"
+        android:textSize="30sp"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/labelMinSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/min_value_label"
+            android:labelFor="@id/minNumSeekbar"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_columnWeight="0"/>
+
+        <SeekBar
+            android:id="@+id/minNumSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progress="1"
+            android:layout_margin="10dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/labelMaxSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/max_value_label"
+            android:labelFor="@id/maxNumSeekbar"
+            android:layout_margin="10dp"
+            android:textSize="18sp"
+            android:layout_columnWeight="0" />
+
+        <SeekBar
+            android:id="@+id/maxNumSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:progress="10"
+            android:layout_margin="10dp"
+            android:layout_columnWeight="1"/>
+
+    </GridLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:onClick="returnButtonHandler"
+        android:text="@string/return_label"
+        android:layout_weight="0"/>
+</LinearLayout>

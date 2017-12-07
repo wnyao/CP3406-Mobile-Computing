@@ -1,0 +1,1 @@
+{"foggy":["mist", "fog", "smoke", "ash", "dust", "sand", "haze", "spray", "sandstorm"],"snowy":["snow", "ice", "hail"],"clouds":["clouds", "overcast"],"windy":["squalls", "funnel"],"stormy":["thunderstorm"],"cold":["freezing"],"drizzle":["drizzle"],"cloudy":["cloudy"],"sunny":["clear"],"rainy":["rain"]}

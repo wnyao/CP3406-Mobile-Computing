@@ -1,14 +1,17 @@
 package com.example.kongwenyao.quicksum;
 
         import android.annotation.SuppressLint;
+        import android.content.Intent;
         import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.Toolbar;
         import android.os.Bundle;
+        import android.view.Menu;
+        import android.view.MenuItem;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.Button;
         import android.widget.GridLayout;
         import android.widget.TextView;
-
         import java.util.regex.Matcher;
         import java.util.regex.Pattern;
 
@@ -25,6 +28,19 @@ public class MainActivity extends AppCompatActivity {
 
         buttonsIds = getAllNumberButtons();
         setNumberButtonListener(buttonsIds);
+
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar); //set custom toolbar
+
+        try {
+            Intent intent = getIntent();
+            int colorCode = Integer.parseInt(intent.getStringExtra("ColorChoice"));
+            setTextColor(colorCode);
+
+        } catch (Exception e) { //catch when getIntent is null
+            System.out.print("No Intent found!");
+        }
+
     }
 
     public int[] getAllNumberButtons() {
@@ -135,12 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
         setBackToButton(view);
     }
 
     public void setBackToButton(View view) {
-
         Button otherButton = (Button) view;
         otherButton.setText(R.string.backToNormal);
 
@@ -151,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 setNumberButtonListener(buttonsIds);
 
                 Button btnButton = (Button) view;
-                btnButton.setText(R.string.other);
+                btnButton.setText(R.string.fraction);
                 btnButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -160,8 +174,30 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
+    public void setTextColor(int colorCode) {
+        TextView mDisplayValue = findViewById(R.id.mDisplayValue);
+        mDisplayValue.setTextColor(colorCode);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_setting) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent); //start SettingActivity
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }
