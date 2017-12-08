@@ -173,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return weatherHourly;
-            //Log.i("hourly", String.valueOf(hourlyForecast.length())); //test
         }
 
         public void displayWeatherHourly(Map<String, String[]> weatherHourly) {
