@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     TextView locationView;
     TextView dateView;
     TextView tempView;
+    ImageView subWeatherView;
+    TextView subLabelView;
 
     private final String weatherConditions = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
     private final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
@@ -48,13 +51,6 @@ public class MainActivity extends AppCompatActivity {
         //Custom Toolbar
         Toolbar toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
-
-        //views instance references
-        weatherView = findViewById(R.id.weather_Imageview);
-        conditionView = findViewById(R.id.condition_view);
-        locationView = findViewById(R.id.location_view);
-        tempView = findViewById(R.id.temperature_view);
-        dateView = findViewById(R.id.date_view);
 
         retrieveData = new RetrieveData();
         retrieveData.execute(weatherConditions, weatherHourly);
@@ -83,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     public class RetrieveData extends AsyncTask<String, String, Map<String, String>> {
 
-        private final String conditions = "conditions";
-        private final String hourly = "hourly";
+        private final String CONDITIONS = "conditions";
+        private final String HOURLY = "hourly";
+
+        private final String ICON_TYPE = "icon";
+        private final String GIF_TYPE = "gif";
 
         @Override
         protected Map<String, String> doInBackground(String... strings) {
@@ -117,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                if (string.contains(conditions)) {
-                    key = conditions;
+                if (string.contains(CONDITIONS)) {
+                    key = CONDITIONS;
                 } else {
-                    key = hourly;
+                    key = HOURLY;
                 }
 
                 assert stringBuffer != null;
@@ -136,17 +135,16 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject jsonObject;
             try {
+                if (jsonTxts.containsKey(CONDITIONS)) {
+                    jsonObject = new JSONObject(jsonTxts.get(CONDITIONS));
+                    String[] todayData = getWeatherToday(jsonObject);
+                    displayWeatherToday(todayData[0], todayData[1], todayData[2], todayData[3]);
+                }
 
-                for (int i = 0; i < jsonTxts.size(); i++) {
-
-                    if (jsonTxts.containsKey(conditions)) {
-                        jsonObject = new JSONObject(jsonTxts.get(conditions));
-                        getWeatherToday(jsonObject);
-                    } else {
-                        jsonObject = new JSONObject(jsonTxts.get(hourly));
-                        getWeatherHourly(jsonObject);
-                    }
-
+                if (jsonTxts.containsKey(HOURLY)) {
+                    jsonObject = new JSONObject(jsonTxts.get(HOURLY));
+                    Map<String, String[]> hourlyData = getWeatherHourly(jsonObject);
+                    displayWeatherHourly(hourlyData);
                 }
 
             } catch (Exception e) {
@@ -154,34 +152,94 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        private void getWeatherHourly(JSONObject jsonObject) throws JSONException, IOException {
-            //TODO: get data here as getWeather Today
-            //TODO: create display method fot main weather and sub weather
-            //TODO: set up settings
+        //TODO: set up settings
+        private Map<String, String[]> getWeatherHourly(JSONObject jsonObjInHourly) throws JSONException, IOException {
+
+            String condition, time;
+            int counter = 1;
+
+            Map<String, String[]> weatherHourly = new HashMap<>();
+            JSONArray hourlyForecast = jsonObjInHourly.getJSONArray("hourly_forecast");
+
+            for (int i = 0; i < 3; i++) {
+                condition = hourlyForecast.getJSONObject(counter).getString("condition"); //Example: "Chance of Thunderstorm"
+                time = hourlyForecast.getJSONObject(counter).getJSONObject("FCTTIME").getString("civil"); //Example: "5:00 PM", "10:20 PM"
+
+                String weatherImageID = String.valueOf(getWeatherImageID(condition, ICON_TYPE));
+                time = processTimeFormat(time);
+
+                weatherHourly.put(String.valueOf(i), new String[]{weatherImageID, time});
+                counter += 2;
+            }
+
+            return weatherHourly;
+            //Log.i("hourly", String.valueOf(hourlyForecast.length())); //test
         }
 
-        public void getWeatherToday(JSONObject jsonObject) throws JSONException, IOException {
-            String location = jsonObject.getJSONObject("current_observation").getJSONObject("display_location").getString("full");
-            String date = jsonObject.getJSONObject("current_observation").getString("observation_time_rfc822"); //Example: "Sun, 03 Dec 2017 16:52:46 +0800"
-            String temperature = jsonObject.getJSONObject("current_observation").getString("temp_c");
-            String weather = jsonObject.getJSONObject("current_observation").getString("weather");
+        public void displayWeatherHourly(Map<String, String[]> weatherHourly) {
+            int imageViewId, textViewId;
+            String key;
+            String[] hourlyData;
 
-            //String[] weatherToday = {location, date, temperature, weather};
+            for (int i = 0; i < weatherHourly.size(); i++) {
+                imageViewId = getResources().getIdentifier("sub_weather_" + i, "id", getPackageName());
+                textViewId = getResources().getIdentifier("sub_label_" + i, "id", getPackageName());
 
-            conditionView.setText(weather);
-            locationView.setText(location);
+                subWeatherView = findViewById(imageViewId);
+                subLabelView = findViewById(textViewId);
+
+                key = String.valueOf(i);
+                if (weatherHourly.containsKey(key)) {
+                    hourlyData = weatherHourly.get(key);
+                    subWeatherView.setImageResource(Integer.parseInt(hourlyData[0]));
+                    subLabelView.setText(hourlyData[1]);
+                }
+
+            }
+        }
+
+        public String processTimeFormat(String time) {
+            time = time.charAt(0) + time.replaceAll("[:\\d+]", "");
+            return time.toLowerCase();
+        }
+
+        public String[] getWeatherToday(JSONObject jsonObjInConditions) throws JSONException, IOException {
+            String location = jsonObjInConditions.getJSONObject("current_observation").getJSONObject("display_location").getString("full");
+            String date = jsonObjInConditions.getJSONObject("current_observation").getString("observation_time_rfc822"); //Example: "Sun, 03 Dec 2017 16:52:46 +0800"
+            String temperature = jsonObjInConditions.getJSONObject("current_observation").getString("temp_c");
+            String weather = jsonObjInConditions.getJSONObject("current_observation").getString("weather");
 
             date = setDateFormat(date);
-            dateView.setText(date);
-
             temperature = setTempCelsius(temperature);
-            tempView.setText(temperature);
 
-            int weatherImageId = getWeatherImageID(weather);
-            weatherView.setImageResource(weatherImageId);
+            return (new String[]{location, date, temperature, weather});
         }
 
-        private int getWeatherImageID(String condition) throws IOException, JSONException {
+        public void displayWeatherToday(String location, String date, String temperature, String weather) throws IOException, JSONException {
+            //Weather image view
+            int weatherImageID = getWeatherImageID(weather,GIF_TYPE);
+            weatherView = findViewById(R.id.weather_Imageview);
+            weatherView.setImageResource(weatherImageID);
+
+            //Weather condition text view
+            conditionView = findViewById(R.id.condition_view);
+            conditionView.setText(weather);
+
+            //Location text view
+            locationView = findViewById(R.id.location_view);
+            locationView.setText(location);
+
+            //Date text view
+            dateView = findViewById(R.id.date_view);
+            dateView.setText(date);
+
+            //Temperature text view
+            tempView = findViewById(R.id.temperature_view);
+            tempView.setText(temperature);
+        }
+
+
+        private int getWeatherImageID(String condition, String imageType) throws IOException, JSONException {
             JSONObject weatherKeywords = getWeathersKeywords();
             JSONArray weatherTypes = weatherKeywords.names();
             condition = condition.toLowerCase();
@@ -193,8 +251,12 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int j = 0; j < keywords.length(); j++) {
                     if (condition.contains(keywords.getString(j).toLowerCase())) {
-                        weatherID = getResources().getIdentifier(weather, "drawable", getPackageName());
-                        break;
+                        if (imageType.equals(GIF_TYPE)) {
+                            weatherID = getResources().getIdentifier("weather_" + weather, "drawable", getPackageName());
+                            break;
+                        } else {
+                            weatherID = getResources().getIdentifier("icon_" + weather,"drawable", getPackageName());
+                        }
                     }
                 }
             }

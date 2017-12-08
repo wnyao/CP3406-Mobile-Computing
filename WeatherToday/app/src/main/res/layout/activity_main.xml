@@ -22,7 +22,7 @@
         android:layout_height="405dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/rainy"
+        android:src="@drawable/weather_rainy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="72dp"
-        android:text="@string/location_Label_Eg"
+        android:text="@string/location_label_eg"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="23sp"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/day_Date_Eg"
+        android:text="@string/day_date_eg"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -88,7 +88,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:text="@string/conditionLabel"
+        android:text="@string/condition_label"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="20sp"
@@ -102,6 +102,7 @@
         app:layout_constraintVertical_bias="0.004" />
 
     <GridLayout
+        android:id="@+id/sub_weathers_layout"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_margin="0dp"
@@ -117,6 +118,16 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+            android:id="@+id/sub_weather_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="20sp"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/icon_snowy" />
+
+        <ImageView
             android:id="@+id/sub_weather_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,7 +135,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20sp"
             android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/weatherfog" />
+            app:srcCompat="@drawable/icon_sunny" />
 
         <ImageView
             android:id="@+id/sub_weather_2"
@@ -134,17 +145,18 @@
             android:layout_gravity="center"
             android:layout_marginTop="20sp"
             android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/weatherfog" />
+            app:srcCompat="@drawable/icon_cloudy" />
 
-        <ImageView
-            android:id="@+id/sub_weather_3"
+        <TextView
+            android:id="@+id/sub_label_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="20sp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/weatherfog" />
+            android:layout_gravity="top"
+            android:text="@string/sub_label_example1"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/sub_label_1"
@@ -152,7 +164,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="top"
-            android:text="7 pm"
+            android:text="@string/sub_label_example2"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -163,18 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="top"
-            android:text="8 pm"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/sub_label_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="top"
-            android:text="9 pm"
+            android:text="@string/sub_label_example3"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
