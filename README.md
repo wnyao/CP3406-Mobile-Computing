@@ -1,0 +1,8 @@
+# CP3406-Mobile-Computing 
+
+JAMES COOK UNIVERSITY - CP3406 MOBILE COMPUTING WEEKLY PROGRAMMING CHALLENGE & ASSIGNMENTS
+
+Week1: MyDiet
+Week2: QuickSum
+Week3: GuessingGameApp
+Assignment1: WeatherToday
