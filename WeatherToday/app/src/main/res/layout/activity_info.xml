@@ -1,9 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.kongwenyao.weathertoday.InfoActivity">
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorBackground"
+        app:title="@string/icon"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Toolbar.Title" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="true">
+
+        <GridLayout
+            android:id="@+id/grid_layout_info"
+            android:columnCount="2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.example.kongwenyao.weathertoday.InfoActivity">
+
+            <ImageView
+                android:contentDescription="@string/clouds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_clouds"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clouds"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/cloudy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_cloudy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cloudy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/cold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_cold"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cold"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/drizzle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_drizzle"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/drizzle"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/foggy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_foggy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/foggy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/rainy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_rainy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rainy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/snowy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_snowy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/snowy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/stormy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_stormy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stormy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/sunny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_sunny"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sunny"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+
+            <ImageView
+                android:contentDescription="@string/windy"
+                android:id="@+id/icon_image_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_windy"
+                android:layout_margin="20dp"/>
+
+            <TextView
+                android:id="@+id/icon_label_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/windy"
+                android:textAppearance="@style/Image_Icon_Label"
+                android:layout_gravity="center_vertical"/>
+        </GridLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

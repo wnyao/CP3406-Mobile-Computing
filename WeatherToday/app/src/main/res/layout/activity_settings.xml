@@ -1,38 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical"
-tools:context="com.example.kongwenyao.weathertoday.SettingsActivity">
-
-<android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@color/colorBackground"
-    app:title="@string/settings_actionbar_label"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:titleTextAppearance="@style/Toolbar.Title" />
-
-
-
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/enlarged_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="18dp"
-        android:text="Enlarged Text"
-        android:textSize="22sp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_gravity="center_vertical"
-        android:checked="false"/>
-
-</LinearLayout>
--->
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

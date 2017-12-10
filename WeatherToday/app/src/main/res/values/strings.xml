@@ -2,6 +2,7 @@
     <string name="app_name">WeatherToday</string>
     <string name="settings_actionbar_label">Settings</string>
 
+    <!-- Label -->
     <string name="location_label_eg">New York, United States</string>
     <string name="day_date_eg">Monday, 17th</string>
     <string name="condition_label">Mostly Cloudy</string>
@@ -30,4 +31,15 @@
     <!-- Alert Dialog Button Messages -->
     <string name="cancel_label">Cancel</string>
     <string name="set_label">Set</string>
+    <string name="icon">Icon</string>
+    <string name="clouds">Clouds</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="cold">Cold</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="foggy">Foggy</string>
+    <string name="rainy">Rainy</string>
+    <string name="snowy">Snowy</string>
+    <string name="stormy">Stormy</string>
+    <string name="sunny">Sunny</string>
+    <string name="windy">Windy</string>
 </resources>
