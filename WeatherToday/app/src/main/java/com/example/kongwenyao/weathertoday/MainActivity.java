@@ -29,6 +29,22 @@ import pl.droidsonroids.gif.GifImageView;
 
 import static java.util.Arrays.asList;
 
+/**
+ * WeatherToday application is an application that display weather condition of current weather or
+ * forecast weathers happening in next few hours.
+ *
+ * MainActivity.class contains the functionality to retrieve data and display data in
+ * activity_main.xml. The functionality of retrieving and displaying data are built through inner
+ * class within the MainActivity.class. Reason of using inner class is due that android does not
+ * allow application in performing network operation on its main thread, which is onCreate() or even
+ * within methods executed through onCreate(). The MainActivity.class also include overridden method
+ * declaration of onCreateOptionsMenu() and onOptionsItemSelected(). onCreateOptionsMenu() methods
+ * is used to inflate custom Actionbar, while another handles the processing when an item of option
+ * menu is clicked.
+ *
+ * Created by kongwenyao on 12/9/17.
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private GifImageView weatherView;
@@ -205,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private Map<String, String[]> getWeatherHourly(JSONObject jsonObjInHourly, int intervalVal) throws JSONException, IOException {
-
             String condition, time;
             int counter = intervalVal;
 
