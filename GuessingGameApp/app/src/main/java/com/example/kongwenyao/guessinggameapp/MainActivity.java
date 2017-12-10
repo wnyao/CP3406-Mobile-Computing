@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
             secretVal = setting.getInt("SEC_VAL", secretVal);
         }
 
+        TextView min = findViewById(R.id.min);
+        TextView max = findViewById(R.id.max);
+        String mintext = "Min: " + minimum;
+        String maxtext = "Max: " + maximum;
+        min.setText(mintext);
+        max.setText(maxtext);
+
     }
 
     @Override

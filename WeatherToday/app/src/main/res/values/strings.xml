@@ -1,13 +1,33 @@
 <resources>
     <string name="app_name">WeatherToday</string>
+    <string name="settings_actionbar_label">Settings</string>
+
     <string name="location_label_eg">New York, United States</string>
     <string name="day_date_eg">Monday, 17th</string>
     <string name="condition_label">Mostly Cloudy</string>
     <string name="temperature_text">26 ℃</string>
-    <string name="option_menu_title">option_menu_title</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="sub_label_example1">7 pm</string>
     <string name="sub_label_example2">8 pm</string>
     <string name="sub_label_example3">9 pm</string>
 
+    <!-- Titlse -->
+    <string name="option_menu_title">option_menu_title</string>
+    <string name="info_menu_title">info_menu_title</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Setting Menu Titles-->
+    <string name="enlarged_text">Enlarged Text</string>
+    <string name="get_fahrenheit">Display Fahrenheit</string>
+    <string name="hourly_forecast_interval">Hourly Forecast Interval</string>
+    <string name="current_interval">Current interval:  2</string>
+
+    <!-- Settings Snackbar Status Messages -->
+    <string name="enlarged_status_true">Enlarged Text is on </string>
+    <string name="enlarged_status_false">Enlarged Text is off</string>
+    <string name="get_fahrenheit_true">Temperature is set  to \u2109</string>
+    <string name="get_fahrenheit_false">Temperature is set  to \u2103</string>
+
+    <!-- Alert Dialog Button Messages -->
+    <string name="cancel_label">Cancel</string>
+    <string name="set_label">Set</string>
 </resources>

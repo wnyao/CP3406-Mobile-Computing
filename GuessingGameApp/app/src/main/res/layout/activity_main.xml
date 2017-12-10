@@ -36,6 +36,7 @@
             android:layout_height="match_parent"
             android:inputType="number" />
 
+
     </LinearLayout>
 
     <Button
@@ -46,5 +47,24 @@
         android:text="@string/settingsButton"
         android:layout_margin="30dp"
         android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/min"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/min"
+        android:layout_margin="10dp"
+        android:labelFor="@+id/textField"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/max"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/max"
+        android:layout_margin="10dp"
+        android:labelFor="@+id/textField"
+        android:textSize="20sp" />
 
 </LinearLayout>

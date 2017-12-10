@@ -1,6 +1,7 @@
 package com.example.kongwenyao.weathertoday;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,20 +29,16 @@ import pl.droidsonroids.gif.GifImageView;
 
 import static java.util.Arrays.asList;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    private RetrieveData retrieveData;
-    GifImageView weatherView;
-    TextView conditionView;
-    TextView locationView;
-    TextView dateView;
-    TextView tempView;
-    ImageView subWeatherView;
-    TextView subLabelView;
+    private GifImageView weatherView;
+    private TextView conditionView;
+    private TextView locationView;
+    private TextView dateView;
+    private TextView tempView;
 
-    private final String weatherConditions = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
-    private final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
+    private boolean storedFahrenheit;
+    private int storedInterVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +49,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
 
-        retrieveData = new RetrieveData();
+        //Views Instance References
+        weatherView = findViewById(R.id.weather_Imageview);
+        conditionView = findViewById(R.id.condition_view);
+        locationView = findViewById(R.id.location_view);
+        tempView = findViewById(R.id.temperature_view);
+        dateView = findViewById(R.id.date_view);
+    }
+
+    @Override
+    public void onStart() {
+        final String PREFS_NAME = "PREFS_FILE";
+
+        //Shared Preferences
+        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
+        storedFahrenheit = sharedPreferences.getBoolean("FAHRENHEIT_SWITCH", false);
+        storedInterVal = sharedPreferences.getInt("HOURLY_INTERVAL", 2);
+        boolean enlargedVal = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
+        EnlargedTextSetting(enlargedVal);
+
+        //Data Retrieve Process
+        final String weatherConditions = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
+        final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
+        RetrieveData retrieveData = new RetrieveData();
         retrieveData.execute(weatherConditions, weatherHourly);
 
+        super.onStart();
     }
 
     @Override
@@ -66,9 +86,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+
+        //Action Bar menu
         switch (item.getItemId()) {
             case R.id.option_menu:
-                Intent intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.info_menu:
+                intent = new Intent(this, InfoActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -76,12 +104,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void EnlargedTextSetting(boolean enlarge) {
+        float sp = getResources().getDisplayMetrics().scaledDensity;
+        final int enlargeVal = 15;
+
+        //Get current text size in actual pixel
+        float conditionTextSize = conditionView.getTextSize();
+        float locationTextSize = locationView.getTextSize();
+        float dateTextSize = dateView.getTextSize();
+
+        if (enlarge) {
+            if ((conditionTextSize/sp) != 25) { //if text size not equal to enlarged value
+                conditionView.setTextSize((conditionTextSize + enlargeVal) / sp);
+                locationView.setTextSize((locationTextSize + enlargeVal) / sp);
+                dateView.setTextSize((dateTextSize + enlargeVal) / sp);
+            }
+        } else {
+            if ((conditionTextSize/sp) != 20) {   //if text size not equal to not enlarged value
+                conditionView.setTextSize((conditionTextSize - enlargeVal) / sp);
+                locationView.setTextSize((locationTextSize - enlargeVal) / sp);
+                dateView.setTextSize((dateTextSize - enlargeVal) / sp);
+            }
+        }
+
+    }
 
     public class RetrieveData extends AsyncTask<String, String, Map<String, String>> {
 
         private final String CONDITIONS = "conditions";
         private final String HOURLY = "hourly";
-
         private final String ICON_TYPE = "icon";
         private final String GIF_TYPE = "gif";
 
@@ -94,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
             String key;
 
             for (String string: strings) {
-
                 try {
                     URL url = new URL(string);
                     bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -102,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     stringBuffer = new StringBuffer();
                     String line;
 
+                    //Build read data into a string
                     while ((line = bufferedReader.readLine()) != null) {
                         stringBuffer.append(line);
                     }
@@ -116,34 +167,35 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                //Assign key value
                 if (string.contains(CONDITIONS)) {
                     key = CONDITIONS;
                 } else {
                     key = HOURLY;
                 }
 
+                //Construct dictionary object. Example: {"conditions": "...", "hourly": "..."}
                 assert stringBuffer != null;
                 jsonText.put(key, stringBuffer.toString());
             }
-
             return jsonText;
         }
 
         @Override
-        protected void onPostExecute(Map<String, String> jsonTxts) {
-            super.onPostExecute(jsonTxts);
+        protected void onPostExecute(Map<String, String> jsonTexts) {
+            super.onPostExecute(jsonTexts);
 
             JSONObject jsonObject;
             try {
-                if (jsonTxts.containsKey(CONDITIONS)) {
-                    jsonObject = new JSONObject(jsonTxts.get(CONDITIONS));
-                    String[] todayData = getWeatherToday(jsonObject);
+                if (jsonTexts.containsKey(CONDITIONS)) {
+                    jsonObject = new JSONObject(jsonTexts.get(CONDITIONS));
+                    String[] todayData = getWeatherToday(jsonObject, storedFahrenheit);
                     displayWeatherToday(todayData[0], todayData[1], todayData[2], todayData[3]);
                 }
 
-                if (jsonTxts.containsKey(HOURLY)) {
-                    jsonObject = new JSONObject(jsonTxts.get(HOURLY));
-                    Map<String, String[]> hourlyData = getWeatherHourly(jsonObject);
+                if (jsonTexts.containsKey(HOURLY)) {
+                    jsonObject = new JSONObject(jsonTexts.get(HOURLY));
+                    Map<String, String[]> hourlyData = getWeatherHourly(jsonObject, storedInterVal);
                     displayWeatherHourly(hourlyData);
                 }
 
@@ -152,14 +204,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //TODO: set up settings
-        private Map<String, String[]> getWeatherHourly(JSONObject jsonObjInHourly) throws JSONException, IOException {
+        private Map<String, String[]> getWeatherHourly(JSONObject jsonObjInHourly, int intervalVal) throws JSONException, IOException {
 
             String condition, time;
-            int counter = 1;
+            int counter = intervalVal;
 
             Map<String, String[]> weatherHourly = new HashMap<>();
-            JSONArray hourlyForecast = jsonObjInHourly.getJSONArray("hourly_forecast");
+            JSONArray hourlyForecast = jsonObjInHourly.getJSONArray("hourly_forecast"); //lists of hourly forecast data
 
             for (int i = 0; i < 3; i++) {
                 condition = hourlyForecast.getJSONObject(counter).getString("condition"); //Example: "Chance of Thunderstorm"
@@ -169,26 +220,29 @@ public class MainActivity extends AppCompatActivity {
                 time = processTimeFormat(time);
 
                 weatherHourly.put(String.valueOf(i), new String[]{weatherImageID, time});
-                counter += 2;
+                counter += intervalVal;
             }
-
             return weatherHourly;
         }
 
-        public void displayWeatherHourly(Map<String, String[]> weatherHourly) {
+        private void displayWeatherHourly(Map<String, String[]> weatherHourly) {
             int imageViewId, textViewId;
-            String key;
+            ImageView subWeatherView;
+            TextView subLabelView;
             String[] hourlyData;
+            String key;
 
             for (int i = 0; i < weatherHourly.size(); i++) {
+                //Get view id
                 imageViewId = getResources().getIdentifier("sub_weather_" + i, "id", getPackageName());
                 textViewId = getResources().getIdentifier("sub_label_" + i, "id", getPackageName());
 
+                //View references
                 subWeatherView = findViewById(imageViewId);
                 subLabelView = findViewById(textViewId);
 
                 key = String.valueOf(i);
-                if (weatherHourly.containsKey(key)) {
+                if (weatherHourly.containsKey(key)) {   //Example {"1": {"R.drawable.xxx", "1 pm"}, {"2": {"R.drawable.xxx", "2 pm"}}}
                     hourlyData = weatherHourly.get(key);
                     subWeatherView.setImageResource(Integer.parseInt(hourlyData[0]));
                     subLabelView.setText(hourlyData[1]);
@@ -198,49 +252,53 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public String processTimeFormat(String time) {
-            time = time.charAt(0) + time.replaceAll("[:\\d+]", "");
+            if (time.charAt(1) == ':') {
+                time = time.charAt(0) + time.replaceAll("[:\\d+]", "");
+            } else {
+                time = time.substring(0,2) + time.replaceAll("[:\\d+]", "");
+            }
             return time.toLowerCase();
         }
 
-        public String[] getWeatherToday(JSONObject jsonObjInConditions) throws JSONException, IOException {
+        private String[] getWeatherToday(JSONObject jsonObjInConditions, Boolean fahrenheit) throws JSONException, IOException {
             String location = jsonObjInConditions.getJSONObject("current_observation").getJSONObject("display_location").getString("full");
             String date = jsonObjInConditions.getJSONObject("current_observation").getString("observation_time_rfc822"); //Example: "Sun, 03 Dec 2017 16:52:46 +0800"
-            String temperature = jsonObjInConditions.getJSONObject("current_observation").getString("temp_c");
             String weather = jsonObjInConditions.getJSONObject("current_observation").getString("weather");
+            String temperature;
+
+            if (fahrenheit) {
+                temperature = jsonObjInConditions.getJSONObject("current_observation").getString("temp_f");
+                temperature = setTempFahrenheit(temperature);
+            } else {
+                temperature = jsonObjInConditions.getJSONObject("current_observation").getString("temp_c");
+                temperature = setTempCelsius(temperature);
+            }
 
             date = setDateFormat(date);
-            temperature = setTempCelsius(temperature);
-
             return (new String[]{location, date, temperature, weather});
         }
 
-        public void displayWeatherToday(String location, String date, String temperature, String weather) throws IOException, JSONException {
+        private void displayWeatherToday(String location, String date, String temperature, String weather) throws IOException, JSONException {
             //Weather image view
             int weatherImageID = getWeatherImageID(weather,GIF_TYPE);
-            weatherView = findViewById(R.id.weather_Imageview);
             weatherView.setImageResource(weatherImageID);
 
             //Weather condition text view
-            conditionView = findViewById(R.id.condition_view);
             conditionView.setText(weather);
 
             //Location text view
-            locationView = findViewById(R.id.location_view);
             locationView.setText(location);
 
             //Date text view
-            dateView = findViewById(R.id.date_view);
             dateView.setText(date);
 
             //Temperature text view
-            tempView = findViewById(R.id.temperature_view);
             tempView.setText(temperature);
         }
 
-
         private int getWeatherImageID(String condition, String imageType) throws IOException, JSONException {
             JSONObject weatherKeywords = getWeathersKeywords();
-            JSONArray weatherTypes = weatherKeywords.names();
+            JSONArray weatherTypes = weatherKeywords.names();   //Key values different weathers
             condition = condition.toLowerCase();
             int weatherID = 0;
 
@@ -279,23 +337,29 @@ public class MainActivity extends AppCompatActivity {
             return (temperature + " \u2103");
         }
 
+        public String setTempFahrenheit(String temperature) {
+            return (temperature + " \u2109");
+        }
+
         public String setDateFormat (String datetime) {
             final String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
             Calendar now = Calendar.getInstance();
             String year = Integer.toString(now.get(Calendar.YEAR));
 
-            List<String> dateTimeArray = asList(datetime.split(" "));    //Example: [Sun,, 03, Dec, 2017, 16:52:46, +0800]
-            dateTimeArray = dateTimeArray.subList(0, dateTimeArray.indexOf(year));    //Example: [Sun,, 03, Dec]
+            List<String> dateTimeArray = asList(datetime.split(" "));    //Return for example: [Sun,, 03, Dec, 2017, 16:52:46, +0800]
+            dateTimeArray = dateTimeArray.subList(0, dateTimeArray.indexOf(year));    //Return for example: [Sun,, 03, Dec]
             dateTimeArray.set(0, dateTimeArray.get(0).replace(",", ""));
 
+            //Get full string value of an abbreviation of a day
             for (String day: days) {
                 if (day.contains(dateTimeArray.get(0))) {
                     dateTimeArray.set(0, day);
                 }
             }
 
+            //Process time value starting from 0. Example: 01 - 09
             String date = dateTimeArray.get(1);
-            if (date.charAt(0) == '0') {    //Example: 01 - 09
+            if (date.charAt(0) == '0') {
                 date = Character.toString(date.charAt(1));
                 dateTimeArray.set(1, date);
             }
@@ -305,4 +369,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
-

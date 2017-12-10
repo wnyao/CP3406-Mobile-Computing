@@ -17,4 +17,10 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/colorBackgroud2</item>
+    </style>
+
 </resources>

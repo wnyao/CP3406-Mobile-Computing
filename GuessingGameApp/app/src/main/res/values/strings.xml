@@ -7,4 +7,6 @@
     <string name="min_value_label">Min Value (1): </string>
     <string name="max_value_label">Max Value (10): </string>
     <string name="return_label">Return</string>
+    <string name="min">Min:</string>
+    <string name="max">Max:</string>
 </resources>

@@ -1,20 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.example.kongwenyao.weathertoday.SettingsActivity">
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorBackground"
+    app:title="@string/settings_actionbar_label"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:titleTextAppearance="@style/Toolbar.Title" />
+
+
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/enlarged_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="18dp"
+        android:text="Enlarged Text"
+        android:textSize="22sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="center_vertical"
+        android:checked="false"/>
+
+</LinearLayout>
+-->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.kongwenyao.weathertoday.SettingsActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorBackground"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextAppearance="@style/Toolbar.Title" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.kongwenyao.weathertoday.SettingsActivity">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorBackground"
+            app:title="@string/settings_actionbar_label"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextAppearance="@style/Toolbar.Title" />
 
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/enlarged_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="@string/enlarged_text"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_vertical"
+            android:checked="false"/>
 
-</LinearLayout>
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/get_fahrenheit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textStyle="bold"
+            android:text="@string/get_fahrenheit"
+            android:textSize="22sp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center_vertical"
+            android:checked="false"/>
+
+        <TextView
+            android:id="@+id/hourly_forecas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="8dp"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:text="@string/hourly_forecast_interval"/>
+
+        <TextView
+            android:id="@+id/current_Interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:onClick="hourlyForecastHandler"
+            android:textColor="@color/colorBlack"
+            android:text="@string/current_interval"/>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
