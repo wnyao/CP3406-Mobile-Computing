@@ -1,6 +1,8 @@
 <resources>
+    <!-- App & Action Bar Name -->
     <string name="app_name">WeatherToday</string>
     <string name="settings_actionbar_label">Settings</string>
+    <string name="icons_actionbar_label">Icons</string>
 
     <!-- Label -->
     <string name="location_label_eg">New York, United States</string>
@@ -11,7 +13,7 @@
     <string name="sub_label_example2">8 pm</string>
     <string name="sub_label_example3">9 pm</string>
 
-    <!-- Titlse -->
+    <!-- Title -->
     <string name="option_menu_title">option_menu_title</string>
     <string name="info_menu_title">info_menu_title</string>
     <string name="title_activity_settings">Settings</string>
@@ -31,7 +33,6 @@
     <!-- Alert Dialog Button Messages -->
     <string name="cancel_label">Cancel</string>
     <string name="set_label">Set</string>
-    <string name="icon">Icon</string>
     <string name="clouds">Clouds</string>
     <string name="cloudy">Cloudy</string>
     <string name="cold">Cold</string>
