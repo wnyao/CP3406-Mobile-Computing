@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolBar = findViewById(R.id.toolbar);
         setSupportActionBar(toolBar);
 
-        //Views Instance References
+        //Views References
         weatherView = findViewById(R.id.weather_Imageview);
         conditionView = findViewById(R.id.condition_view);
         locationView = findViewById(R.id.location_view);
@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
             String key;
 
             for (int i = 0; i < weatherHourly.size(); i++) {
-                //Get view id
+                //Get views id
                 imageViewId = getResources().getIdentifier("sub_weather_" + i, "id", getPackageName());
                 textViewId = getResources().getIdentifier("sub_label_" + i, "id", getPackageName());
 

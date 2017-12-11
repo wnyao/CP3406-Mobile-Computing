@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host). This unit tests on
- * on method within MainActivity.class
+ * on methods within MainActivity.class
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -21,7 +21,8 @@ public class ExampleUnitTest {
     private MainActivity mainActivity = new MainActivity();
     private MainActivity.RetrieveData retrieveData = mainActivity.new RetrieveData();
 
-    /** Test method for setTempCelsius(String temperature) method within MainActivity.new RetrieveData
+    /**
+     * Test method for setTempCelsius(String temperature) method within MainActivity.new RetrieveData
      */
     @Test
     public void testSetTemperatureC() throws Exception {
@@ -32,7 +33,8 @@ public class ExampleUnitTest {
        assertTrue(retrieveData.setTempCelsius("1").equals("1 \u2103"));
     }
 
-    /** Test method for setTempFahrenheit(String temperature) method within MainActivity.new RetrieveData
+    /**
+     * Test method for setTempFahrenheit(String temperature) method within MainActivity.new RetrieveData
      */
     @Test
     public void testSetTemperatureF() throws Exception {
@@ -44,7 +46,8 @@ public class ExampleUnitTest {
         assertTrue(retrieveData.setTempFahrenheit("1").equals("1 \u2109"));
     }
 
-    /** Test method for setDatFormat(String date) method within MainActivity.new RetrieveData
+    /**
+     * Test method for setDatFormat(String date) method within MainActivity.new RetrieveData
      */
     @Test
     public void testSetDateFormat() throws Exception {
@@ -55,7 +58,8 @@ public class ExampleUnitTest {
         assertFalse(retrieveData.setDateFormat("Mon, 27 Jan 2017").equals("Mon, Jan 27"));
     }
 
-    /** Test method for doInBackground(String... strings) method within MainActivity.new RetrieveData
+    /**
+     * Test method for doInBackground(String... strings) method within MainActivity.new RetrieveData
      */
     @Test
     public void testDoInBackground() throws Exception {
@@ -65,7 +69,8 @@ public class ExampleUnitTest {
         assertNotNull(jsonTexts);
     }
 
-    /** Test method for processTimeFormat(String time) method within MainActivity.new RetrieveData
+    /**
+     * Test method for processTimeFormat(String time) method within MainActivity.new RetrieveData
      */
     @Test
     public void testProcessTimeFormat() throws Exception {

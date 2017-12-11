@@ -56,7 +56,7 @@ public class NumberPickerDialog extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {}
         });
 
-        builder.setView(numberPicker);
+        builder.setView(numberPicker);  //Alert Dialog set number picker widget
         return builder.create();
     }
 
