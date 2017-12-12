@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             int counter = intervalVal;
 
             Map<String, String[]> weatherHourly = new HashMap<>();
-            JSONArray hourlyForecast = jsonObjInHourly.getJSONArray("hourly_forecast"); //lists of hourly forecast data
+            JSONArray hourlyForecast = jsonObjInHourly.getJSONArray("hourly_forecast"); //Array of hourly forecast data
 
             for (int i = 0; i < 3; i++) {
                 condition = hourlyForecast.getJSONObject(counter).getString("condition"); //Example: "Chance of Thunderstorm"
@@ -365,14 +365,14 @@ public class MainActivity extends AppCompatActivity {
             dateTimeArray = dateTimeArray.subList(0, dateTimeArray.indexOf(year));    //Return for example: [Sun,, 03, Dec]
             dateTimeArray.set(0, dateTimeArray.get(0).replace(",", ""));
 
-            //Get full string value of an abbreviation of a day
+            //Get full string value of an abbreviation of day. Example: "Mon" = "Monday"
             for (String day: days) {
                 if (day.contains(dateTimeArray.get(0))) {
                     dateTimeArray.set(0, day);
                 }
             }
 
-            //Process time value starting from 0. Example: 01 - 09
+            //Process time value that start from 0. Example: 01 - 09
             String date = dateTimeArray.get(1);
             if (date.charAt(0) == '0') {
                 date = Character.toString(date.charAt(1));

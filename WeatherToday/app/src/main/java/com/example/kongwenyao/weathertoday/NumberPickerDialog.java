@@ -61,7 +61,7 @@ public class NumberPickerDialog extends DialogFragment {
     }
 
     /**
-     *  Setter method for variable: valueChangeListener
+     *  Setter method for variable, valueChangeListener
      *
      *  @param valueChangeListener OnValueChangeListener that listens for changes of current value
      */

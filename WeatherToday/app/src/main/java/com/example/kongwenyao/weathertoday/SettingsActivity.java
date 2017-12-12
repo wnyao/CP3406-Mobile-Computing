@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @Override
     public void onStart() {
-        //Restore instance state
+        //Restore instance state from last session
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
         boolean enlargedBoolean = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
         boolean fahrenheitBoolean = sharedPreferences.getBoolean("FAHRENHEIT_SWITCH", false);
@@ -65,7 +65,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @Override
     public void onPause() {
-        //Save instance state
+        //Save instance state of current session
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME,0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("ENLARGED_SWITCH", enlargedBoolean);
@@ -80,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         Snackbar snackbar = null;
 
         switch (buttonView.getId()) {
-            case (R.id.enlarged_text):  //Enlarged Text SwitchCompat
+            case (R.id.enlarged_text):  //"Enlarged Text" SwitchCompat
                 if (!isChecked) {
                     enlargedBoolean = false;
                     snackbar = Snackbar.make(findViewById(R.id.enlarged_text), R.string.enlarged_status_false, Snackbar.LENGTH_SHORT);
@@ -90,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 }
                 break;
 
-            case (R.id.get_fahrenheit): //Display Fahrenheit Switch Compat
+            case (R.id.get_fahrenheit): //"Display Fahrenheit" Switch Compat
                 if (!isChecked) {
                     fahrenheitBoolean = false;
                     snackbar = Snackbar.make(findViewById(R.id.enlarged_text), R.string.get_fahrenheit_false, Snackbar.LENGTH_SHORT);
