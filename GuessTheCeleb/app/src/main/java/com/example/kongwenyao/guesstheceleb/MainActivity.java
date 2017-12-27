@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
     public void onRadioButtonSelected(int buttonText) {
         ActivityMainFragment activityMainFragment = (ActivityMainFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
 
-
         //If ActivityMainFragment is available, we're in two-pane layout...
         //Call a method in the ActivityMainFragment to update its content
         activityMainFragment.updateNumOfOptions(buttonText);

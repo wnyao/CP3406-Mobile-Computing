@@ -13,7 +13,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     }
 
     public void onRadioButtonSelected(int buttonText) {
-
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(ActivityMainFragment.BUTTON_TEXT, String.valueOf(buttonText));
         startActivity(intent);

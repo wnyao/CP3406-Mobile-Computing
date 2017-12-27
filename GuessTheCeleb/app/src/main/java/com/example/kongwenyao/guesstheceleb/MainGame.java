@@ -157,7 +157,7 @@ public class MainGame {
      * @param actual Actual string to be compare
      * @return true if both equal and false if both unequal
      */
-    public boolean validateInputGuess(String expected, String actual) { //TODO: format "1. Jennifer Lawrence"
+    public boolean validateInputGuess(String expected, String actual) {
         return expected.substring(3).toLowerCase().equals(actual);
     }
 
@@ -170,9 +170,8 @@ public class MainGame {
      */
     public String getImageName(int imageId) {
         String[] imageName = activity.getResources().getResourceEntryName(imageId).split("_");
-        String name = imageName[1] + " " + imageName[2];
 
-        return name;
+        return (imageName[1] + " " + imageName[2]);
     }
 
     public void setOnClickListener(TextView.OnClickListener onClickListener) {
