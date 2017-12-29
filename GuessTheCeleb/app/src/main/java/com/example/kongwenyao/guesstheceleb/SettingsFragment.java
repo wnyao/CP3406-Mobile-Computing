@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
  */
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
-    private RadioGroup selectionOption;
     OnSettingSelectedListener mCallBack;
 
     public SettingsFragment() {
@@ -34,7 +33,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
 
         //View reference
-        selectionOption = getActivity().findViewById(R.id.selction_option_setting);
+        RadioGroup selectionOption = getActivity().findViewById(R.id.selction_option_setting);
         setRadioButtonListener(selectionOption);
     }
 
