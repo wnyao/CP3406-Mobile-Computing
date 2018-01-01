@@ -48,7 +48,7 @@ public class ActivityMainFragment extends Fragment implements View.OnClickListen
         mainGame.setOnClickListener(this);
         updateNumOfOptions(numOfOptions);
 
-        //View & Layout Reference
+        //View & Layout Assignment
         celebImage = getView().findViewById(R.id.celeb_image);
         mainGridLayout = getView().findViewById(R.id.main_grid_layout);
 
