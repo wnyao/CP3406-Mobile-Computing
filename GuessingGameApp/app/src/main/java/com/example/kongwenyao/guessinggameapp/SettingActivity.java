@@ -21,12 +21,15 @@ public class SettingActivity extends AppCompatActivity implements SeekBar.OnSeek
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        //Seekbar Label Assignment
         labelMinSeekbar = findViewById(R.id.labelMinSeekbar);
         labelMaxSeekbar = findViewById(R.id.labelMaxSeekbar);
 
+        //Seekbar Assignment
         minNumSeekbar = findViewById(R.id.minNumSeekbar);
         maxNumSeekbar = findViewById(R.id.maxNumSeekbar);
 
+        //Set Event Listener
         minNumSeekbar.setOnSeekBarChangeListener(this);
         maxNumSeekbar.setOnSeekBarChangeListener(this);
 
