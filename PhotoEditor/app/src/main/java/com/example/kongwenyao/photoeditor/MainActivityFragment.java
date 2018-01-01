@@ -55,6 +55,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
         pointFs = new ArrayList<PointF>();
         myView.setPoints(pointFs);
 
+        //Set Event Listener
         selectButton.setOnClickListener(this);
         myView.setOnTouchListener(this);
 
@@ -93,9 +94,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_MOVE:   //TODO: disable scroll in landscape when drawing
-                PointF pointF = new PointF();
-                pointF.x = event.getX();
-                pointF.y = event.getY();
+                PointF pointF = new PointF(event.getX(), event.getY());
 
                 //Set Stroke
                 myView.setColor(r, g, b);
@@ -109,7 +108,7 @@ public class MainActivityFragment extends Fragment implements View.OnClickListen
                 break;
 
             case MotionEvent.ACTION_UP:
-                pointFs.add(null);  //using null as break point for not to execute canvas.drawLine()
+                pointFs.add(null);  //using null as break point for not to execute canvas.drawLine() between previous end point and new point
                 break;
         }
 

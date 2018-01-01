@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //Instance Reference
+        //View Assignment
         strokeButton = getActivity().findViewById(R.id.stroke_button);
         strokeSeekBar = getActivity().findViewById(R.id.seekbar);
         doneButton = getActivity().findViewById(R.id.done_button);
@@ -76,6 +76,7 @@ public class SettingsFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
+        //Set Stroke Seekbar
         int strokeWidth = Math.round(MainActivityFragment.strokeWidth);
         strokeSeekBar.setProgress(strokeWidth);
         setLabelText(strokeWidth);

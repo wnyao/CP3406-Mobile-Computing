@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Instance Reference
+        //Variable Assignment
         mainActivityFragment = new MainActivityFragment();
 
-        //Get Intent
+        //Get Saved Data
         SharedPreferences sharedPreferences = getSharedPreferences(SettingsActivity.PRES_FILE, 0);
         MainActivityFragment.r = sharedPreferences.getInt("RED", 255);
         MainActivityFragment.g = sharedPreferences.getInt("GREEN", 140);
@@ -73,6 +73,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         //pass width from SettingsFragment to MainActivityFragment
         MainActivityFragment.strokeWidth = width;
 
-        //TODO: reset canvas
+        //TODO: reset canvas in landscape mode
     }
 }
