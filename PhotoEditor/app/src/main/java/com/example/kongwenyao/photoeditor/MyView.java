@@ -45,7 +45,7 @@ public class MyView extends android.support.v7.widget.AppCompatImageView {
 
             if (points.get(i) != null) {
                 //draw on main point
-                canvas.drawPoint(points.get(i).x, points.get(i).y, paint);
+                canvas.drawCircle(points.get(i).x, points.get(i).y, 5, paint);
             }
 
             if ((i + 1) != points.size()) {
