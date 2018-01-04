@@ -8,8 +8,8 @@ import android.view.SurfaceHolder;
  */
 
 public class MainThread extends Thread {
-    public static final int MAX_FPS = 30;
 
+    public static final int MAX_FPS = 30;
     private SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
@@ -41,7 +41,7 @@ public class MainThread extends Thread {
             canvas = null;
 
             try {
-                canvas = surfaceHolder.lockCanvas();
+                canvas = surfaceHolder.lockCanvas(); //Lock canvas to prevent changes from elsewhere while drawing
                 synchronized (surfaceHolder) {
                     this.gamePanel.update();
                     this.gamePanel.draw(canvas);
@@ -51,7 +51,7 @@ public class MainThread extends Thread {
             } finally {
                 if (canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                        surfaceHolder.unlockCanvasAndPost(canvas);  //Unlock if canvas is no null
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -62,22 +62,23 @@ public class MainThread extends Thread {
             waitTime = targetTime - timeTaken;
             try {
                 if (waitTime > 0) {
-                    this.sleep(waitTime);   //Capping leftover frame rate
+                    sleep(waitTime);   //Capping leftover wait time
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            totalTime += System.nanoTime() - startTime;
+            totalTime += System.nanoTime() - startTime; //Total time took to update all 30 frames in one second
             frameCount++;
 
             if (frameCount == 30) {
-                averageFPS = Double.valueOf(1000/ ((totalTime/ frameCount)/ 1000000));
+                averageFPS = (double) (1000 / ((totalTime / frameCount) / 1000000));
 
                 //Reset values
                 totalTime = 0;
                 frameCount = 0;
 
+                //Report average FPS
                 System.out.println("Average FPS: " + averageFPS);
             }
         }

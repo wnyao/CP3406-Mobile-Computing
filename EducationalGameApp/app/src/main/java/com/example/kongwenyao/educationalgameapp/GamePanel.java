@@ -2,8 +2,15 @@ package com.example.kongwenyao.educationalgameapp;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toolbar;
 
 /**
  * Created by kongwenyao on 1/2/18.
@@ -11,16 +18,22 @@ import android.view.SurfaceView;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
-    private boolean running;
     private MainThread thread;
 
-    public GamePanel(Context context) {
-        super(context);
+    //MainPlayer
+    private MainPlayer mainPlayer;
+    private Point playerPoint;
 
+    public GamePanel(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
         thread = new MainThread(getHolder(), this);
         getHolder().addCallback(this);
         setFocusable(true);
+
+        playerPoint = new Point();
+        mainPlayer = new MainPlayer(new Rect(100, 100, 200, 200), Color.GREEN); //test
+
     }
 
     @Override
@@ -42,19 +55,32 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         while (true) {
             try {
                 thread.setRunning(false);
-                thread.join();
+                thread.join();  //Wait for thread to die
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            retry = false;
         }
     }
 
-    public void update() {
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        playerPoint.set((int) event.getX(), (int) event.getY());
+        return true;
+    }
 
+    public void update() {
+        mainPlayer.updatePlayerPoint(playerPoint);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+
+        canvas.drawRect(new Rect(0, 0, 100, 100), new Paint(Color.GREEN)); //test
+
+        canvas.drawColor(Color.WHITE);
+        mainPlayer.draw(canvas);
+
     }
 }

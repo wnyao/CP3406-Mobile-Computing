@@ -1,5 +1,6 @@
 package com.example.kongwenyao.educationalgameapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,10 +11,6 @@ import com.andexert.library.RippleView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private RippleView vPlayButton;
-    private RippleView vLeaderboardButton;
-    private RippleView vSettingsButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +19,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         //Variable Assignment
-        vLeaderboardButton = findViewById(R.id.leaderboard_button);
-        vSettingsButton = findViewById(R.id.settings_button);
-        vPlayButton = findViewById(R.id.play_button);
+        RippleView vLeaderboardButton = findViewById(R.id.leaderboard_button);
+        RippleView vSettingsButton = findViewById(R.id.settings_button);
+        RippleView vPlayButton = findViewById(R.id.play_button);
 
         //Set Event Listener
         vLeaderboardButton.setOnClickListener(this);
@@ -37,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.play_button:
-                //TODO: Launch game panel
+                Intent intent = new Intent(this, GameActivity.class);
+                startActivity(intent);
                 break;
             case R.id.leaderboard_button:
                 //TODO: Launch leader board activity
