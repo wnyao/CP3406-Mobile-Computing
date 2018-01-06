@@ -1,7 +1,5 @@
 package com.example.kongwenyao.educationalgame;
 
-import android.content.res.Resources;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +39,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         mainPlayer = new MainPlayer(this, PlayerState.REST_RIGHT);
         playerImageView.setImageDrawable(mainPlayer.getDrawable());
         facingDirection = PlayerState.REST_RIGHT;
+
     }
 
     @Override
@@ -78,7 +77,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
                 facingDirection = playerState;
                 break;
-            default:
+            case MotionEvent.ACTION_UP:
                 //Player REST Movement
                 playerState = getRestDirection(facingDirection);
                 animatePlayer(playerState);
