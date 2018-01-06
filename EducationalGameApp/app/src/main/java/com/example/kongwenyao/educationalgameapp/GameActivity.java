@@ -21,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgameapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -19,6 +20,7 @@ import android.widget.Toolbar;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
+    private final String BACKGROUND_COLOR = "#ffdf5f";
 
     //MainPlayer
     private MainPlayer mainPlayer;
@@ -31,15 +33,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         setFocusable(true);
 
+        //Main Player
         playerPoint = new Point();
-        mainPlayer = new MainPlayer(new Rect(100, 100, 200, 200), Color.GREEN); //test
-
+        mainPlayer = new MainPlayer(context); //test
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread = new MainThread(getHolder(), this);
-
         thread.setRunning(true);
         thread.start();
     }
@@ -70,17 +71,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void update() {
-        mainPlayer.updatePlayerPoint(playerPoint);
+        //mainPlayer.updatePlayerPoint(playerPoint);
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.drawRect(new Rect(0, 0, 100, 100), new Paint(Color.GREEN)); //test
-
-        canvas.drawColor(Color.WHITE);
-        mainPlayer.draw(canvas);
+        canvas.drawColor(Color.parseColor(BACKGROUND_COLOR));
+        //mainPlayer.draw(canvas);
 
     }
 }
