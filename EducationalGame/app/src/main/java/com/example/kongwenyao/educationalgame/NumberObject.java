@@ -1,8 +1,10 @@
 package com.example.kongwenyao.educationalgame;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import java.util.Random;
 
@@ -10,25 +12,23 @@ import java.util.Random;
  * Created by kongwenyao on 1/6/18.
  */
 
-public class DropObject implements GameObject{
+public class NumberObject implements GameObject{
 
     private static int maxRandNum = 10;
     private static int textSize = 100;
-
     private static int speed = 1500;
     private int posX, posY;
-    private int width, height, displayNum;
+    private int width, height, displayValue;
     private boolean resetPos = false;
 
     private Paint paint;
 
-    public DropObject() {
+    public NumberObject() {
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         posX = generateRandPosX(width); //Random x value within screen width
         posY = generateRandNum(height);
-        displayNum = generateRandNum(maxRandNum);
-
+        displayValue = generateRandNum(maxRandNum);
 
         //Paint Object
         paint = new Paint();
@@ -51,8 +51,7 @@ public class DropObject implements GameObject{
 
     @Override
     public void draw(Canvas canvas) {
-        //string, x (stay the same), y (down), paint
-        canvas.drawText(String.valueOf(displayNum), posX, posY, paint);
+        canvas.drawText(String.valueOf(displayValue), posX, posY, paint);
     }
 
     public int generateRandNum(int max) {
@@ -61,7 +60,7 @@ public class DropObject implements GameObject{
         return num;
     }
 
-    public int generateRandPosX(int width) {
+    private int generateRandPosX(int width) {
         int x = generateRandNum(width);
 
         if (x > width - textSize) {
@@ -75,9 +74,17 @@ public class DropObject implements GameObject{
         resetPos = reset;
     }
 
-    public void reset() {
-        displayNum = generateRandNum(maxRandNum);
+    private void reset() {
+        displayValue = generateRandNum(maxRandNum);
         posX = generateRandPosX(width);
         posY = 0;
+    }
+
+    public PointF getObjectPos() {
+        return  (new PointF(posX, posY));
+    }
+
+    public int getDisplayValue() {
+        return displayValue;
     }
 }

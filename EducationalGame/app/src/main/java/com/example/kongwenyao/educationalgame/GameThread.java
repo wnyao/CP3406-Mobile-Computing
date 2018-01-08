@@ -11,16 +11,16 @@ public class GameThread extends Thread {
 
     public static final int MAX_FPS = 30;
     private SurfaceHolder surfaceHolder;
-    private GameView gameView;
+    private GamePanel gamePanel;
     private boolean running;
     private Double averageFPS;
     private static Canvas canvas;
 
-    public GameThread(SurfaceHolder surfaceHolder, GameView gamePanel) {
+    public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();
 
         this.surfaceHolder = surfaceHolder;
-        this.gameView = gamePanel;
+        this.gamePanel = gamePanel;
     }
 
     public void setRunning(boolean running) {
@@ -43,8 +43,8 @@ public class GameThread extends Thread {
             try {
                 canvas = surfaceHolder.lockCanvas(); //Lock canvas to prevent changes from elsewhere while drawing
                 synchronized (surfaceHolder) {
-                    this.gameView.update();
-                    this.gameView.draw(canvas);
+                    this.gamePanel.update();
+                    this.gamePanel.draw(canvas);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -79,7 +79,7 @@ public class GameThread extends Thread {
                 frameCount = 0;
 
                 //Report average FPS
-                System.out.println("Average FPS: " + averageFPS);
+                //System.out.println("Average FPS: " + averageFPS);
             }
         }
 

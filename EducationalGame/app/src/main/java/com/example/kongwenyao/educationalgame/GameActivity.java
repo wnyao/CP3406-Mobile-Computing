@@ -1,6 +1,10 @@
 package com.example.kongwenyao.educationalgame;
 
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,8 +20,12 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     private ImageView playerImageView;
     private MainPlayer mainPlayer;
-    private GameView gameView;
+    private GamePanel gamePanel;
     private PlayerState facingDirection;
+
+    public static PointF playerPos;
+    public static PointF playerSize;
+    public static PointF gameViewSize;  //***
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +40,23 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         //Variable Assignment
         playerImageView = findViewById(R.id.player_view);
-        gameView = findViewById(R.id.game_view);
-        gameView.setOnTouchListener(this);
+        gamePanel = findViewById(R.id.game_view);
+        gamePanel.setOnTouchListener(this);
 
         //Player Default
         mainPlayer = new MainPlayer(this, PlayerState.REST_RIGHT);
         playerImageView.setImageDrawable(mainPlayer.getDrawable());
         facingDirection = PlayerState.REST_RIGHT;
 
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        //Set Initial Values
+        playerPos = new PointF(playerImageView.getX(), playerImageView.getY());
+        playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());   //place after setImageDrawable()
     }
 
     @Override
@@ -74,7 +91,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                 playerState = getWalkDirection(event.getX());
                 animatePlayer(playerState);
                 updatePlayerViewCoordinate(event.getX());
-
                 facingDirection = playerState;
                 break;
             case MotionEvent.ACTION_UP:
@@ -84,21 +100,25 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                 updatePlayerViewCoordinate(event.getX());
                 break;
         }
-        //System.out.println(String.format("%f %f", event.getX(), event.getY())); //test
+
+        playerPos =  new PointF(playerImageView.getX(), playerImageView.getY());   //TEST: Player ImageView top left coordinate
+        gameViewSize = new PointF(gamePanel.getWidth(), gamePanel.getHeight());   //TEST
+
+        //System.out.println(String.format("%f %f", event.getX(), event.getY()));
         return true;
     }
 
     public void updatePlayerViewCoordinate(float pointX) {
 
         //Check if point.x out of restricted width
-        if (pointX > (gameView.getWidth() + 50) - playerImageView.getWidth()/2) {
-            pointX = (gameView.getWidth() + 50) - playerImageView.getWidth()/2;
+        if (pointX > (gamePanel.getWidth() + 50) - playerImageView.getWidth()/2) {
+            pointX = (gamePanel.getWidth() + 50) - playerImageView.getWidth()/2;
         } else if (pointX < playerImageView.getWidth()/2) {
             pointX = (playerImageView.getWidth()/2) - 50;  //Image side padding equals 50
         }
 
         playerImageView.setX(pointX - playerImageView.getWidth()/2);
-        playerImageView.setY(gameView.getHeight() - playerImageView.getHeight());
+        playerImageView.setY(gamePanel.getHeight() - playerImageView.getHeight());
     }
 
     public void animatePlayer(PlayerState playerState) {
