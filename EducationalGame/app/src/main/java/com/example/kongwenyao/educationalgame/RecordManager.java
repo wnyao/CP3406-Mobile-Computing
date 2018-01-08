@@ -11,28 +11,24 @@ public class RecordManager {
 
     private List<Object> values;    //TODO: set lifespan
     private int score = 0;
+    private int chances = 5;
 
     public RecordManager() {
         values = new ArrayList<>();
-    }
-
-    public void addValue(String value) {
-        values.add(value);
     }
 
     public void addValue(int value) {
         values.add(value);
     }
 
-    public Total isTotal(int matchValue) {    //addition
+    public Total isTotal(int matchValue) {
+        Integer total = calculateTotal();
         Total result;
 
-        Integer total = calculateTotal();
-
-        if (matchValue == total) {   //addition
+        if (total == matchValue) {
             result = Total.IS_TOTAL;
             score += 1;
-        } else if (matchValue < total) {
+        } else if (total > matchValue) {
             result = Total.MORE_THAN_TOTAL;
         } else {
             result = Total.LESS_THAN_TOTAL;
@@ -43,42 +39,11 @@ public class RecordManager {
 
     public int calculateTotal() {
         Integer total = 0;
-
         for (Object value: values) {
             total += Integer.valueOf(value.toString());
         }
-
         return total;
     }
-    /**
-    public int calculateTotal() {   //with digits and arithmetic symbols
-        Integer total = 0;
-
-        for (int i = 0; i < values.size(); i++) {
-            if (values.get(i) instanceof Integer) {
-                //total += Integer.valueOf(values.get(i).toString());
-            } else {
-                String value = values.get(i).toString();
-
-                switch (value) {
-                    case "+":
-                        //do sth
-                        break;
-                    case "-":
-                        //do sth
-                        break;
-                }
-            }
-        }
-
-        return total;
-    }
-     */
-
-    public List<Object> getValues() {   //TODO: remove this shit
-        return values;
-    }
-
 
     public void clearRecordValues() {
         values.clear();
@@ -86,5 +51,20 @@ public class RecordManager {
 
     public int getScore() {
         return score;
+    }
+
+    public void decrementChances() {
+        if (chances > 0) {
+            chances -= 1;
+        }
+    }
+
+    public int getChances() {
+        return chances;
+    }
+
+    public void setDefault() {
+        chances = 5;
+        score = 0;
     }
 }

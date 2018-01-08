@@ -10,15 +10,12 @@ import android.view.SurfaceHolder;
 public class GameThread extends Thread {
 
     public static final int MAX_FPS = 30;
-    private SurfaceHolder surfaceHolder;
+    private final SurfaceHolder surfaceHolder;
     private GamePanel gamePanel;
     private boolean running;
-    private Double averageFPS;
-    private static Canvas canvas;
 
     public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();
-
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
     }
@@ -29,15 +26,15 @@ public class GameThread extends Thread {
 
     @Override
     public void run() {
-        long startTime;
-        long timeTaken = 1000/ MAX_FPS; //Time taken per frame
-        long waitTime;
+        long waitTime, startTime, timeTaken;
         long targetTime = 1000/ MAX_FPS;
         long totalTime = 0;
         int frameCount = 0;
+        Double averageFPS;
+        Canvas canvas;
 
         while (running) {
-            startTime = System.nanoTime();  //Current running JVM time source
+            startTime = System.nanoTime(); //Current running JVM time source
             canvas = null;
 
             try {
@@ -51,18 +48,18 @@ public class GameThread extends Thread {
             } finally {
                 if (canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(canvas);  //Unlock if canvas is no null
+                        surfaceHolder.unlockCanvasAndPost(canvas); //Unlock if canvas is not null
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
 
-            timeTaken = (System.nanoTime() - startTime) / 1000000;
+            timeTaken = (System.nanoTime() - startTime) / 1000000; //Time taken per frame
             waitTime = targetTime - timeTaken;
             try {
                 if (waitTime > 0) {
-                    sleep(waitTime);   //Capping leftover wait time
+                    sleep(waitTime); //Capping leftover wait time
                 }
             } catch (Exception e) {
                 e.printStackTrace();

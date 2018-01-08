@@ -1,6 +1,5 @@
 package com.example.kongwenyao.educationalgame;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -14,11 +13,14 @@ import java.util.Random;
 
 public class NumberObject implements GameObject{
 
-    private static int maxRandNum = 10;
+    //Game parameter values
+    private static int maxRandNum = 30;
     private static int textSize = 100;
-    private static int speed = 1500;
-    private int posX, posY;
+
+    //Global Variables
     private int width, height, displayValue;
+    private int droppingSpeed = 1800;
+    private int posX, posY;
     private boolean resetPos = false;
 
     private Paint paint;
@@ -26,8 +28,8 @@ public class NumberObject implements GameObject{
     public NumberObject() {
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
-        posX = generateRandPosX(width); //Random x value within screen width
-        posY = generateRandNum(height);
+        posX = generateRandPosX(width); //Randomize x value within screen width
+        posY = generateRandNum(height * 2);
         displayValue = generateRandNum(maxRandNum);
 
         //Paint Object
@@ -37,15 +39,15 @@ public class NumberObject implements GameObject{
 
     @Override
     public void update() {
-        posY = posY + speed/ GameThread.MAX_FPS;
+        posY = posY + droppingSpeed/ GameThread.MAX_FPS; //Increase y values
 
         if (!resetPos) {
             if (posY > Resources.getSystem().getDisplayMetrics().heightPixels) {
-                reset();
+                resetCoordinate();
             }
-        } else {    //TODO: when drop object touch main player
-            reset();
-            resetPos = false;  //Turn off reset
+        } else {
+            resetCoordinate();
+            resetPos = false;
         }
     }
 
@@ -64,7 +66,7 @@ public class NumberObject implements GameObject{
         int x = generateRandNum(width);
 
         if (x > width - textSize) {
-            posX = width - textSize;
+            x = width - textSize;
         }
 
         return x;
@@ -74,10 +76,14 @@ public class NumberObject implements GameObject{
         resetPos = reset;
     }
 
-    private void reset() {
+    private void resetCoordinate() {
         displayValue = generateRandNum(maxRandNum);
         posX = generateRandPosX(width);
         posY = 0;
+    }
+
+    public void increaseDroppingSpeed() {
+        droppingSpeed += 1000;
     }
 
     public PointF getObjectPos() {
@@ -86,5 +92,9 @@ public class NumberObject implements GameObject{
 
     public int getDisplayValue() {
         return displayValue;
+    }
+
+    public void setDefault() {
+        droppingSpeed = 1800;
     }
 }

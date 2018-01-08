@@ -5,13 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
@@ -22,33 +21,55 @@ import android.widget.Toast;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
-    private static final String BACKGROUND_COLOR = "#ffdf5f";
-    private static final int TEXT_SIZE = 200;
-    private Paint paint;
-    private int totalValue = 50;    //TODO: default total value; subject to change
+    //Canvas Parameter
+    private static final String CANVAS_COLOR = "#FFDF5F";
+    private static final String BACKGROUND_COLOR1 = "#FFB95F";
+    private static final int TARGET_VAL_TEXT_SIZE = 200;
+    private static final int CURRENT_VAL_TEXT_SIZE = 90;
 
+    //Objects
     private GameThread gameThread;
     private NumberObject numberObject1;
     private NumberObject numberObject2;
+    private NumberObject numberObject3;
     private RecordManager recordManager;
 
-    private Handler handler = new Handler(Looper.getMainLooper()) { //test
+    //Variable
+    private Paint textPaint, textPaint1, graphicPaint;
+    private int targetValue;
+
+    private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             Total msgObject = Total.valueOf(String.valueOf(msg.obj));
 
-            if (msgObject == Total.MORE_THAN_TOTAL || msgObject == Total.IS_TOTAL) {
-                recordManager.clearRecordValues();
-                totalValue = numberObject1.generateRandNum(100);
+            if (msgObject != Total.LESS_THAN_TOTAL) {
+                String message;
 
-                Toast.makeText(getContext(), msgObject.name(), Toast.LENGTH_SHORT).show();   //** test **
+                if (msgObject == Total.MORE_THAN_TOTAL) {
+                    recordManager.decrementChances();
+                    message = getResponseMsg(msgObject);
+                    Toast.makeText(getContext(), message , Toast.LENGTH_LONG).show();
+
+                    if (recordManager.getChances() == 0) {
+                        resetGame();
+                        //TODO: Share to twitter
+                    }
+
+                } else {
+                    message = getResponseMsg(msgObject);
+                    Toast.makeText(getContext(), message , Toast.LENGTH_LONG).show();
+                }
+
+                targetValue = numberObject1.generateRandNum(200);
+                recordManager.clearRecordValues();
             }
+
         }
     };
 
-    public GamePanel(Context context, @Nullable AttributeSet attrs) {
+    public GamePanel(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
         setFocusable(true);
@@ -57,16 +78,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         gameThread = new GameThread(getHolder(), this);
         numberObject1 = new NumberObject();
         numberObject2 = new NumberObject();
+        numberObject3 = new NumberObject();
         recordManager = new RecordManager();
 
-        //Paint
-        Typeface typeface = Typeface.createFromAsset(context.getAssets(), "bungee.ttf");
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTypeface(typeface);
-        paint.setTextSize(TEXT_SIZE);
-        paint.setTextAlign(Paint.Align.CENTER);
-
+        //Set Paint Object
+        setPaintObject();
+        targetValue = numberObject1.generateRandNum(200);
     }
 
     @Override
@@ -95,46 +112,50 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
+    public void setPaintObject() {
+        //Paint for target value
+        Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "bungee.ttf");
+        textPaint = new Paint();
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTypeface(typeface);
+        textPaint.setTextSize(TARGET_VAL_TEXT_SIZE);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+        //Paint for current value
+        textPaint1 = new Paint();
+        textPaint1.setColor(Color.BLACK);
+        textPaint1.setTypeface(typeface);
+        textPaint1.setTextAlign(Paint.Align.CENTER);
+        textPaint1.setTextSize(CURRENT_VAL_TEXT_SIZE);
+
+        //Paint for top left circle
+        graphicPaint = new Paint();
+        graphicPaint.setColor(Color.parseColor(BACKGROUND_COLOR1));
+    }
+
     public void update() {
         numberObject1.update();
         numberObject2.update();
-
+        numberObject3.update();
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject1);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject2);
+        collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject3);
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        canvas.drawColor(Color.parseColor(BACKGROUND_COLOR)); //Background Color
-        canvas.drawText(String.valueOf(totalValue), getWidth()/2, 220, paint); //Total Value
+        //GamePanel Graphic
+        canvas.drawColor(Color.parseColor(CANVAS_COLOR)); //Background color
+        canvas.drawRoundRect(new RectF(-100, -100, 250, 250), 700, 700, graphicPaint); //Top left circle
+        canvas.drawText(String.valueOf(targetValue), getWidth()/2, 300, textPaint); //Target value
+        canvas.drawText(String.valueOf(recordManager.calculateTotal()), 110, 140, textPaint1); //Current value
 
+        //Dropping Object
         numberObject1.draw(canvas);
         numberObject2.draw(canvas);
-
-        //test
-        /**
-        PointF pointF = GameActivity.playerPos;
-        PointF objectPos = numberObject1.getObjectPos();
-        PointF gameViewSize = GameActivity.gameViewSize;
-        PointF playerSize = GameActivity.playerSize;
-        Paint paint = new Paint();
-        paint.setTextSize(50);
-        paint.setColor(Color.BLACK);
-        canvas.drawText(String.valueOf("Player x: " + pointF.x), 10, 400, paint);  //player position x
-        canvas.drawText(String.valueOf("Player y: " + pointF.y), 10, 500, paint);  //player position y
-        canvas.drawText(String.valueOf("Obejct x: " + objectPos.x), 10, 600, paint);  //object position x
-        canvas.drawText(String.valueOf("Obejct y: " + objectPos.y), 10, 700, paint);  //object position y
-        canvas.drawText(String.valueOf("GameView w: " + gameViewSize.x), 10, 800, paint);  //Game View width
-        canvas.drawText(String.valueOf("GameView h: " + gameViewSize.y), 10, 900, paint);  //Game View height
-        canvas.drawText(String.valueOf("Player w: " + playerSize.x), 10, 1000, paint);  //Screen w
-        canvas.drawText(String.valueOf("Player h: " + playerSize.y), 10, 1100, paint);  //Screen h
-        */
-    }
-
-    public void setTotalValue(int totalValue) {
-        this.totalValue = totalValue;
+        numberObject3.draw(canvas);
     }
 
     public void collisionDetection(PointF playerPos, PointF playerSize, NumberObject numberObject) {
@@ -142,28 +163,70 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         float playerRight = playerPos.x + playerSize.x;
         PointF objectPos = numberObject.getObjectPos();
 
-        if (objectPos.y >= playerPos.y) {
-            if (objectPos.x >= playerLeft && objectPos.x <= playerRight) {
+        if (objectPos.y >= playerPos.y) {   //If number object in player height
+            if (objectPos.x >= playerLeft && objectPos.x <= playerRight) { //if object y in player width
 
                 final Integer displayValue = numberObject.getDisplayValue(); //TODO: identify string and int
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        recordManager.addValue(displayValue);
-                        Total result = recordManager.isTotal(totalValue);
-
-                        Log.i("Value ", String.valueOf(recordManager.calculateTotal())); //***
-
-                        //Send message to handler
-                        Message message = handler.obtainMessage();
-                        message.obj = result.name();
-                        handler.sendMessage(message);
-                    }
-                }).start();
-
+                recordManagementTask(displayValue);
                 numberObject.resetPosition(true);
             }
         }
+    }
+
+    public void recordManagementTask(final int displayValue) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                recordManager.addValue(displayValue);
+                Total result = recordManager.isTotal(targetValue);  //Check total
+                checkToIncreaseSpeed(2);  //Check whether to increase velocity of number objects
+
+                //Pass result to handler
+                Message message = handler.obtainMessage();
+                message.obj = result.name();
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
+    public void checkToIncreaseSpeed(int scoreInterval) {
+        int cuttingLine = 0;
+
+        while (cuttingLine < recordManager.getScore()) {
+            cuttingLine += scoreInterval;
+        }
+
+        if (recordManager.getScore() > cuttingLine) {
+            numberObject1.increaseDroppingSpeed();
+            numberObject2.increaseDroppingSpeed();
+        }
+    }
+
+    public String getResponseMsg(Total result) {
+        String message;
+
+        if (result == Total.MORE_THAN_TOTAL) {
+            if (recordManager.getChances() > 1) {
+                message = "Too much! " + recordManager.getChances() + " chances left.";
+            } else if (recordManager.getChances() == 1){
+                message = "Too much! " + recordManager.getChances() + " chance left.";
+            } else {
+                message = "Game Over!";
+            }
+        } else {
+            if (recordManager.getScore() > 1) {
+                message = "Bravo! " + recordManager.getScore() + " correct answers.";
+            } else {
+                message = "Bravo! " + recordManager.getScore() + " correct answer.";
+            }
+        }
+        return message;
+    }
+
+    public void resetGame() {
+        recordManager.setDefault();
+        numberObject1.setDefault();
+        numberObject2.setDefault();
+        numberObject3.setDefault();
     }
 }
