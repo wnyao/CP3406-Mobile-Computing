@@ -15,7 +15,7 @@ public class NumberObject implements GameObject{
 
     //Game parameter values
     private static int maxRandNum = 30;
-    private static int textSize = 100;
+    private static int textSize = 90;
 
     //Global Variables
     private int width, height, displayValue;

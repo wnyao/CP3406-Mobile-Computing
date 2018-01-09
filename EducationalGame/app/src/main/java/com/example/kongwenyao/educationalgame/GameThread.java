@@ -76,7 +76,7 @@ public class GameThread extends Thread {
                 frameCount = 0;
 
                 //Report average FPS
-                //System.out.println("Average FPS: " + averageFPS);
+                System.out.println("Average FPS: " + averageFPS);
             }
         }
 

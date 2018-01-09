@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgame;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -48,8 +50,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         //Sensor
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        //sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
 
         //Variable Assignment
         playerImageView = findViewById(R.id.player_view);
@@ -68,7 +69,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         super.onResume();
 
         if (sensorManager != null && sensor != null) {
-            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME);
+           sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
         }
         //TODO: gameThread.setRunning(true);
     }
@@ -81,50 +82,52 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        float x = event.values[0];
-        float y = event.values[1];
-
-        if (Math.abs(x) > Math.abs(y)) {
-
-            if (x < 0) { //tilt device right
-                animatePlayer(PlayerState.WALK_RIGHT);
-                //updatePlayerViewCoordinate(x);
-                facingDirection = PlayerState.WALK_RIGHT;
-
-                //Log.i("Tilt", "right: " + x);    //*****
-                System.out.println("Right: " + x);
-
-            } else { //tilt device left
-                animatePlayer(PlayerState.WALK_LEFT);
-                //updatePlayerViewCoordinate(x);
-                facingDirection = PlayerState.WALK_LEFT;
-
-                //Log.i("Tilt", "left: " + x);    //*****
-                System.out.println("Left: " + x);
-            }
-        }
-
-        //if (x > -2 && x < 2) {
-        //    PlayerState playerState = getRestDirection(facingDirection);
-        //    animatePlayer(playerState);
-        //    updatePlayerViewCoordinate(x);
-        //}
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
         //Set Initial Values
         playerPos = new PointF(playerImageView.getX(), playerImageView.getY());
         playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());   //place after setImageDrawable()
+    }
+
+    public float filterPosition(float x) {  //Used when using sensor
+        if (x > (gamePanel.getWidth() - playerImageView.getWidth()) + 50) {
+            x = (gamePanel.getWidth() - playerImageView.getWidth()) + 50;
+        } else if (x < -50) {
+            x = -50;
+        }
+        return x;
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) { //test needed
+        float targetPosition;
+        float x = event.values[0];
+
+        if (x < -2 && x > 2) {
+            PlayerState playerState = getRestDirection(facingDirection);
+            animatePlayer(playerState);
+        }
+
+        if (x > 0) { //tilt device right
+            animatePlayer(PlayerState.WALK_RIGHT);
+            targetPosition = filterPosition(playerImageView.getX() + 5);
+            playerImageView.setX(targetPosition);
+            facingDirection = PlayerState.WALK_RIGHT;
+
+        } else if (x < 0){ //tilt device left
+            animatePlayer(PlayerState.WALK_LEFT);
+            targetPosition = filterPosition(playerImageView.getX() - 5);
+            playerImageView.setX(targetPosition);
+            facingDirection = PlayerState.WALK_LEFT;
+        }
+
+        playerPos = new PointF(playerImageView.getX(), playerImageView.getY());   //Update changed x coordinate for collision detection
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     @Override
@@ -169,7 +172,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
                 break;
         }
 
-        playerPos = new PointF(playerImageView.getX(), playerImageView.getY());   //TEST: Player ImageView top left coordinate
+        playerPos = new PointF(playerImageView.getX(), playerImageView.getY());   //Player ImageView top left coordinate
         //System.out.println(String.format("%f %f", event.getX(), event.getY()));
 
         return true;
