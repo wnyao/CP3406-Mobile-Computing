@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PointF;
 import android.hardware.Sensor;
@@ -55,7 +56,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         //Variable Assignment
         playerImageView = findViewById(R.id.player_view);
         gamePanel = findViewById(R.id.game_view);
-        //gamePanel.setOnTouchListener(this);
+        gamePanel.setOnTouchListener(this);
 
         //Player Default
         mainPlayer = new MainPlayer(this, PlayerState.REST_RIGHT);
@@ -68,16 +69,16 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onResume() {
         super.onResume();
 
-        if (sensorManager != null && sensor != null) {
-           sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }
+        //if (sensorManager != null && sensor != null) {
+        //   sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
+        //}
         //TODO: gameThread.setRunning(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
+        //sensorManager.unregisterListener(this);
         //TODO: terminate gameThread
     }
 
@@ -103,6 +104,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     public void onSensorChanged(SensorEvent event) { //test needed
         float targetPosition;
         float x = event.values[0];
+
+        //float z = event.values[2]
 
         if (x < -2 && x > 2) {
             PlayerState playerState = getRestDirection(facingDirection);
@@ -139,12 +142,15 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent;
 
         if (id == R.id.game_settings) {
-            //TODO: Implicit intent launch game menu
+            intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.game_leaderboard) {
-            //TODO: Implicit intent launch game menu
+            intent = new Intent(this, LeaderboardActivity.class);
+            startActivity(intent);
             return true;
         }
 

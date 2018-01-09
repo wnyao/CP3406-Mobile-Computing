@@ -16,7 +16,7 @@
         android:id="@+id/game_settings"
         android:orderInCategory="100"
         android:icon="@drawable/ic_settings"
-        android:title="Menu"
+        android:title="@string/settings"
         android:visible="true"
         app:showAsAction="always"/>
 

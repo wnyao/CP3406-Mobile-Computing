@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:paddingVertical="50dp"
+    android:background="@color/colorBackground"
     tools:context="com.example.kongwenyao.educationalgame.MainActivity">
 
     <TextView
@@ -33,6 +34,7 @@
             android:src="@drawable/ic_play"
             android:background="@drawable/button_background"
             android:contentDescription="@string/play"
+            android:layout_margin="5dp"
             android:paddingHorizontal="50dp"
             android:paddingVertical="15dp" />
 

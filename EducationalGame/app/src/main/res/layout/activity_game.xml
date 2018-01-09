@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".LeaderboardActivity">
 
     <com.example.kongwenyao.educationalgame.GamePanel
         android:id="@+id/game_view"
@@ -38,3 +38,14 @@
 
 </FrameLayout>
 
+
+<!--
+<ImageView
+        android:id="@+id/graphic_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/main_player"
+        android:src="@drawable/image_tree"
+        android:layout_gravity="bottom"
+        android:translationX="-180sp"/>-->

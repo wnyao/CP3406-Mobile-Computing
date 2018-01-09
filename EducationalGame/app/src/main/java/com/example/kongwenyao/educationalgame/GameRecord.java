@@ -7,13 +7,13 @@ import java.util.List;
  * Created by kongwenyao on 1/7/18.
  */
 
-public class RecordManager {
+public class GameRecord {
 
-    private List<Object> values;    //TODO: set lifespan
+    private List<Object> values;
     private int score = 0;
     private int chances = 5;
 
-    public RecordManager() {
+    public GameRecord() {
         values = new ArrayList<>();
     }
 

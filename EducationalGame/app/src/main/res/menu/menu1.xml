@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.kongwenyao.educationalgameapp.LeaderboardActivity">
+
+    <item
+        android:id="@+id/back_to_game"
+        android:orderInCategory="100"
+        android:title="@string/back_to_game"
+        android:icon="@drawable/ic_close"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+</menu>
