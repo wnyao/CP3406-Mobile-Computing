@@ -26,8 +26,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     //Canvas Parameter
     private static final String CANVAS_COLOR = "#FFDF5F";
     private static final String BACKGROUND_COLOR1 = "#FFB95F";
-    private static final int TARGET_VAL_TEXT_SIZE = 200;
+    private static final int TARGET_VAL_TEXT_SIZE = 170;
     private static final int CURRENT_VAL_TEXT_SIZE = 90;
+
+    //Canvas graohic
+    private Bitmap treeBitmap;
+    private float treeBitmapPosX, treeBitmapPosY;
 
     //Objects
     private GameThread gameThread;
@@ -37,7 +41,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private GameRecord gameRecord;
 
     //Variable
-    private Paint textPaint, textPaint1, graphicPaint;
+    private Paint textPaint, textPaint1, graphicPaint, treeGraphicPaint;
     private int targetValue;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
@@ -94,6 +98,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         gameThread = new GameThread(getHolder(), this);
         gameThread.setRunning(true);
         gameThread.start();
+
+        //Get tree bitmap
+        treeBitmap = decodeDrawableToBitmap(R.drawable.image_tree);
+        treeBitmapPosX = (-getBitmapWidth(R.drawable.image_tree) + 250) /2;
+        treeBitmapPosY = getHeight() - getBitmapHeight(R.drawable.image_tree);
     }
 
     @Override
@@ -104,14 +113,17 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while (true) {
+        while (retry) {
             try {
                 gameThread.setRunning(false);
                 gameThread.join();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            retry = false;
+
+            if (!gameThread.isAlive()) {
+                retry = false;
+            }
         }
     }
 
@@ -134,6 +146,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         //Paint for top left circle
         graphicPaint = new Paint();
         graphicPaint.setColor(Color.parseColor(BACKGROUND_COLOR1));
+
+        //Tree graphic paint
+        treeGraphicPaint = new Paint();
+        treeGraphicPaint.setAlpha(245);
     }
 
     public void update() {
@@ -151,7 +167,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         //GamePanel Graphic
         canvas.drawColor(Color.parseColor(CANVAS_COLOR)); //Background color
-        //canvas.drawBitmap(decodeDrawableToBitmap(R.drawable.image_tree), (-getBitmapWidth(R.drawable.image_tree) + 250) /2, getHeight() - getBitmapHeight(R.drawable.image_tree), graphicPaint);
+        canvas.drawBitmap(treeBitmap, treeBitmapPosX, treeBitmapPosY, treeGraphicPaint); //Tree bitmap
         canvas.drawRoundRect(new RectF(-100, -100, 250, 250), 700, 700, graphicPaint); //Top left circle
         canvas.drawText(String.valueOf(targetValue), getWidth()/2, 300, textPaint); //Target value
         canvas.drawText(String.valueOf(gameRecord.calculateTotal()), 110, 140, textPaint1); //Current value
@@ -203,6 +219,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if (gameRecord.getScore() > cuttingLine) {
             numberObject1.increaseDroppingSpeed();
             numberObject2.increaseDroppingSpeed();
+            Toast.makeText(getContext(), "Speed has increased!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -215,7 +232,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             } else if (gameRecord.getChances() == 1){
                 message = "Too much! " + gameRecord.getChances() + " chance left.";
             } else {
-                message = "Game Over!";
+                message = "Game Over";
             }
         } else {
             if (gameRecord.getScore() > 1) {
@@ -236,7 +253,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     public Bitmap decodeDrawableToBitmap(int drawableId) {
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), drawableId);
-        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.5), (int) (bitmap.getHeight() * 0.5),true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.6), (int) (bitmap.getHeight() * 0.6),true);
         return bitmap;
     }
 

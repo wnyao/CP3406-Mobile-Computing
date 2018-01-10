@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">Educational Game</string>
-    <string name="settings">Settings</string>
     <string name="leaderboard">Leaderboard</string>
+    <string name="settings">Settings</string>
     <string name="play">Play</string>
+
     <string name="main_player">Main Player</string>
     <string name="back_to_game">Back To Game</string>
+
+    <string name="enable_sensor_setting">Enable Sensor</string>
+    <string name="enable_sensor_false">Motion Sensor is off</string>
+    <string name="enable_sensor_true">Motion Sensor is on</string>
+
+    <string name="enable_music_setting">Music</string>
+    <string name="enable_music_false">Music has turn off</string>
+    <string name="enable_music_true">Music has turn on</string>
 </resources>

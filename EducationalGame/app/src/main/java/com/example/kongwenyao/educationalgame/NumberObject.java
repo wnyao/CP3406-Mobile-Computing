@@ -2,6 +2,7 @@ package com.example.kongwenyao.educationalgame;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
@@ -14,27 +15,25 @@ import java.util.Random;
 public class NumberObject implements GameObject{
 
     //Game parameter values
+    private static int textSize = 70;
     private static int maxRandNum = 30;
-    private static int textSize = 90;
 
     //Global Variables
     private int width, height, displayValue;
-    private int droppingSpeed = 1800;
+    private int droppingSpeed = 550;
     private int posX, posY;
     private boolean resetPos = false;
-
-    private Paint paint;
+    private Paint textPaint;
+    private Paint strokePaint;
 
     public NumberObject() {
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         posX = generateRandPosX(width); //Randomize x value within screen width
-        posY = generateRandNum(height * 2);
+        posY = generateRandNum(height * 4);
         displayValue = generateRandNum(maxRandNum);
 
-        //Paint Object
-        paint = new Paint();
-        paint.setTextSize(textSize);
+        setPaints(); //Set all needed paint objects
     }
 
     @Override
@@ -53,7 +52,22 @@ public class NumberObject implements GameObject{
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawText(String.valueOf(displayValue), posX, posY, paint);
+        canvas.drawText(String.valueOf(displayValue), posX, posY, strokePaint);
+        canvas.drawText(String.valueOf(displayValue), posX, posY, textPaint);
+    }
+
+    private void setPaints() {
+        //Text paint object
+        textPaint = new Paint();
+        textPaint.setTextSize(textSize);
+        textPaint.setColor(Color.parseColor("#350000"));
+
+        //Stroke paint object
+        strokePaint = new Paint();
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setColor(Color.parseColor("#5d1919"));
+        strokePaint.setTextSize(textPaint.getTextSize());
+        strokePaint.setStrokeWidth(5);
     }
 
     public int generateRandNum(int max) {
@@ -83,7 +97,7 @@ public class NumberObject implements GameObject{
     }
 
     public void increaseDroppingSpeed() {
-        droppingSpeed += 1000;
+        droppingSpeed += 80;
     }
 
     public PointF getObjectPos() {
@@ -95,6 +109,6 @@ public class NumberObject implements GameObject{
     }
 
     public void setDefault() {
-        droppingSpeed = 1800;
+        droppingSpeed = 500;
     }
 }

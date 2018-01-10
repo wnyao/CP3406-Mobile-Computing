@@ -19,6 +19,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     private GridLayout leaderboardLayout;
     private LeaderboardDatabase db;
+    private TextView textView1, textView2, textView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +29,16 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //Custom Toolbar
         Toolbar toolbar = findViewById(R.id.leaderboard_toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle(R.string.leaderboard);
         setSupportActionBar(toolbar);
 
         //Variable Assignment
         leaderboardLayout = findViewById(R.id.leaderboard_layout);
         db = new LeaderboardDatabase(this);
 
-        db.clearAllScoreRecords();  //
-        db.addScoreRecord(new Score(1, "Stacy", 3)); //
-        db.addScoreRecord(new Score(2, "Joe", 7));  //
+        db.clearAllScoreRecords();  //test
+        db.addScoreRecord(new Score(1, "Stacy", 3)); //test
+        db.addScoreRecord(new Score(2, "Joe", 7));  //test
 
         //Process
         displayScoreRecords(db.getScoreRecords());
@@ -63,27 +64,15 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     public void displayScoreRecords(List<Score> records) {
         for (int i = -1; i < records.size(); i++) {
-            //Set new TextView
-            TextView textView1 = new TextView(this);
-            TextView textView2 = new TextView(this);
-            TextView textView3 = new TextView(this);
-            textView1.setGravity(Gravity.CENTER_VERTICAL);
-            textView2.setGravity(Gravity.CENTER);
-            //textView3.setGravity(Gravity.CENTER_HORIZONTAL);
-            textView3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            textView1.setTextAppearance(R.style.leaderboard_textStyle);
-            textView2.setTextAppearance(R.style.leaderboard_textStyle);
-            textView3.setTextAppearance(R.style.leaderboard_textStyle);
-            textView1.setPadding(80, 50, 50, 50);
-            textView2.setPadding(50, 50, 130, 50);
-            textView3.setPadding(100, 50, 100, 50);
-            textView1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            textView2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-            textView3.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+            //Set textViews
+            setTextViews();
 
-            //Text
+            //Get text
             String id, name, score;
             if (i == -1) {  //Set Title
+                textView1.setPadding(100, 100, 50, 50);
+                textView2.setPadding(100, 80, 50, 50);
+                textView3.setPadding(100, 80, 50, 50);
                 id = "ID";
                 name = "PLAYER";
                 score = "SCORE";
@@ -100,13 +89,29 @@ public class LeaderboardActivity extends AppCompatActivity {
             textView2.setText(name);
             textView3.setText(score);
 
-            //ViewGroup add view
+            //Gridlayout add view
             leaderboardLayout.addView(textView1);
             leaderboardLayout.addView(textView2);
             leaderboardLayout.addView(textView3);
         }
+    }
 
-
+    public void setTextViews() {
+        textView1 = new TextView(this);
+        textView2 = new TextView(this);
+        textView3 = new TextView(this);
+        textView1.setGravity(Gravity.CENTER_VERTICAL);
+        textView2.setGravity(Gravity.CENTER);
+        textView3.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textView1.setTextAppearance(R.style.Leaderboard_textStyle);
+        textView2.setTextAppearance(R.style.Leaderboard_textStyle);
+        textView3.setTextAppearance(R.style.Leaderboard_textStyle);
+        textView1.setPadding(100, 50, 50, 50);
+        textView2.setPadding(50, 50, 130, 50);
+        textView3.setPadding(100, 50, 100, 50);
+        textView1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        textView2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        textView3.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     }
 
 }

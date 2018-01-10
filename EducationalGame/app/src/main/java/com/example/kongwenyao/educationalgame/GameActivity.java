@@ -2,6 +2,7 @@ package com.example.kongwenyao.educationalgame;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.PointF;
 import android.hardware.Sensor;
@@ -27,16 +28,22 @@ import java.util.Objects;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
 
+    //Variable for view and object
     private GamePanel gamePanel;
     private MainPlayer mainPlayer;
     private ImageView playerImageView;
     private PlayerState facingDirection;
 
+    //Variable for player info
     public static PointF playerPos;
     public static PointF playerSize;
 
+    //Variable for sensor
     private SensorManager sensorManager;
     private Sensor sensor;
+
+    //Variable for SharedPreferences
+    private boolean sEnableSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +56,9 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        //Sensor
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
-
         //Variable Assignment
         playerImageView = findViewById(R.id.player_view);
         gamePanel = findViewById(R.id.game_view);
-        gamePanel.setOnTouchListener(this);
 
         //Player Default
         mainPlayer = new MainPlayer(this, PlayerState.REST_RIGHT);
@@ -66,19 +68,38 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        sEnableSensor = sharedPreferences.getBoolean(SettingsActivity.SENSOR_SETTINGS, true);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
-        //if (sensorManager != null && sensor != null) {
-        //   sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
-        //}
+        if (sEnableSensor) {
+            //Sensor
+            sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
+
+            if (sensorManager != null && sensor != null) {
+                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
+            }
+        } else {
+            gamePanel.setOnTouchListener(this);
+        }
         //TODO: gameThread.setRunning(true);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //sensorManager.unregisterListener(this);
+
+        if (sEnableSensor) {
+            sensorManager.unregisterListener(this);
+        }
         //TODO: terminate gameThread
     }
 
@@ -105,22 +126,20 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         float targetPosition;
         float x = event.values[0];
 
-        //float z = event.values[2]
-
-        if (x < -2 && x > 2) {
+        if (x < -1 && x > 1) {
             PlayerState playerState = getRestDirection(facingDirection);
             animatePlayer(playerState);
         }
 
-        if (x > 0) { //tilt device right
+        if (x < -1) { //tilt device right
             animatePlayer(PlayerState.WALK_RIGHT);
-            targetPosition = filterPosition(playerImageView.getX() + 5);
+            targetPosition = filterPosition(playerImageView.getX() + 7);
             playerImageView.setX(targetPosition);
             facingDirection = PlayerState.WALK_RIGHT;
 
-        } else if (x < 0){ //tilt device left
+        } else if (x > 1){ //tilt device left
             animatePlayer(PlayerState.WALK_LEFT);
-            targetPosition = filterPosition(playerImageView.getX() - 5);
+            targetPosition = filterPosition(playerImageView.getX() - 7);
             playerImageView.setX(targetPosition);
             facingDirection = PlayerState.WALK_LEFT;
         }

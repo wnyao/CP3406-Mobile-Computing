@@ -19,10 +19,30 @@
             android:id="@+id/leaderboard_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@android:color/black"
+            app:titleTextAppearance="@style/Toolbar.Title"
             android:background="@android:color/transparent"
             app:elevation="0dp"/>
 
     </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/setting_EnableSensor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="26sp"
+        android:textAppearance="@style/Toolbar.Title"
+        android:textColor="@color/colorDarkGray"
+        android:text="@string/enable_sensor_setting"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/setting_EnabeMusic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textSize="26sp"
+        android:textColor="@color/colorDarkGray"
+        android:textAppearance="@style/Toolbar.Title"
+        android:text="@string/enable_music_setting"/>
 
 </LinearLayout>
