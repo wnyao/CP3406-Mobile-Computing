@@ -40,7 +40,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     //Variable for sensor
     private SensorManager sensorManager;
-    private Sensor sensor;
 
     //Variable for SharedPreferences
     private boolean sEnableSensor;
@@ -82,7 +81,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         if (sEnableSensor) {
             //Sensor
             sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-            sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
+            Sensor sensor = sensorManager != null ? sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) : null;
 
             if (sensorManager != null && sensor != null) {
                 sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
@@ -112,7 +111,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());   //place after setImageDrawable()
     }
 
-    public float filterPosition(float x) {  //Used when using sensor
+    private float filterPosition(float x) {  //Position filter for sensor
         if (x > (gamePanel.getWidth() - playerImageView.getWidth()) + 50) {
             x = (gamePanel.getWidth() - playerImageView.getWidth()) + 50;
         } else if (x < -50) {
@@ -203,7 +202,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    public void updatePlayerViewCoordinate(float pointX) {
+    private void updatePlayerViewCoordinate(float pointX) { //Position filter for touch event
 
         //Check if point.x out of restricted width
         if (pointX > (gamePanel.getWidth() + 50) - playerImageView.getWidth() / 2) {
@@ -216,7 +215,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         playerImageView.setY(gamePanel.getHeight() - playerImageView.getHeight());
     }
 
-    public void animatePlayer(PlayerState playerState) {
+    private void animatePlayer(PlayerState playerState) {
         if (!Objects.equals(mainPlayer.getPlayerState(), playerState)) {    //Check previous player state
             mainPlayer.stopAnimation(); //Stop previous running animation
             mainPlayer.updatePlayer(playerState);
@@ -225,7 +224,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
-    public PlayerState getWalkDirection(float x) {
+    private PlayerState getWalkDirection(float x) {
         PlayerState playerState;
 
         //Determine which direction based on x value
@@ -238,7 +237,7 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         return playerState;
     }
 
-    public PlayerState getRestDirection(PlayerState facingDirection) {
+    private PlayerState getRestDirection(PlayerState facingDirection) {
         PlayerState playerState;
         if (facingDirection == PlayerState.REST_RIGHT || facingDirection == PlayerState.WALK_RIGHT) {   //Determine player facing direction
             playerState = PlayerState.REST_RIGHT;

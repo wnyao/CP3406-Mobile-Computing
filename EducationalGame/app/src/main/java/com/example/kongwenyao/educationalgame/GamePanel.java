@@ -29,7 +29,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private static final int TARGET_VAL_TEXT_SIZE = 170;
     private static final int CURRENT_VAL_TEXT_SIZE = 90;
 
-    //Canvas graohic
+    //Canvas graphic
     private Bitmap treeBitmap;
     private float treeBitmapPosX, treeBitmapPosY;
 
@@ -127,7 +127,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public void setPaintObject() {
+    private void setPaintObject() {
         //Paint for target value
         Typeface typeface = Typeface.createFromAsset(getContext().getAssets(), "bungee.ttf");
         textPaint = new Paint();
@@ -178,7 +178,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject3.draw(canvas);
     }
 
-    public void collisionDetection(PointF playerPos, PointF playerSize, NumberObject numberObject) {
+    private void collisionDetection(PointF playerPos, PointF playerSize, NumberObject numberObject) {
         float playerLeft = playerPos.x;
         float playerRight = playerPos.x + playerSize.x;
         PointF objectPos = numberObject.getObjectPos();
@@ -186,14 +186,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if (objectPos.y >= playerPos.y) {   //If number object in player height
             if (objectPos.x >= playerLeft && objectPos.x <= playerRight) { //if object y in player width
 
-                final Integer displayValue = numberObject.getDisplayValue(); //TODO: identify string and int
+                final Integer displayValue = numberObject.getDisplayValue();
                 recordManagementTask(displayValue);
                 numberObject.resetPosition(true);
             }
         }
     }
 
-    public void recordManagementTask(final int displayValue) {
+    private void recordManagementTask(final int displayValue) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -209,7 +209,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }).start();
     }
 
-    public void checkToIncreaseSpeed(int scoreInterval) {
+    private void checkToIncreaseSpeed(int scoreInterval) {
         int cuttingLine = 0;
 
         while (cuttingLine < gameRecord.getScore()) {
@@ -223,7 +223,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 
-    public String getResponseMsg(Total result) {
+    private String getResponseMsg(Total result) {
         String message;
 
         if (result == Total.MORE_THAN_TOTAL) {
@@ -244,25 +244,25 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         return message;
     }
 
-    public void resetGame() {
+    private void resetGame() {
         gameRecord.setDefault();
         numberObject1.setDefault();
         numberObject2.setDefault();
         numberObject3.setDefault();
     }
 
-    public Bitmap decodeDrawableToBitmap(int drawableId) {
+    private Bitmap decodeDrawableToBitmap(int drawableId) {
         Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), drawableId);
         bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * 0.6), (int) (bitmap.getHeight() * 0.6),true);
         return bitmap;
     }
 
-    public int getBitmapHeight(int drawableID) {
+    private int getBitmapHeight(int drawableID) {
         Bitmap bitmap = decodeDrawableToBitmap(drawableID);
         return bitmap.getHeight();
     }
 
-    public int getBitmapWidth(int drawableID) {
+    private int getBitmapWidth(int drawableID) {
         Bitmap bitmap = decodeDrawableToBitmap(drawableID);
         return bitmap.getWidth();
     }

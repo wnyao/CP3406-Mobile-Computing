@@ -1,7 +1,11 @@
 package com.example.kongwenyao.drumkit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,6 +21,10 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         //Variable Assignment
         soundManager = new SoundManager(this);
         displayView = findViewById(R.id.display_view);
@@ -28,6 +36,26 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         openhat = soundManager.getSoundID(R.raw.openhat);
         ride = soundManager.getSoundID(R.raw.ride);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.second_displayView:
+                Intent intent = new Intent(this, SecondActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

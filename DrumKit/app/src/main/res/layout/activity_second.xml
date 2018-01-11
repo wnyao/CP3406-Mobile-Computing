@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kongwenyao.drumkit.SecondActivity">
+
+    <com.example.kongwenyao.drumkit.SecondDisplayView
+        android:id="@+id/second_displayView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/drum_kit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/drum"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
+
+</FrameLayout>

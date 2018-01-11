@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DrumKit</string>
+    <string name="second_view">Second View</string>
 </resources>
