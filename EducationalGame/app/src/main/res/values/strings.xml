@@ -14,4 +14,9 @@
     <string name="enable_music_setting">Music</string>
     <string name="enable_music_false">Music has turn off</string>
     <string name="enable_music_true">Music has turn on</string>
+
+    <string name="score_label">Your score:</string>
+    <string name="enter_your_name_label">Enter Your Name</string>
+    <string name="enter_button_label">Enter</string>
+    <string name="game_over_label">Game Over</string>
 </resources>

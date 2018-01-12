@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardActivity extends AppCompatActivity {
@@ -36,9 +38,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         leaderboardLayout = findViewById(R.id.leaderboard_layout);
         db = new LeaderboardDatabase(this);
 
-        db.clearAllScoreRecords();  //test
-        db.addScoreRecord(new Score(1, "Stacy", 3)); //test
-        db.addScoreRecord(new Score(2, "Joe", 7));  //test
+        //For testing purposes
+        //db.clearAllScoreRecords();
+        //test();
 
         //Process
         displayScoreRecords(db.getScoreRecords());
@@ -62,8 +64,10 @@ public class LeaderboardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void displayScoreRecords(List<Score> records) {
-        for (int i = -1; i < records.size(); i++) {
+    private void displayScoreRecords(List<Score> records) {
+        List<Score> sortedRecords = sortScoreRecords(records); //Sort in descending order
+
+        for (int i = -1; i < sortedRecords.size(); i++) {
             //Set textViews
             setTextViews();
 
@@ -77,9 +81,9 @@ public class LeaderboardActivity extends AppCompatActivity {
                 name = "PLAYER";
                 score = "SCORE";
             } else {
-                Score record = records.get(i);
+                Score record = sortedRecords.get(i);
 
-                id = record.getId() + ". ";
+                id = i + ". ";
                 name = record.getPlayerName();
                 score = String.valueOf(record.getScore());
             }
@@ -96,7 +100,33 @@ public class LeaderboardActivity extends AppCompatActivity {
         }
     }
 
-    public void setTextViews() {
+    private List<Score> sortScoreRecords(List<Score> records) {
+
+        List<Integer> scorelist = new ArrayList<>();
+        List<Score> newRecords = new ArrayList<>();
+
+        for (Score record: records) {
+            scorelist.add(record.getScore());
+        }
+
+        Collections.sort(scorelist); //List of sorted scores
+        Collections.reverse(scorelist); //List of reverse sorted scores
+
+        int playerScore;
+        for (int score: scorelist) {
+            for (Score record: records) {
+                playerScore = record.getScore();
+
+                if (playerScore == score) {
+                    newRecords.add(record);
+                }
+            }
+        }
+
+        return newRecords;
+    }
+
+    private void setTextViews() {
         textView1 = new TextView(this);
         textView2 = new TextView(this);
         textView3 = new TextView(this);
@@ -112,6 +142,28 @@ public class LeaderboardActivity extends AppCompatActivity {
         textView1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textView2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textView3.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    }
+
+    public void test() { //For testing purposes
+        Score score1 = new Score(1, "Stacey", 7);
+        check(score1);
+
+        Score score2 = new Score(2, "James", 3);
+        check(score2);
+
+    }
+
+    public void check(Score score) { //For testing purposes
+        boolean exist = db.isRecordExisted(score.getPlayerName());
+
+        if (exist) { //Check if record existed
+            Score recordedScore = db.getScoreRecord(score.getPlayerName());
+            if (recordedScore.getScore() != score.getScore()) {
+                db.addScoreRecord(score);
+            }
+        } else {
+            db.addScoreRecord(score);
+        }
     }
 
 }

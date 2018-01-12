@@ -58,11 +58,18 @@ public class LeaderboardDatabase extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Delete single record
     public void deleteScoreRecord(Score score) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_SCORE, KEY_ID + "=?", new String[] {String.valueOf(score.getId())});
         db.close();
+    }
+
+    //Check if record exist in database
+    public boolean isRecordExisted(String playerName) {
+        Score playerRecord = getScoreRecord(playerName);
+        return playerRecord != null;
     }
 
     public void clearAllScoreRecords() {
@@ -80,27 +87,47 @@ public class LeaderboardDatabase extends SQLiteOpenHelper {
                 deleteScoreRecord(score);
 
             } while (cursor.moveToNext());
+            cursor.close();
         }
     }
 
     //Get single record
-    public Score getScoreRecord(int id) {
+    public Score getScoreRecord(String playerName) {
         SQLiteDatabase db = this.getReadableDatabase();
+        playerName = capitalizeString(playerName);
 
-        Cursor cursor = db.query(TABLE_SCORE, new String[] {KEY_ID, KEY_NAME, KEY_SCORE}, KEY_ID + "=?",
-                new String[] {String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_SCORE, new String[] {KEY_ID, KEY_NAME, KEY_SCORE}, KEY_NAME + "=?",
+                new String[] {String.valueOf(playerName)}, null, null, null, null);
 
-        if (cursor != null) {
+        Score score = null;
+        if (cursor != null && cursor.moveToFirst()) {
             cursor.moveToFirst();
+            score = new Score(cursor.getInt(0), cursor.getString(1),
+                    cursor.getInt(2));
+            cursor.close();
         }
-
-        Score score = new Score(cursor.getInt(0), cursor.getString(1),
-                cursor.getInt(2));
 
         return score;
     }
 
-    //Get all records
+    public String capitalizeString(String string) {
+        String[] stringArray = string.split(" ");
+        StringBuilder sb = new StringBuilder();
+
+        String newString;
+        for (int i = 0; i < stringArray.length; i++) {
+            if (i != stringArray.length - 1) {
+                newString = String.valueOf(stringArray[i].charAt(0)).toUpperCase() + stringArray[i].substring(1) + " ";
+                sb.append(newString);
+            } else {
+                newString = String.valueOf(stringArray[i].charAt(0)).toUpperCase() + stringArray[i].substring(1);
+                sb.append(newString);
+            }
+        }
+        return sb.toString();
+    }
+
+    //Get all unsorted records
     public List<Score> getScoreRecords() {
         List<Score> scoreRecords = new ArrayList<>();
 
@@ -119,6 +146,7 @@ public class LeaderboardDatabase extends SQLiteOpenHelper {
                 scoreRecords.add(score);
 
             } while (cursor.moveToNext());
+            cursor.close();
         }
 
         return scoreRecords;

@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -40,9 +41,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private NumberObject numberObject3;
     private GameRecord gameRecord;
 
-    //Variable
+    //Variables
     private Paint textPaint, textPaint1, graphicPaint, treeGraphicPaint;
-    private int targetValue;
+    private int targetValue, scoreValue;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -58,10 +59,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     message = getResponseMsg(msgObject);
                     Toast.makeText(getContext(), message , Toast.LENGTH_LONG).show();
 
-                    if (gameRecord.getChances() == 0) {
-                        resetGame();
-                        //TODO: Share to twitter
-                        //TODO: Set High Score
+                    if (gameRecord.getChances() == 0) { //If game over
+                        scoreValue = gameRecord.getScore();
+                        resetGame(); //Set game to default
+                        startGameOverActivity();
                     }
 
                 } else {
@@ -249,6 +250,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject1.setDefault();
         numberObject2.setDefault();
         numberObject3.setDefault();
+    }
+
+    private void startGameOverActivity() {
+        Intent intent = new Intent(getContext(), GameOverActivity.class);
+        intent.putExtra("SCORE", scoreValue);
+        getContext().startActivity(intent);
     }
 
     private Bitmap decodeDrawableToBitmap(int drawableId) {
