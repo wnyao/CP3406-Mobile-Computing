@@ -7,18 +7,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:paddingVertical="50dp"
+    android:paddingTop="50dp"
+    android:paddingBottom="50dp"
     android:background="@color/colorBackground"
     tools:context="com.example.kongwenyao.educationalgame.MainActivity">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game Title"
-        android:textSize="30sp"
-        android:layout_marginTop="80dp"
-        android:layout_marginBottom="130dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/logo_app"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="20dp" />
 
     <com.andexert.library.RippleView
         android:id="@+id/play_button"
@@ -35,8 +38,10 @@
             android:background="@drawable/button_background"
             android:contentDescription="@string/play"
             android:layout_margin="5dp"
-            android:paddingHorizontal="50dp"
-            android:paddingVertical="15dp" />
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp" />
 
     </com.andexert.library.RippleView>
 
@@ -55,8 +60,10 @@
             android:background="@drawable/button_background"
             android:contentDescription="@string/leaderboard"
             android:layout_margin="5dp"
-            android:paddingHorizontal="50dp"
-            android:paddingVertical="15dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_gravity="center_horizontal"/>
 
     </com.andexert.library.RippleView>
@@ -76,8 +83,10 @@
             android:background="@drawable/button_background"
             android:contentDescription="@string/settings"
             android:layout_margin="5dp"
-            android:paddingHorizontal="50dp"
-            android:paddingVertical="15dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:layout_gravity="center_horizontal"/>
 
     </com.andexert.library.RippleView>

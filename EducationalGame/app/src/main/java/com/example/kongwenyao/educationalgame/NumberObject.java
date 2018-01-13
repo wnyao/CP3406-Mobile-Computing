@@ -30,7 +30,7 @@ public class NumberObject implements GameObject{
         width = Resources.getSystem().getDisplayMetrics().widthPixels;
         height = Resources.getSystem().getDisplayMetrics().heightPixels;
         posX = generateRandPosX(width); //Randomize x value within screen width
-        posY = generateRandNum(height * 5);
+        posY = generateRandNum(height);
         displayValue = generateRandNum(maxRandNum);
 
         setPaints(); //Set all needed paint objects

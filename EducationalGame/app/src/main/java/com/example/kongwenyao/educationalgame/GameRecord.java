@@ -11,7 +11,7 @@ public class GameRecord {
 
     private List<Object> values;
     private int score = 0;
-    private int chances = 5;
+    private int chances = 5;    //TODO change back to 5
 
     public GameRecord() {
         values = new ArrayList<>();

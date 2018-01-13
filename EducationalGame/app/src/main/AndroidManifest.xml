@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kongwenyao.educationalgame">
+    package="com.example.kongwenyao.educationalgame"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -28,7 +33,8 @@
 
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".GameOverActivity"></activity>
+        <activity android:name=".GameOverActivity" />
+        <activity android:name=".AuthenticationActivity"></activity>
     </application>
 
 </manifest>

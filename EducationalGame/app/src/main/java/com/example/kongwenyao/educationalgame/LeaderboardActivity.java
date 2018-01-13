@@ -38,7 +38,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         leaderboardLayout = findViewById(R.id.leaderboard_layout);
         db = new LeaderboardDatabase(this);
 
-        //For testing purposes
+        //FOR TESTING ONLY
         //db.clearAllScoreRecords();
         //test();
 
@@ -144,7 +144,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         textView3.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
     }
 
-    public void test() { //For testing purposes
+    public void test() { //This method is for testing purposes
         Score score1 = new Score(1, "Stacey", 7);
         check(score1);
 
@@ -153,7 +153,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
-    public void check(Score score) { //For testing purposes
+    public void check(Score score) { //This method is for testing purposes
         boolean exist = db.isRecordExisted(score.getPlayerName());
 
         if (exist) { //Check if record existed

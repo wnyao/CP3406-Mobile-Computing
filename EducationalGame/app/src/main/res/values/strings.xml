@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Educational Game</string>
+    <string name="app_name">Sum Up!</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="settings">Settings</string>
     <string name="play">Play</string>
@@ -19,4 +19,12 @@
     <string name="enter_your_name_label">Enter Your Name</string>
     <string name="enter_button_label">Enter</string>
     <string name="game_over_label">Game Over</string>
+    <string name="app_title">Sum Up!</string>
+    <string name="app_logo">AppLogo</string>
+    <string name="twitter">Twitter</string>
+
+    <string name="twitter_callback_url">https://twitter.com/wnyao</string>
+    <string name="twittter_consumer_key">Ixs5z6jizQGvozUVOf0hUISWs</string>
+    <string name="twitter_consumer_secret">jIcYPfjFq3ATDNAwonqWU2AFNzew6roWrSnlGPoSHpvKTidbPq</string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
 </resources>

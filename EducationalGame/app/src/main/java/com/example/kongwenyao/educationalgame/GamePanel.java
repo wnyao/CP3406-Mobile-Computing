@@ -26,7 +26,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     //Canvas Parameter
     private static final String CANVAS_COLOR = "#FFDF5F";
-    private static final String BACKGROUND_COLOR1 = "#FFB95F";
+    private static final String CIRCLE_COLOR1 = "#FFB95F";
+    private static final String CIRCLE_COLOR2 = "#E86A03";
     private static final int TARGET_VAL_TEXT_SIZE = 170;
     private static final int CURRENT_VAL_TEXT_SIZE = 90;
 
@@ -39,10 +40,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private NumberObject numberObject1;
     private NumberObject numberObject2;
     private NumberObject numberObject3;
+    private NumberObject numberObject4;
     private GameRecord gameRecord;
 
     //Variables
-    private Paint textPaint, textPaint1, graphicPaint, treeGraphicPaint;
+    private Paint textPaint, textPaint1, graphicPaint, graphicPaint1, treeGraphicPaint;
     private int targetValue, scoreValue;
 
     private Handler handler = new Handler(Looper.getMainLooper()) {
@@ -87,6 +89,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject1 = new NumberObject();
         numberObject2 = new NumberObject();
         numberObject3 = new NumberObject();
+        numberObject4 = new NumberObject();
         gameRecord = new GameRecord();
 
         //Set Paint Object
@@ -146,7 +149,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         //Paint for top left circle
         graphicPaint = new Paint();
-        graphicPaint.setColor(Color.parseColor(BACKGROUND_COLOR1));
+        graphicPaint.setColor(Color.parseColor(CIRCLE_COLOR1));
+
+        //Paint for top left circle background
+        graphicPaint1 = new Paint();
+        graphicPaint1.setColor(Color.parseColor(CIRCLE_COLOR2));
 
         //Tree graphic paint
         treeGraphicPaint = new Paint();
@@ -157,9 +164,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject1.update();
         numberObject2.update();
         numberObject3.update();
+        numberObject4.update();
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject1);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject2);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject3);
+        collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject4);
     }
 
     @Override
@@ -169,6 +178,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         //GamePanel Graphic
         canvas.drawColor(Color.parseColor(CANVAS_COLOR)); //Background color
         canvas.drawBitmap(treeBitmap, treeBitmapPosX, treeBitmapPosY, treeGraphicPaint); //Tree bitmap
+        canvas.drawRoundRect(new RectF(-100, -80, 250, 270), 700, 700, graphicPaint1); //Top left circle background
         canvas.drawRoundRect(new RectF(-100, -100, 250, 250), 700, 700, graphicPaint); //Top left circle
         canvas.drawText(String.valueOf(targetValue), getWidth()/2, 300, textPaint); //Target value
         canvas.drawText(String.valueOf(gameRecord.calculateTotal()), 110, 140, textPaint1); //Current value
@@ -177,6 +187,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject1.draw(canvas);
         numberObject2.draw(canvas);
         numberObject3.draw(canvas);
+        numberObject4.draw(canvas);
     }
 
     private void collisionDetection(PointF playerPos, PointF playerSize, NumberObject numberObject) {
@@ -220,6 +231,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if (gameRecord.getScore() > cuttingLine) {
             numberObject1.increaseDroppingSpeed();
             numberObject2.increaseDroppingSpeed();
+            numberObject3.increaseDroppingSpeed();
+            numberObject4.increaseDroppingSpeed();
             Toast.makeText(getContext(), "Speed has increased!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -250,6 +263,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject1.setDefault();
         numberObject2.setDefault();
         numberObject3.setDefault();
+        numberObject4.setDefault();
     }
 
     private void startGameOverActivity() {
