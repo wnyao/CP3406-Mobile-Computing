@@ -3,24 +3,19 @@ package com.example.kongwenyao.educationalgame;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -43,6 +38,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
     //Variable for SharedPreferences
     private boolean sEnableSensor;
+    private boolean sMusicEnabled;
+
+    //Variable for music
+    private MediaPlayerManager mediaPlayerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         mainPlayer = new MainPlayer(this, PlayerState.REST_RIGHT);
         playerImageView.setImageDrawable(mainPlayer.getDrawable());
         facingDirection = PlayerState.REST_RIGHT;
-
     }
 
     @Override
@@ -72,6 +70,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         SharedPreferences sharedPreferences = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
         sEnableSensor = sharedPreferences.getBoolean(SettingsActivity.SENSOR_SETTINGS, true);
+        sMusicEnabled = sharedPreferences.getBoolean(SettingsActivity.MUSIC_SETTINGS, true);
+        musicInit();
     }
 
     @Override
@@ -108,7 +108,11 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
 
         //Set Initial Values
         playerPos = new PointF(playerImageView.getX(), playerImageView.getY());
-        playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());   //place after setImageDrawable()
+        playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());
+
+        if (!hasFocus) {
+            mediaPlayerManager.stop();
+        }
     }
 
     private float filterPosition(float x) {  //Position filter for sensor
@@ -162,6 +166,10 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         int id = item.getItemId();
         Intent intent;
 
+        if (sMusicEnabled) { //Stop background music
+            mediaPlayerManager.stop();
+        }
+
         if (id == R.id.game_settings) {
             intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
@@ -171,7 +179,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -197,8 +204,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         playerPos = new PointF(playerImageView.getX(), playerImageView.getY());   //Player ImageView top left coordinate
-        //System.out.println(String.format("%f %f", event.getX(), event.getY()));
-
         return true;
     }
 
@@ -246,6 +251,19 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         return playerState;
+    }
+
+    public MediaPlayerManager getMediaPlayerManager() {
+        return mediaPlayerManager;
+    }
+
+    private void musicInit() {
+        if (sMusicEnabled) {
+            mediaPlayerManager = new MediaPlayerManager(this);
+            mediaPlayerManager = new MediaPlayerManager(this);
+            mediaPlayerManager.create(R.raw.music_funny_jazz, true);
+            mediaPlayerManager.play();
+        }
     }
 
 }

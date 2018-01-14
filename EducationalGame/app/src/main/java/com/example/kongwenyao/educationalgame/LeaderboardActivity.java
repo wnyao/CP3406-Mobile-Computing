@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +13,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +22,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     private GridLayout leaderboardLayout;
     private LeaderboardDatabase db;
     private TextView textView1, textView2, textView3;
+    private MediaPlayerManager mediaPlayerManager;
+    private boolean musicEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,24 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //Process
         displayScoreRecords(db.getScoreRecords());
+        musicInit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        musicEnabled = sharedPreferences.getBoolean(SettingsActivity.MUSIC_SETTINGS, true);
+        musicInit();
+    }
+
+    private void musicInit() {
+        if (musicEnabled) {
+            mediaPlayerManager = new MediaPlayerManager(this);
+            mediaPlayerManager.create(R.raw.music_wii, true);
+            mediaPlayerManager.play();
+        }
     }
 
     @Override
@@ -54,9 +74,11 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        if (musicEnabled) {
+            mediaPlayerManager.stop();
+        }
 
-        if (id == R.id.back_to_game) {
+        if (item.getItemId() == R.id.back_to_game) {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
             return true;

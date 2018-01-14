@@ -13,8 +13,7 @@ import android.webkit.WebViewClient;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
-    public static final String EXTRA_URL = "EXTRA_URL";
-    private WebView webView;
+    public static final String AUTHENTICATION_URL = "EXTRA_URL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,18 +22,18 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         //Toolbar
         Toolbar toolbar = findViewById(R.id.authentication_toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("Twitter");
         setSupportActionBar(toolbar);
 
         //Get Intent
-        String url = getIntent().getStringExtra(EXTRA_URL);
+        String url = getIntent().getStringExtra(AUTHENTICATION_URL);
         if (url == null) {
             Log.e("twitter", "URL cannot be null");
             finish();
         }
 
         //Webview
-        webView = findViewById(R.id.webview);
+        WebView webView = findViewById(R.id.webview);
         webView.setWebViewClient(new MyWebViewClient());
         webView.loadUrl(url);
     }
@@ -51,10 +50,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.back_to_game:
-                //Intent intent = new Intent(this, GameOverActivity.class);
-                //startActivity(intent);
-
-                //TODO or just finish this activity
+                Intent intent = new Intent(this, GameOverActivity.class);
+                startActivity(intent);
                 break;
         }
 

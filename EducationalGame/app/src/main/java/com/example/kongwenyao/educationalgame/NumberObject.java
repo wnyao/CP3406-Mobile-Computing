@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-
 import java.util.Random;
 
 /**
@@ -72,8 +71,7 @@ public class NumberObject implements GameObject{
 
     public int generateRandNum(int max) {
         Random random = new Random();
-        int num = random.nextInt(max);
-        return num;
+        return (random.nextInt(max));
     }
 
     private int generateRandPosX(int width) {
@@ -93,7 +91,7 @@ public class NumberObject implements GameObject{
     private void resetCoordinate() {
         displayValue = generateRandNum(maxRandNum);
         posX = generateRandPosX(width);
-        posY = 0;
+        posY = -generateRandNum(height/2);
     }
 
     public void increaseDroppingSpeed() {

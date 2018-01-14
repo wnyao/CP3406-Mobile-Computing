@@ -10,10 +10,6 @@ public class Score {
     private int score;
     private String playerName;
 
-    public Score() {
-        //Empty constructor
-    }
-
     public Score(int id, String playerName, int score) {
         this.id = id;
         this.score = score;

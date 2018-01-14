@@ -41,6 +41,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private NumberObject numberObject2;
     private NumberObject numberObject3;
     private NumberObject numberObject4;
+    private NumberObject numberObject5;
     private GameRecord gameRecord;
 
     //Variables
@@ -90,6 +91,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject2 = new NumberObject();
         numberObject3 = new NumberObject();
         numberObject4 = new NumberObject();
+        numberObject5 = new NumberObject();
         gameRecord = new GameRecord();
 
         //Set Paint Object
@@ -165,10 +167,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject2.update();
         numberObject3.update();
         numberObject4.update();
+        numberObject5.update();
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject1);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject2);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject3);
         collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject4);
+        collisionDetection(GameActivity.playerPos, GameActivity.playerSize, numberObject5);
     }
 
     @Override
@@ -188,6 +192,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject2.draw(canvas);
         numberObject3.draw(canvas);
         numberObject4.draw(canvas);
+        numberObject5.draw(canvas);
     }
 
     private void collisionDetection(PointF playerPos, PointF playerSize, NumberObject numberObject) {
@@ -233,6 +238,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             numberObject2.increaseDroppingSpeed();
             numberObject3.increaseDroppingSpeed();
             numberObject4.increaseDroppingSpeed();
+            numberObject5.increaseDroppingSpeed();
             Toast.makeText(getContext(), "Speed has increased!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -264,6 +270,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         numberObject2.setDefault();
         numberObject3.setDefault();
         numberObject4.setDefault();
+        numberObject5.setDefault();
     }
 
     private void startGameOverActivity() {

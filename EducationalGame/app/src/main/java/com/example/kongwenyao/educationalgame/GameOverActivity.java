@@ -1,6 +1,7 @@
 package com.example.kongwenyao.educationalgame;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -15,14 +16,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.andexert.library.RippleView;
-
 import java.io.InputStream;
-
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -31,7 +31,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class GameOverActivity extends AppCompatActivity implements View.OnClickListener {
+public class GameOverActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     private static final String PREF_FILE = "SCORE_PREF_FILE";
 
@@ -58,6 +58,9 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    //Sound variable
+    private boolean musicEnabled;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +80,11 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
         scoreTextView = findViewById(R.id.score_TextView);
         nameEditText = findViewById(R.id.name_EditText);
         RippleView enterButton = findViewById(R.id.enter_Button);
+        LinearLayout linearLayout = findViewById(R.id.linear_viewgroup);
 
         //Event listener
+        nameEditText.setOnFocusChangeListener(this);
+        linearLayout.setOnClickListener(this);
         enterButton.setOnClickListener(this);
 
         getScoreFromIntent(); //Get score from GameActivity
@@ -93,12 +99,17 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
+        SharedPreferences sharedPreferences;
 
         if (score == 0) {   //If getIntent.getExtra return default score value
-            SharedPreferences sharedPreferences = getSharedPreferences(GameOverActivity.PREF_FILE, 0);
+            sharedPreferences = getSharedPreferences(GameOverActivity.PREF_FILE, 0);
             score = sharedPreferences.getInt("PREVIOUS_SCORE", 0);
             scoreTextView.setText(String.valueOf(score));
         }
+
+        sharedPreferences = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        musicEnabled = sharedPreferences.getBoolean(SettingsActivity.MUSIC_SETTINGS, true);
+        playGameOverSound();
     }
 
     @Override
@@ -179,6 +190,32 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
                 Intent intent = new Intent(this, LeaderboardActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.linear_viewgroup:
+                //Clear edittext focus
+                nameEditText.clearFocus();
+
+                //Close Keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.toggleSoftInput(0,0);
+                break;
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        int id = v.getId();
+
+        switch (id) {
+            case R.id.name_EditText:
+                if (v.hasFocus()) {
+                    nameEditText.setText(""); //clear edit text
+                } else {
+                    if (nameEditText.getText().length() == 0) {
+                        nameEditText.setText(getResources().getString(R.string.enter_your_name_label));
+                    }
+                }
+                break;
         }
     }
 
@@ -211,11 +248,19 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
 
             //Launch Authentication Activity
             Intent intent = new Intent(this, AuthenticationActivity.class);
-            intent.putExtra(AuthenticationActivity.EXTRA_URL, requestToken.getAuthenticationURL());
+            intent.putExtra(AuthenticationActivity.AUTHENTICATION_URL, requestToken.getAuthenticationURL());
             startActivityForResult(intent, AUTHENTICATE);
 
         } catch (TwitterException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void playGameOverSound() {
+        if (musicEnabled) {
+            MediaPlayerManager mediaPlayerManager = new MediaPlayerManager(this);
+            mediaPlayerManager.create(R.raw.sound_gameover, false);
+            mediaPlayerManager.play();
         }
     }
 

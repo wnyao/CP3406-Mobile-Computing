@@ -2,28 +2,33 @@ package com.example.kongwenyao.educationalgame;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     public static final String PREFS_NAME = "PREFS_FILE";
     public static final String SENSOR_SETTINGS = "ENABLE_SENSOR";
+    public static final String MUSIC_SETTINGS = "ENABLE_MUSIC";
 
     //View
     private SwitchCompat sEnableSensor;
+    private SwitchCompat sEnableMusic;
 
     //Global variable
+    private boolean musicEnabled;
     private boolean sensorEnabled;
     private boolean announcement = false;
+
+    //Background music
+    private MediaPlayerManager mediaPlayerManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,13 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
         //View assignment
         sEnableSensor = findViewById(R.id.setting_EnableSensor);
+        sEnableMusic = findViewById(R.id.setting_EnabeMusic);
 
         //EventListener
         sEnableSensor.setOnCheckedChangeListener(this);
+        sEnableMusic.setOnCheckedChangeListener(this);
+
+        musicInit();
     }
 
     @Override
@@ -50,10 +59,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         //Get settings from shared preferences
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
         sensorEnabled = sharedPreferences.getBoolean(SENSOR_SETTINGS, true);
+        musicEnabled = sharedPreferences.getBoolean(MUSIC_SETTINGS, true);
 
-        //Set setting
+        //Set switch combat setting
         sEnableSensor.setChecked(sensorEnabled);
-
+        sEnableMusic.setChecked(musicEnabled);
         announcement = true;
     }
 
@@ -64,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         //Save settings
         SharedPreferences.Editor sharedPreferences = getSharedPreferences(PREFS_NAME, 0).edit();
         sharedPreferences.putBoolean(SENSOR_SETTINGS, sensorEnabled);
+        sharedPreferences.putBoolean(MUSIC_SETTINGS, musicEnabled);
         sharedPreferences.apply(); //Apply commit
     }
 
@@ -75,9 +86,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        if (musicEnabled) {
+            mediaPlayerManager.stop();
+        }
 
-        if (id == R.id.back_to_game) {
+        if (item.getItemId() == R.id.back_to_game) {
             Intent intent = new Intent(this, GameActivity.class);
             startActivity(intent);
         }
@@ -99,10 +112,27 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                     snackbar = Snackbar.make(findViewById(R.id.setting_EnableSensor), R.string.enable_sensor_true, Snackbar.LENGTH_SHORT);
                 }
                 break;
+            case R.id.setting_EnabeMusic:
+                if (!isChecked) {
+                    musicEnabled = false;
+                    snackbar = Snackbar.make(findViewById(R.id.setting_EnabeMusic), R.string.enable_music_false, Snackbar.LENGTH_LONG);
+                    mediaPlayerManager.pause();
+                } else {
+                    musicEnabled = true;
+                    snackbar = Snackbar.make(findViewById(R.id.setting_EnabeMusic), R.string.enable_music_true, Snackbar.LENGTH_LONG);
+                    mediaPlayerManager.resume();
+                }
+                break;
         }
 
         if (announcement) {
+            assert snackbar != null;
             snackbar.show();
         }
+    }
+
+    private void musicInit() {
+        mediaPlayerManager = new MediaPlayerManager(this);
+        mediaPlayerManager.create(R.raw.music_wii, true);
     }
 }
