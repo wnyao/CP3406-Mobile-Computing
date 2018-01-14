@@ -62,7 +62,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
                     message = getResponseMsg(msgObject);
                     Toast.makeText(getContext(), message , Toast.LENGTH_LONG).show();
 
-                    if (gameRecord.getChances() == 0) { //If game over
+                    if (gameRecord.getChances() == 0) { //If chances equals 0
                         scoreValue = gameRecord.getScore();
                         resetGame(); //Set game to default
                         startGameOverActivity();

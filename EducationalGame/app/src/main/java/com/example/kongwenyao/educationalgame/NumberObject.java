@@ -19,7 +19,7 @@ public class NumberObject implements GameObject{
 
     //Global Variables
     private int width, height, displayValue;
-    private int droppingSpeed = 550;
+    private int droppingSpeed = 500;
     private int posX, posY;
     private boolean resetPos = false;
     private Paint textPaint;
