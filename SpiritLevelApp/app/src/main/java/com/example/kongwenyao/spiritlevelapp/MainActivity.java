@@ -16,17 +16,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
     private Sensor sensor;
 
-    private Rect horizontalRect, verticalRect;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mainView = findViewById(R.id.Main_View);
-        horizontalRect = mainView.getHorizontalRect();
-        verticalRect = mainView.getVerticalRect();
-
     }
 
     @Override

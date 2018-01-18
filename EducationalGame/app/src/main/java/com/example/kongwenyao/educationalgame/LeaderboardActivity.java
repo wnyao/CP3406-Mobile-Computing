@@ -105,7 +105,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             } else {
                 Score record = sortedRecords.get(i);
 
-                id = i + ". ";
+                id = (i + 1) + ". ";
                 name = record.getPlayerName();
                 score = String.valueOf(record.getScore());
             }

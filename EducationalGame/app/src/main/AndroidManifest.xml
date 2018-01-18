@@ -33,7 +33,7 @@
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".GameOverActivity" />
-        <activity android:name=".AuthenticationActivity"></activity>
+        <activity android:name=".AuthenticationActivity" />
     </application>
 
 </manifest>
