@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">EducationalGameApp</string>
-    <string name="scores">Score</string>
-    <string name="settings">Settings</string>
-    <string name="leaderboard">Leaderboard</string>
-    <string name="play">Play</string>
-</resources>
