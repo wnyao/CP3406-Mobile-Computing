@@ -20,6 +20,6 @@ This repository contains completed CP3406 Mobile Computing weekly programming ch
 * Week9: Assignment Two
 
 ### Personal Project:
-* Assignment1: WeatherToday
+* Assignment1: UtilityApp (WeatherToday)
 * Assignment2: EducationalGame (SumUp!)
 
