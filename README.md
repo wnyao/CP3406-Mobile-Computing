@@ -1,11 +1,11 @@
 # CP3406-Mobile-Computing
-###University: 
+### University: 
 * James Cook University
 
-###Author: 
+### Author: 
 * wnyao
 
-###Description
+### Description
 This repository contains completed CP3406 Mobile Computing weekly programming challenges and course assignments. 
 
 ### Weekly Challenges and Assignments
@@ -19,7 +19,7 @@ This repository contains completed CP3406 Mobile Computing weekly programming ch
 * Week8: SpiritLevelApp
 * Week9: Assignment Two
 
-###Personal Project:
+### Personal Project:
 * Assignment1: WeatherToday
 * Assignment2: EducationalGame (SumUp!)
 
