@@ -5,10 +5,10 @@
 ### Author: 
 * wnyao
 
-### Description
+### Description:
 This repository contains completed CP3406 Mobile Computing weekly programming challenges and course assignments. 
 
-### Weekly Challenges and Assignments
+### Weekly Challenges and Assignments:
 * Week1: MyDiet
 * Week2: QuickSum
 * Week3: GuessingGameApp
