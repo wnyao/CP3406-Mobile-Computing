@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">TwitterDemoMy</string>
+    <string name="authorize">authorize</string>
+    <string name="login_instructions">login_instructions</string>
+
+    <string name="twitter_callback">http://crunchycodes.net</string>
+    <string name="twitter_consumer_key">Put your key here</string>
+    <string name="twitter_consumer_secret">Put you key value here</string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <string name="hello">Hello</string>
+    <string name="share">Share</string>
+    <string name="share_instructions">share_instructions</string>
+
+</resources>
