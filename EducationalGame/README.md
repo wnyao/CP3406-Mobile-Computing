@@ -1,7 +1,7 @@
 # EducationalGame: Sum Up!
 
 ### Description:
-SumUp! is an educational game designed to be an android application. The game supports fundamental aspect of mathematics (addition) and is designed with the mind to help boost quick mathematical thinking among players, especially children. 
+SumUp! is an educational game that built for android platform. The game supports fundamental aspect of mathematics (addition) and is designed with the mind to help players, especially children, in building up quick mathematical thinking. 
 
 ### Version:
 - 1.0
