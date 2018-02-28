@@ -35,7 +35,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Bitmap treeBitmap;
     private float treeBitmapPosX, treeBitmapPosY;
 
-    //Objects
+    //Game Objects
     private GameThread gameThread;
     private NumberObject numberObject1;
     private NumberObject numberObject2;
@@ -187,7 +187,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawText(String.valueOf(targetValue), getWidth()/2, 300, textPaint); //Target value
         canvas.drawText(String.valueOf(gameRecord.calculateTotal()), 110, 140, textPaint1); //Current value
 
-        //Dropping Object
+        //Number Objects
         numberObject1.draw(canvas);
         numberObject2.draw(canvas);
         numberObject3.draw(canvas);
