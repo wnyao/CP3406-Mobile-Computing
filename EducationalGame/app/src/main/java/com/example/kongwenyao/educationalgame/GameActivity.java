@@ -110,7 +110,8 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         playerPos = new PointF(playerImageView.getX(), playerImageView.getY());
         playerSize = new PointF(playerImageView.getWidth(), playerImageView.getHeight());
 
-        if (!hasFocus) {
+        //Stop music when window focus changed and music setting is on
+        if (!hasFocus && sMusicEnabled) {
             mediaPlayerManager.stop();
         }
     }
