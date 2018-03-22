@@ -24,4 +24,4 @@ This repository contains completed CP3406 Mobile Computing weekly programming ch
 * Assignment2: EducationalGame (SumUp!)
 
 ### License:
-GNU General Public License v3.0
+* GNU General Public License v3.0
