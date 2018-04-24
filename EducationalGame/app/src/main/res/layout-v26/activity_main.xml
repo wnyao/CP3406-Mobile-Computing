@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:paddingVertical="50dp"
-    android:background="@color/colorBackground"
+    android:background="@drawable/main_background_1"
     tools:context="com.example.kongwenyao.educationalgame.MainActivity">
 
     <ImageView

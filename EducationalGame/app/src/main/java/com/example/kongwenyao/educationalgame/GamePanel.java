@@ -32,7 +32,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private static final int CURRENT_VAL_TEXT_SIZE = 90;
 
     //Canvas graphic
-    private Bitmap treeBitmap;
+    private Bitmap treeBitmap, backgroundBitmap;
     private float treeBitmapPosX, treeBitmapPosY;
 
     //Game Objects
@@ -105,10 +105,13 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         gameThread.setRunning(true);
         gameThread.start();
 
-        //Get tree bitmap
+        //Get tree in bitmap
         treeBitmap = decodeDrawableToBitmap(R.drawable.image_tree);
         treeBitmapPosX = (-getBitmapWidth(R.drawable.image_tree) + 250) /2;
         treeBitmapPosY = getHeight() - getBitmapHeight(R.drawable.image_tree);
+
+        //Get background in bitmap
+        backgroundBitmap = decodeDrawableToBitmap(R.drawable.main_background_2);
     }
 
     @Override
@@ -180,7 +183,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         //GamePanel Graphic
-        canvas.drawColor(Color.parseColor(CANVAS_COLOR)); //Background color
+        //canvas.drawColor(Color.parseColor(CANVAS_COLOR)); //Background color
+        canvas.drawBitmap(backgroundBitmap, 0,0,null); //Background wallpaper bitmap
         canvas.drawBitmap(treeBitmap, treeBitmapPosX, treeBitmapPosY, treeGraphicPaint); //Tree bitmap
         canvas.drawRoundRect(new RectF(-100, -80, 250, 270), 700, 700, graphicPaint1); //Top left circle background
         canvas.drawRoundRect(new RectF(-100, -100, 250, 250), 700, 700, graphicPaint); //Top left circle

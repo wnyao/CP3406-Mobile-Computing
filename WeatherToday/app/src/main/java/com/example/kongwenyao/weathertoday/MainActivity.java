@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
         float dateTextSize = dateView.getTextSize();
 
         if (enlarge) {
-            if ((conditionTextSize/sp) != 34) { //if text size not equal to enlarged value
+            if ((conditionTextSize/sp) != 34) { //if text size not equal to 'enlarged value'
                 conditionView.setTextSize((conditionTextSize + enlargeVal) / sp);
                 locationView.setTextSize((locationTextSize + enlargeVal) / sp);
                 dateView.setTextSize((dateTextSize + enlargeVal) / sp);
             }
         } else {
-            if ((conditionTextSize/sp) != 29) {   //if text size not equal to not enlarged value
+            if ((conditionTextSize/sp) != 29) {   //if text size not equal to 'not enlarged value'
                 conditionView.setTextSize((conditionTextSize - enlargeVal) / sp);
                 locationView.setTextSize((locationTextSize - enlargeVal) / sp);
                 dateView.setTextSize((dateTextSize - enlargeVal) / sp);

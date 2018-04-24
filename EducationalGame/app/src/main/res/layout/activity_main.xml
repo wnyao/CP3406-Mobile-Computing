@@ -9,7 +9,7 @@
     android:layout_gravity="center"
     android:paddingTop="50dp"
     android:paddingBottom="50dp"
-    android:background="@color/colorBackground"
+    android:background="@drawable/main_background_1"
     tools:context="com.example.kongwenyao.educationalgame.MainActivity">
 
     <ImageView
