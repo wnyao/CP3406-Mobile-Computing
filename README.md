@@ -20,8 +20,8 @@ This repository contains completed CP3406 Mobile Computing weekly programming ch
 * Week9: EducationalGame (SumUp!)
 
 ### Personal Project:
-* Assignment1: UtilityApp (WeatherToday)
-* Assignment2: EducationalGame (SumUp!)
+* UtilityApp (WeatherToday)
+* EducationalGame (SumUp!)
 
 ### License:
 * GNU General Public License v3.0
