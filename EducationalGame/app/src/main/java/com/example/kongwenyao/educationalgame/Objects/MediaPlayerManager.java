@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.Objects;
 
 import android.content.Context;
 import android.media.MediaPlayer;

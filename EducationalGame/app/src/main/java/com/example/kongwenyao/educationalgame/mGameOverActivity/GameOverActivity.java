@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mGameOverActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,6 +23,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.andexert.library.RippleView;
+import com.example.kongwenyao.educationalgame.mAuthenticationActivity.AuthenticationActivity;
+import com.example.kongwenyao.educationalgame.mGameActivity.GameActivity;
+import com.example.kongwenyao.educationalgame.mLeaderboardActivity.LeaderboardActivity;
+import com.example.kongwenyao.educationalgame.mLeaderboardActivity.LeaderboardDatabase;
+import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
+import com.example.kongwenyao.educationalgame.R;
+import com.example.kongwenyao.educationalgame.Objects.Score;
+import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity;
+
 import java.io.InputStream;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -67,7 +76,7 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        //Enabling strinct mode
+        //Enabling strict mode
         StrictMode.ThreadPolicy threadPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(threadPolicy);
         setContentView(R.layout.activity_game_over);

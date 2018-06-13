@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.Objects;
 
 /**
  * Created by kongwenyao on 1/9/18.

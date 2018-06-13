@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mGameActivity;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;

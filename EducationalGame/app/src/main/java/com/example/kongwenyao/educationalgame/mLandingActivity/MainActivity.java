@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mLandingActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +9,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.andexert.library.RippleView;
+import com.example.kongwenyao.educationalgame.mGameActivity.GameActivity;
+import com.example.kongwenyao.educationalgame.mLeaderboardActivity.LeaderboardActivity;
+import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
+import com.example.kongwenyao.educationalgame.R;
+import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

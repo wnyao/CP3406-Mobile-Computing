@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.Enum;
 
 /**
  * Created by kongwenyao on 1/5/18.

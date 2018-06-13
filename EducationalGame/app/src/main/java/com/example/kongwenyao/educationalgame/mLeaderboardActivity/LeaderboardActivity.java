@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mLeaderboardActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
+import com.example.kongwenyao.educationalgame.mGameActivity.GameActivity;
+import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
+import com.example.kongwenyao.educationalgame.R;
+import com.example.kongwenyao.educationalgame.Objects.Score;
+import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,7 +48,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         db = new LeaderboardDatabase(this);
 
         //FOR TESTING ONLY
-        //db.clearAllScoreRecords();
+        db.clearAllScoreRecords();
         //test();
 
         //Process
@@ -95,7 +102,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             //Get text
             String id, name, score;
-            if (i == -1) {  //Set Title
+            if (i == -1) {  //Set heading of leader board
                 textView1.setPadding(100, 100, 50, 50);
                 textView2.setPadding(100, 80, 50, 50);
                 textView3.setPadding(100, 80, 50, 50);
@@ -158,9 +165,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         textView1.setTextAppearance(R.style.Leaderboard_textStyle);
         textView2.setTextAppearance(R.style.Leaderboard_textStyle);
         textView3.setTextAppearance(R.style.Leaderboard_textStyle);
-        textView1.setPadding(100, 50, 50, 50);
-        textView2.setPadding(50, 50, 130, 50);
-        textView3.setPadding(100, 50, 100, 50);
+        textView1.setPadding(120, 50, 50, 50);
+        textView2.setPadding(100, 50, 50, 50);
+        textView3.setPadding(200, 50, 100, 50);
         textView1.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textView2.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textView3.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -172,7 +179,6 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         Score score2 = new Score(2, "James", 3);
         check(score2);
-
     }
 
     public void check(Score score) { //This method is for testing purposes

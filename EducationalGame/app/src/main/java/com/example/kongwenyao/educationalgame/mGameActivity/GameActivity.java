@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mGameActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,6 +17,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.example.kongwenyao.educationalgame.mLeaderboardActivity.LeaderboardActivity;
+import com.example.kongwenyao.educationalgame.Objects.MainPlayer;
+import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
+import com.example.kongwenyao.educationalgame.Enum.PlayerState;
+import com.example.kongwenyao.educationalgame.R;
+import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity;
 
 import java.util.Objects;
 
@@ -252,10 +258,6 @@ public class GameActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         return playerState;
-    }
-
-    public MediaPlayerManager getMediaPlayerManager() {
-        return mediaPlayerManager;
     }
 
     private void musicInit() {

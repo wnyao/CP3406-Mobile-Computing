@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/main_background_2"
-    tools:context="com.example.kongwenyao.educationalgame.SettingsActivity">
+    tools:context="com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

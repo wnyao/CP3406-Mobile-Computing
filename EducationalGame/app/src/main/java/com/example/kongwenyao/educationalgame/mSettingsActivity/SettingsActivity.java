@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mSettingsActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+
+import com.example.kongwenyao.educationalgame.mGameActivity.GameActivity;
+import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
+import com.example.kongwenyao.educationalgame.R;
 
 public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 

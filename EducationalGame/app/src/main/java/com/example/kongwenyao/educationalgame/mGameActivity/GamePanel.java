@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mGameActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,12 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
+
+import com.example.kongwenyao.educationalgame.mGameOverActivity.GameOverActivity;
+import com.example.kongwenyao.educationalgame.Objects.GameRecord;
+import com.example.kongwenyao.educationalgame.Objects.NumberObject;
+import com.example.kongwenyao.educationalgame.R;
+import com.example.kongwenyao.educationalgame.Enum.Total;
 
 /**
  * Created by kongwenyao on 1/4/18.

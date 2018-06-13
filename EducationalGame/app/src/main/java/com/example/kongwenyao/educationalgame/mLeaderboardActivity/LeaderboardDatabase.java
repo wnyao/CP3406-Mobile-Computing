@@ -1,10 +1,13 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mLeaderboardActivity;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.kongwenyao.educationalgame.Objects.Score;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +33,10 @@ public class LeaderboardDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String create_contacts_table = "CREATE TABLE " + TABLE_SCORE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+        String create_score_table = "CREATE TABLE " + TABLE_SCORE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT," + KEY_SCORE + " INTEGER)";
 
-        db.execSQL(create_contacts_table);
+        db.execSQL(create_score_table);
     }
 
     @Override

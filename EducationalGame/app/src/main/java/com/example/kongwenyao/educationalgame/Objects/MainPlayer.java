@@ -1,8 +1,11 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.Objects;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+
+import com.example.kongwenyao.educationalgame.Enum.PlayerState;
+import com.example.kongwenyao.educationalgame.R;
 
 /**
  * Created by kongwenyao on 1/5/18.

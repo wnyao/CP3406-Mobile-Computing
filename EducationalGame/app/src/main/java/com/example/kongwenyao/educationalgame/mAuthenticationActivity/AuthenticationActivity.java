@@ -1,4 +1,4 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.mAuthenticationActivity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.example.kongwenyao.educationalgame.mGameOverActivity.GameOverActivity;
+import com.example.kongwenyao.educationalgame.R;
 
 public class AuthenticationActivity extends AppCompatActivity {
 

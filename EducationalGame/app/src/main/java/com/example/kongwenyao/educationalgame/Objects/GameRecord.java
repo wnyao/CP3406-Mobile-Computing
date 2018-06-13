@@ -1,4 +1,6 @@
-package com.example.kongwenyao.educationalgame;
+package com.example.kongwenyao.educationalgame.Objects;
+
+import com.example.kongwenyao.educationalgame.Enum.Total;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ public class GameRecord {
 
     private List<Object> values;
     private int score = 0;
-    private int chances = 5;
+    private int chances = 1;
 
     public GameRecord() {
         values = new ArrayList<>();
