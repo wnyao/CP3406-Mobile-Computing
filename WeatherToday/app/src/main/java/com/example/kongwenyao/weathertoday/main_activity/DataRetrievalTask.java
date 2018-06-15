@@ -89,7 +89,7 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
 
             if (jsonTexts.containsKey(HOURLY)) {
                 jsonObject = new JSONObject(jsonTexts.get(HOURLY));
-                Map<String, String[]> hourlyWeather = getWeatherHourly(jsonObject);
+                Map<String, String[]> hourlyWeather = getWeatherHourly(jsonObject, isFahrenheit);
                 onDataSendToActivity.onDataHourlySend(hourlyWeather);
             }
 
@@ -98,7 +98,7 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
         }
     }
 
-    private Map<String, String[]> getWeatherHourly(JSONObject jsonObj) throws JSONException, IOException {
+    private Map<String, String[]> getWeatherHourly(JSONObject jsonObj, boolean isFahrenheit) throws JSONException {
         String condition, time, temp, uvIndex, humidity, sky;
         JSONObject forecastData;
 
@@ -111,19 +111,30 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
             //Get Data
             condition = forecastData.getString("condition"); //Eg. "Chance of Thunderstorm"
             time = forecastData.getJSONObject("FCTTIME").getString("civil"); //Eg. "5:00 PM"
-            temp = forecastData.getJSONObject("temp").getString("english");
-            uvIndex = forecastData.getString("uvi");
             humidity = forecastData.getString("humidity");
+            uvIndex = forecastData.getString("uvi");
             sky = forecastData.getString("sky");
 
+            if (isFahrenheit) {
+                temp = forecastData.getJSONObject("temp").getString("english");
+                temp = appendFahrenheitSymbol(temp);
+            } else {
+                temp = forecastData.getJSONObject("temp").getString("metric");
+                temp = appendCelsiusSymbol(temp);
+            }
+
+            //Post processing data
             time = processTimeFormat(time); //Process time format
+            humidity = humidity + "%";
+            sky = sky + "%";
+
             weatherHourly.put(String.valueOf(i), new String[]{condition, time, temp, uvIndex, humidity, sky});
         }
         return weatherHourly;
     }
 
     //Process time format for weather hourly data
-    public String processTimeFormat(String time) {
+    private String processTimeFormat(String time) {
         if (time.charAt(1) == ':') {
             time = time.charAt(0) + time.replaceAll("[:\\d+]", "");
         } else {
@@ -155,7 +166,7 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
     }
 
     //Append temperature with celsius symbol
-    private String appendCelsiusSymbol(String temp) {
+    public String appendCelsiusSymbol(String temp) {
         return temp + " \u2103";
     }
 

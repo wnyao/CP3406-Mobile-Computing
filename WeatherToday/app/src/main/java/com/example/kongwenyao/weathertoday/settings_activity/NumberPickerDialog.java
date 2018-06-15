@@ -16,6 +16,7 @@ import android.widget.NumberPicker;
 import com.example.kongwenyao.weathertoday.R;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 /**
  * NumberPickerDialog.class contains override of onCreateDialog() that create custom NumberPicker
@@ -38,7 +39,7 @@ public class NumberPickerDialog extends DialogFragment {
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(5);
         numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);   //Turn off keyboard
-        numberPicker.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground2));
+        numberPicker.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorBackground2));
         setNumberPickerTextColor(numberPicker, ContextCompat.getColor(getContext(), R.color.colorBlack));   //Set text color of number picker values
 
         //Create alert dialog
@@ -46,6 +47,7 @@ public class NumberPickerDialog extends DialogFragment {
         builder.setTitle("Choose Value ");
         builder.setMessage("Choose an interval: ");
 
+        //Positive button of alert dialog
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -53,6 +55,7 @@ public class NumberPickerDialog extends DialogFragment {
             }
         });
 
+        //Negative button of alert dialog
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {}
@@ -62,18 +65,14 @@ public class NumberPickerDialog extends DialogFragment {
         return builder.create();
     }
 
-    /**
-     *  Setter method for variable, valueChangeListener
-     *
-     *  @param valueChangeListener OnValueChangeListener that listens for changes of current value
-     */
+    //Setter for valueChangeListener
     public void setValueChangeListener(NumberPicker.OnValueChangeListener valueChangeListener) {
         this.valueChangeListener = valueChangeListener;
     }
 
 
     /**
-     *  This method sets text color of EditText widgets within a NumberPicker widget.
+     *  Set text color of EditText widget within a NumberPicker widget.
      *
      *  @param numberPicker NumberPicker widget
      *  @param color Hex color code

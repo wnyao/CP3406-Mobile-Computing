@@ -1,7 +1,10 @@
 package com.example.kongwenyao.weathertoday.main_activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.kongwenyao.weathertoday.HourlyForecastActivity;
 import com.example.kongwenyao.weathertoday.InfoActivity;
 import com.example.kongwenyao.weathertoday.R;
 import com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity;
@@ -21,6 +25,7 @@ import com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +51,7 @@ import pl.droidsonroids.gif.GifImageView;
  * Created by kongwenyao on 12/9/17.
  */
 
-public class MainActivity extends AppCompatActivity implements OnDataSendToActivity {
+public class MainActivity extends AppCompatActivity implements OnDataSendToActivity, View.OnClickListener {
 
     private LinearLayout linearLayout;
     private GifImageView weatherView;
@@ -55,7 +60,14 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     private TextView dateView;
     private TextView tempView;
 
-    private final String GIF_TYPE = "gif";
+    public static final String GIF_TYPE = "gif";
+    private Map<String, String[]> hourlyForecastData;
+
+    //Keys
+    public static final String FORECAST = "FORECAST";
+    public static final String LOCATION = "LOCATION";
+    public static final String DATE = "DATE";
+    public static final String PREFS_NAME = "PREFS_FILE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,20 +89,17 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
 
     @Override
     public void onStart() {
-        final String PREFS_NAME = "PREFS_FILE";
-
         //Shared Preferences
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, 0);
         boolean isFahrenheit = sharedPreferences.getBoolean("FAHRENHEIT_SWITCH", false);
-        //storedInterVal = sharedPreferences.getInt("HOURLY_INTERVAL", 2);
         boolean enlargedVal = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
-        EnlargedTextSetting(enlargedVal);
+        EnlargedTextSetting(enlargedVal, this);
 
         //Data Retrieve Process
-        final String weatherConditions = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
+        final String weatherToday = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
         final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
         DataRetrievalTask dataRetrieval = new DataRetrievalTask(this, isFahrenheit);
-        dataRetrieval.execute(weatherConditions, weatherHourly);
+        dataRetrieval.execute(weatherToday, weatherHourly);
 
         super.onStart();
     }
@@ -122,13 +131,18 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         }
     }
 
-    //TODO: test
-    public void EnlargedTextSetting(boolean enlarge) {
-        float sp = getResources().getDisplayMetrics().scaledDensity;
+    //TODO: bug fix required
+    public void EnlargedTextSetting(boolean enlarge, Activity activity) {
+        float sp = activity.getResources().getDisplayMetrics().scaledDensity;
         final int enlargeVal = 15;
 
+        //Get view references
+        TextView conditionView = activity.findViewById(R.id.condition_view);
+        TextView locationView = activity.findViewById(R.id.location_view);
+        TextView dateView = activity.findViewById(R.id.date_view);
+
         //Get current text size in actual pixel
-        float conditionTextSize = conditionView.getTextSize();
+        float conditionTextSize = conditionView.getTextSize();;
         float locationTextSize = locationView.getTextSize();
         float dateTextSize = dateView.getTextSize();
 
@@ -151,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     @Override
     public void onDataTodaySend(String[] data) throws IOException, JSONException {
         //Get drawable id
-        int weatherImageID = getWeatherImageID(data[3], GIF_TYPE);
+        int weatherImageID = getWeatherImageID(data[3], GIF_TYPE, this);
 
         //Set views
         weatherView.setImageResource(weatherImageID);
@@ -162,8 +176,8 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     }
 
     //Get drawable Id based on weather condition and image types
-    private int getWeatherImageID(String condition, String imageType) throws IOException, JSONException {
-        JSONObject weatherKeywords = getWeatherKeywords();
+    public int getWeatherImageID(String condition, String imageType, Activity activity) throws IOException, JSONException {
+        JSONObject weatherKeywords = getWeatherKeywords(activity.getResources());
         JSONArray weatherTypes = weatherKeywords.names(); //Get key values within JSON Object
         condition = condition.toLowerCase();
         int weatherID = 0;
@@ -175,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
             for (int j = 0; j < keywords.length(); j++) {
                 if (condition.contains(keywords.getString(j).toLowerCase())) {
                     if (imageType.equals(GIF_TYPE)) {
-                        weatherID = getResources().getIdentifier("weather_" + weather,
-                                "drawable", getPackageName());
+                        weatherID = activity.getResources().getIdentifier("weather_" + weather,
+                                "drawable", activity.getPackageName());
                         break;
                     } else {
-                        weatherID = getResources().getIdentifier("icon_" + weather,
-                                "drawable", getPackageName());
+                        weatherID = activity.getResources().getIdentifier("icon_" + weather,
+                                "drawable", activity.getPackageName());
                     }
                 }
             }
@@ -189,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     }
 
     //Get weather keywords in JSONObject, from raw resources
-    private JSONObject getWeatherKeywords() throws IOException, JSONException {
-        InputStream inputStream = getResources().openRawResource(R.raw.weather_keywords);
+    private JSONObject getWeatherKeywords(Resources resources) throws IOException, JSONException {
+        InputStream inputStream = resources.openRawResource(R.raw.weather_keywords);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -209,14 +223,15 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         LinearLayout linearLayout;
         String[] hourlyData;
 
+        hourlyForecastData = data;
         for (int i = 0; i < data.size(); i++) {
 
             //Get hourly data
             hourlyData = data.get(String.valueOf(i)); //Eg. {condition, time, temp, uvIndex, humidity, sky}
-            int drawableID = getWeatherImageID(hourlyData[0], "icon"); //get drawable Id
+            int drawableID = getWeatherImageID(hourlyData[0], "icon", this); //get drawable Id
 
             //Create views
-            linearLayout = createLinearLayout();
+            linearLayout = createLinearLayout(String.valueOf(i));
             textView = createTextView(hourlyData[1]);
             imageView = createImageView(drawableID);
 
@@ -227,16 +242,20 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         }
     }
 
-    private LinearLayout createLinearLayout() {
+    private LinearLayout createLinearLayout(String tag) {
         LinearLayout linearLayout = new LinearLayout(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         //View parameters
         params.setMargins(40, 0, 40, 0);
+        linearLayout.setTag(tag);
         linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Gravity.CENTER_VERTICAL);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        //Set onclick listener
+        linearLayout.setOnClickListener(this);
         return linearLayout;
     }
 
@@ -261,6 +280,22 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         imageView.setLayoutParams(params);
         imageView.setImageDrawable(this.getDrawable(drawableId));
         return imageView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getTag() != null) {
+            int index = Integer.parseInt((String) v.getTag());
+
+            String[] forecast = hourlyForecastData.get(String.valueOf(index)); //Eg. {condition, time, temp, uvIndex, humidity, sky}
+
+            //Intent
+            Intent intent = new Intent(this, HourlyForecastActivity.class);
+            intent.putExtra(FORECAST, forecast);
+            intent.putExtra(LOCATION, locationView.getText());
+            intent.putExtra(DATE, dateView.getText());
+            startActivity(intent);
+        }
     }
 
 }
