@@ -13,7 +13,7 @@ public class GameRecord {
 
     private List<Object> values;
     private int score = 0;
-    private int chances = 1;
+    private int chances = 5; //Number of chances before game over
 
     public GameRecord() {
         values = new ArrayList<>();
