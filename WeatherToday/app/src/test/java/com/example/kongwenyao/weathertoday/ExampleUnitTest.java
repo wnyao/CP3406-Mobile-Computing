@@ -1,5 +1,7 @@
 package com.example.kongwenyao.weathertoday;
 
+import com.example.kongwenyao.weathertoday.main_activity.MainActivity;
+
 import org.junit.Test;
 
 import java.util.Map;

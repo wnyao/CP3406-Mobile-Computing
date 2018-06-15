@@ -14,8 +14,4 @@
         android:title="@string/option_menu_title"
         app:showAsAction="always"/>
 
-    <!-- Settings, should always be in the overflow
-    <item android:id="@+id/action_menu"
-        android:title="Menu"
-        app:showAsAction="never"/> -->
 </menu>

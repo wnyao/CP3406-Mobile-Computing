@@ -1,4 +1,4 @@
-package com.example.kongwenyao.weathertoday;
+package com.example.kongwenyao.weathertoday.settings_activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import com.example.kongwenyao.weathertoday.R;
 
 /**
  * SettingsActivity.class contains setting functions for MainActivity.class with listeners for

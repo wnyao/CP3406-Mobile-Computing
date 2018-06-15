@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
-    tools:context="com.example.kongwenyao.weathertoday.MainActivity">
+    tools:context="com.example.kongwenyao.weathertoday.main_activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -19,33 +19,34 @@
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/weather_Imageview"
         android:layout_width="wrap_content"
-        android:layout_height="405dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/weather_rainy"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.155" />
+        app:layout_constraintVertical_bias="0.25" />
 
     <TextView
         android:id="@+id/location_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="88dp"
         android:text="@string/location_label_eg"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
-        android:textSize="33sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/date_view"
@@ -54,7 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/day_date_eg"
-        android:textSize="29sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +79,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
+        app:layout_constraintVertical_bias="0.64" />
 
     <TextView
         android:id="@+id/condition_view"
@@ -101,15 +102,12 @@
         app:layout_constraintTop_toBottomOf="@+id/temperature_view"
         app:layout_constraintVertical_bias="0.004" />
 
-    <GridLayout
-        android:id="@+id/sub_weathers_layout"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_margin="0dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorBackgroud2"
-        android:columnCount="3"
-        android:rowCount="2"
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:scrollbars="none"
+        android:background="@color/colorBackground2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -117,68 +115,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
-            android:id="@+id/sub_weather_0"
+        <LinearLayout
+            android:id="@+id/linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="20sp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/icon_snowy" />
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/sub_weather_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="20sp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/icon_sunny" />
-
-        <ImageView
-            android:id="@+id/sub_weather_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="center"
-            android:layout_marginTop="20sp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/icon_cloudy" />
-
-        <TextView
-            android:id="@+id/sub_label_0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="top"
-            android:text="@string/sub_label_example1"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/sub_label_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="top"
-            android:text="@string/sub_label_example2"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/sub_label_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="top"
-            android:text="@string/sub_label_example3"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </GridLayout>
+    </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>

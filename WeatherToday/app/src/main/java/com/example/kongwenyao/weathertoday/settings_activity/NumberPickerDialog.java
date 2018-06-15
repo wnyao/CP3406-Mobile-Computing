@@ -1,4 +1,4 @@
-package com.example.kongwenyao.weathertoday;
+package com.example.kongwenyao.weathertoday.settings_activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+
+import com.example.kongwenyao.weathertoday.R;
 
 import java.lang.reflect.Field;
 
@@ -36,7 +38,7 @@ public class NumberPickerDialog extends DialogFragment {
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(5);
         numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);   //Turn off keyboard
-        numberPicker.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackgroud2));
+        numberPicker.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBackground2));
         setNumberPickerTextColor(numberPicker, ContextCompat.getColor(getContext(), R.color.colorBlack));   //Set text color of number picker values
 
         //Create alert dialog

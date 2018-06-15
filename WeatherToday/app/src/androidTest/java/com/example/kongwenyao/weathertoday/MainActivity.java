@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public JSONObject getWeathersKeywords() throws IOException, JSONException {
-            InputStream inputStream = getResources().openRawResource(R.raw.weathers_keywords);
+            InputStream inputStream = getResources().openRawResource(R.raw.weather_keywords);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder = new StringBuilder();
 

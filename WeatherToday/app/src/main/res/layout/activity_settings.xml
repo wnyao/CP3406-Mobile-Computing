@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="com.example.kongwenyao.weathertoday.SettingsActivity">
+        tools:context="com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

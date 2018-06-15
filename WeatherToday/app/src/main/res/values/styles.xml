@@ -20,13 +20,21 @@
     <style name="AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:textColor">@color/colorBlack</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@color/colorBackgroud2</item>
+        <item name="android:background">@color/colorBackground2</item>
     </style>
 
     <style name="Image_Icon_Label">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <!-- Text style for horizontal scrollview -->
+    <style name="textView_textStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>
