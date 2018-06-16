@@ -131,35 +131,34 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         }
     }
 
-    //TODO: bug fix required
+    //Enlarged text based on trigger in the setting
     public void EnlargedTextSetting(boolean enlarge, Activity activity) {
         float sp = activity.getResources().getDisplayMetrics().scaledDensity;
-        final int enlargeVal = 15;
+        final int enlargeVal = 2; //Enlarge 2sp
 
         //Get view references
         TextView conditionView = activity.findViewById(R.id.condition_view);
         TextView locationView = activity.findViewById(R.id.location_view);
         TextView dateView = activity.findViewById(R.id.date_view);
 
-        //Get current text size in actual pixel
-        float conditionTextSize = conditionView.getTextSize();;
-        float locationTextSize = locationView.getTextSize();
-        float dateTextSize = dateView.getTextSize();
+        //Get current text size in sp
+        float conditionTextSize = (int) (conditionView.getTextSize()/ sp);
+        float locationTextSize = locationView.getTextSize()/ sp;
+        float dateTextSize = dateView.getTextSize()/ sp;
 
         if (enlarge) {
-            if ((conditionTextSize/sp) != 34) { //if text size not equal to 'enlarged value'
-                conditionView.setTextSize((conditionTextSize + enlargeVal) / sp);
-                locationView.setTextSize((locationTextSize + enlargeVal) / sp);
-                dateView.setTextSize((dateTextSize + enlargeVal) / sp);
+            if (conditionTextSize != 31) { //if text size has not enlarge to specific size
+                conditionView.setTextSize(conditionTextSize + enlargeVal);
+                locationView.setTextSize(locationTextSize + enlargeVal);
+                dateView.setTextSize(dateTextSize + enlargeVal);
             }
         } else {
-            if ((conditionTextSize/sp) != 29) {   //if text size not equal to 'not enlarged value'
-                conditionView.setTextSize((conditionTextSize - enlargeVal) / sp);
-                locationView.setTextSize((locationTextSize - enlargeVal) / sp);
-                dateView.setTextSize((dateTextSize - enlargeVal) / sp);
+            if (conditionTextSize != 29) { //if text size has not scaled to not enlarged size
+                conditionView.setTextSize(conditionTextSize - enlargeVal);
+                locationView.setTextSize(locationTextSize - enlargeVal);
+                dateView.setTextSize(dateTextSize - enlargeVal);
             }
         }
-
     }
 
     @Override
