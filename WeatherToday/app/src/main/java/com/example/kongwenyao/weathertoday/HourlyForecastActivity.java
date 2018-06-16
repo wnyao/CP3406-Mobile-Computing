@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
 import com.example.kongwenyao.weathertoday.main_activity.MainActivity;
-import com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity;
+
 import org.json.JSONException;
 import java.io.IOException;
 import pl.droidsonroids.gif.GifImageView;

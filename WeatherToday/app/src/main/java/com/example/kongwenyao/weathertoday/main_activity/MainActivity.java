@@ -1,14 +1,12 @@
 package com.example.kongwenyao.weathertoday.main_activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +18,11 @@ import android.widget.TextView;
 import com.example.kongwenyao.weathertoday.HourlyForecastActivity;
 import com.example.kongwenyao.weathertoday.InfoActivity;
 import com.example.kongwenyao.weathertoday.R;
-import com.example.kongwenyao.weathertoday.settings_activity.SettingsActivity;
+import com.example.kongwenyao.weathertoday.SettingsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,18 +33,6 @@ import java.util.Map;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
- * WeatherToday application is an application that display weather condition of current weather or
- * forecast weathers happening in next few hours.
- *
- * MainActivity.class contains the functionality to retrieve data and display data in
- * activity_main.xml. The functionality of retrieving and displaying data are built through inner
- * class within the MainActivity.class. Reason of using inner class is due that android does not
- * allow application in performing network operation on its main thread, which is onCreate() or even
- * within methods executed through onCreate(). The MainActivity.class also include overridden method
- * declaration of onCreateOptionsMenu() and onOptionsItemSelected(). onCreateOptionsMenu() methods
- * is used to inflate custom Actionbar, while another handles the processing when an item of option
- * menu is clicked.
- *
  * Created by kongwenyao on 12/9/17.
  */
 
@@ -131,35 +116,34 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         }
     }
 
-    //TODO: bug fix required
+    //Enlarged text based on trigger in the setting
     public void EnlargedTextSetting(boolean enlarge, Activity activity) {
         float sp = activity.getResources().getDisplayMetrics().scaledDensity;
-        final int enlargeVal = 15;
+        final int enlargeVal = 2; //Enlarge 2sp
 
         //Get view references
         TextView conditionView = activity.findViewById(R.id.condition_view);
         TextView locationView = activity.findViewById(R.id.location_view);
         TextView dateView = activity.findViewById(R.id.date_view);
 
-        //Get current text size in actual pixel
-        float conditionTextSize = conditionView.getTextSize();;
-        float locationTextSize = locationView.getTextSize();
-        float dateTextSize = dateView.getTextSize();
+        //Get current text size in sp
+        float conditionTextSize = (int) (conditionView.getTextSize()/ sp);
+        float locationTextSize = locationView.getTextSize()/ sp;
+        float dateTextSize = dateView.getTextSize()/ sp;
 
         if (enlarge) {
-            if ((conditionTextSize/sp) != 34) { //if text size not equal to 'enlarged value'
-                conditionView.setTextSize((conditionTextSize + enlargeVal) / sp);
-                locationView.setTextSize((locationTextSize + enlargeVal) / sp);
-                dateView.setTextSize((dateTextSize + enlargeVal) / sp);
+            if (conditionTextSize != 31) { //if text size has not enlarge to specific size
+                conditionView.setTextSize(conditionTextSize + enlargeVal);
+                locationView.setTextSize(locationTextSize + enlargeVal);
+                dateView.setTextSize(dateTextSize + enlargeVal);
             }
         } else {
-            if ((conditionTextSize/sp) != 29) {   //if text size not equal to 'not enlarged value'
-                conditionView.setTextSize((conditionTextSize - enlargeVal) / sp);
-                locationView.setTextSize((locationTextSize - enlargeVal) / sp);
-                dateView.setTextSize((dateTextSize - enlargeVal) / sp);
+            if (conditionTextSize != 29) { //if text size has not scaled to not enlarged size
+                conditionView.setTextSize(conditionTextSize - enlargeVal);
+                locationView.setTextSize(locationTextSize - enlargeVal);
+                dateView.setTextSize(dateTextSize - enlargeVal);
             }
         }
-
     }
 
     @Override

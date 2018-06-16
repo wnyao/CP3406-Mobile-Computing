@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings_activity.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".InfoActivity" />
         <activity android:name=".HourlyForecastActivity"></activity>
