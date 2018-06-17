@@ -22,9 +22,8 @@ public abstract class HourlyForecastDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    @SuppressWarnings("unused")
     public static void deleteInstance() {
         INSTANCE = null;
     }
-
-
 }

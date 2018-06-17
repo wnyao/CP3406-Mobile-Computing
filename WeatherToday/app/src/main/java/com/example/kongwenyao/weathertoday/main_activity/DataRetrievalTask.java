@@ -193,7 +193,7 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
     }
 
     //Append temperature with celsius symbol
-    public String appendCelsiusSymbol(String temp) {
+    private String appendCelsiusSymbol(String temp) {
         return temp + " \u2103";
     }
 

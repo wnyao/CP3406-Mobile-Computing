@@ -1,14 +1,11 @@
 package com.example.kongwenyao.weathertoday.main_activity;
 
 import android.app.Activity;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -20,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.kongwenyao.weathertoday.HourlyForecastActivity;
-import com.example.kongwenyao.weathertoday.InfoActivity;
+import com.example.kongwenyao.weathertoday.IconInfoActivity;
 import com.example.kongwenyao.weathertoday.R;
 import com.example.kongwenyao.weathertoday.SettingsActivity;
 import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecast;
@@ -34,7 +31,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -52,12 +48,11 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     private TextView dateView;
     private TextView tempView;
 
+    //View model for Room database
     private HourlyForecastViewModel mViewModel;
-    //private List<HourlyForecast> hourlyForecastData = new ArrayList<>();
 
     //Keys
     public static final String GIF_TYPE = "gif";
-    public static final String FORECASTS = "FORECASTS";
     public static final String LOCATION = "LOCATION";
     public static final String TAG = "TAG";
     public static final String PREFS_NAME = "PREFS_FILE";
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         boolean enlargedVal = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
         EnlargedTextSetting(enlargedVal, this);
 
-        //Retrive data from Wunderground api
+        //Retrieve data from Wunderground api
         final String weatherToday = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
         final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
         DataRetrievalTask dataRetrieval = new DataRetrievalTask(this, mViewModel.getmDb(), isFahrenheit);
@@ -120,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
                 return true;
 
             case R.id.info_menu:
-                intent = new Intent(this, InfoActivity.class);
+                intent = new Intent(this, IconInfoActivity.class);
                 startActivity(intent);
                 return true;
             default:
@@ -222,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     }
 
     @Override
-    public void onDataHourlySet(boolean hasSet) throws IOException, JSONException {
+    public void onDataHourlySet(boolean hasSet) {
 
         if (hasSet) {
             List<HourlyForecast> forecast = mViewModel.getAllForecasts();

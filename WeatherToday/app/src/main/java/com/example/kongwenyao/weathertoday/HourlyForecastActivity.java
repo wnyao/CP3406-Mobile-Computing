@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,13 +21,12 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import pl.droidsonroids.gif.GifImageView;
 
 public class HourlyForecastActivity extends AppCompatActivity {
 
-    private ConstraintLayout constraintLayout;
+    private ConstraintLayout constraintLayout; //TODO: swipe to switch forecast info
     private GifImageView weatherView;
     private TextView locationView;
     private TextView dateView;
@@ -86,10 +84,8 @@ public class HourlyForecastActivity extends AppCompatActivity {
         String location = intent.getStringExtra(MainActivity.LOCATION);
         String tag = intent.getStringExtra(MainActivity.TAG);
 
-        //Get forecast data from Room Db
+        //Get forecast data from Room database
         List<HourlyForecast> forecast = mViewModel.findForecastByTag(tag);
-
-        Log.e("forecast_length", String.valueOf(forecast.size())); //
 
         if (forecast.size() != 0) {
             try {
@@ -120,7 +116,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
                 return true;
 
             case R.id.info_menu:
-                intent = new Intent(this, InfoActivity.class);
+                intent = new Intent(this, IconInfoActivity.class);
                 startActivity(intent);
                 return true;
             default:
