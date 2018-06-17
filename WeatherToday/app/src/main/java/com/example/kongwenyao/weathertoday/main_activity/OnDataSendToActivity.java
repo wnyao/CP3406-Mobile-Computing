@@ -7,5 +7,5 @@ import java.util.Map;
 
 public interface OnDataSendToActivity {
     void onDataTodaySend(String[] data) throws IOException, JSONException;
-    void onDataHourlySend(Map<String, String[]> data) throws IOException, JSONException;
+    void onDataHourlySet(boolean hasSet) throws IOException, JSONException;
 }

@@ -1,10 +1,14 @@
 package com.example.kongwenyao.weathertoday.main_activity;
 
 import android.app.Activity;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -19,6 +23,8 @@ import com.example.kongwenyao.weathertoday.HourlyForecastActivity;
 import com.example.kongwenyao.weathertoday.InfoActivity;
 import com.example.kongwenyao.weathertoday.R;
 import com.example.kongwenyao.weathertoday.SettingsActivity;
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecast;
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecastViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +34,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -45,13 +52,14 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     private TextView dateView;
     private TextView tempView;
 
-    public static final String GIF_TYPE = "gif";
-    private Map<String, String[]> hourlyForecastData;
+    private HourlyForecastViewModel mViewModel;
+    //private List<HourlyForecast> hourlyForecastData = new ArrayList<>();
 
     //Keys
-    public static final String FORECAST = "FORECAST";
+    public static final String GIF_TYPE = "gif";
+    public static final String FORECASTS = "FORECASTS";
     public static final String LOCATION = "LOCATION";
-    public static final String DATE = "DATE";
+    public static final String TAG = "TAG";
     public static final String PREFS_NAME = "PREFS_FILE";
 
     @Override
@@ -70,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         locationView = findViewById(R.id.location_view);
         tempView = findViewById(R.id.temperature_view);
         dateView = findViewById(R.id.date_view);
+
+        //View model reference
+        mViewModel = ViewModelProviders.of(this).get(HourlyForecastViewModel.class);
+        clearDatabase(mViewModel); //Clear data if data exist, to acquire new data
     }
 
     @Override
@@ -80,10 +92,10 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         boolean enlargedVal = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
         EnlargedTextSetting(enlargedVal, this);
 
-        //Data Retrieve Process
+        //Retrive data from Wunderground api
         final String weatherToday = "http://api.wunderground.com/api/e4287e3de768ea5e/conditions/q/autoip.json";
         final String weatherHourly = "http://api.wunderground.com/api/e4287e3de768ea5e/hourly/q/autoip.json";
-        DataRetrievalTask dataRetrieval = new DataRetrievalTask(this, isFahrenheit);
+        DataRetrievalTask dataRetrieval = new DataRetrievalTask(this, mViewModel.getmDb(), isFahrenheit);
         dataRetrieval.execute(weatherToday, weatherHourly);
 
         super.onStart();
@@ -200,24 +212,48 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         return (new JSONObject(stringBuilder.toString()));
     }
 
+    //Clear database if there is data exist
+    private void clearDatabase(HourlyForecastViewModel model) {
+        List<HourlyForecast> forecasts = model.getAllForecasts();
+
+        if (forecasts.size() != 0) {
+            model.clearAll();
+        }
+    }
+
     @Override
-    public void onDataHourlySend(Map<String, String[]> data) throws IOException, JSONException {
+    public void onDataHourlySet(boolean hasSet) throws IOException, JSONException {
+
+        if (hasSet) {
+            List<HourlyForecast> forecast = mViewModel.getAllForecasts();
+            displayHourlyData(forecast);
+        }
+    }
+
+    private void displayHourlyData(List<HourlyForecast> forecasts) {
         TextView textView;
         ImageView imageView;
         LinearLayout linearLayout;
-        String[] hourlyData;
+        int drawableId = 0;
 
-        hourlyForecastData = data;
-        for (int i = 0; i < data.size(); i++) {
+        //Remove all child views if there are any
+        if (this.linearLayout.getChildCount() > 0) {
+            this.linearLayout.removeAllViews();
+        }
 
-            //Get hourly data
-            hourlyData = data.get(String.valueOf(i)); //Eg. {condition, time, temp, uvIndex, humidity, sky}
-            int drawableID = getWeatherImageID(hourlyData[0], "icon", this); //get drawable Id
+
+        for (HourlyForecast forecast: forecasts) {
+            try {
+                //Get icon drawable ID
+                drawableId = getWeatherImageID(forecast.condition, "icon", this);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
 
             //Create views
-            linearLayout = createLinearLayout(String.valueOf(i));
-            textView = createTextView(hourlyData[1]);
-            imageView = createImageView(drawableID);
+            linearLayout = createLinearLayout(forecast.tag);
+            textView = createTextView(forecast.time);
+            imageView = createImageView(drawableId);
 
             //View holder add views
             linearLayout.addView(imageView);
@@ -269,15 +305,11 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
     @Override
     public void onClick(View v) {
         if (v.getTag() != null) {
-            int index = Integer.parseInt((String) v.getTag());
-
-            String[] forecast = hourlyForecastData.get(String.valueOf(index)); //Eg. {condition, time, temp, uvIndex, humidity, sky}
 
             //Intent
             Intent intent = new Intent(this, HourlyForecastActivity.class);
-            intent.putExtra(FORECAST, forecast);
             intent.putExtra(LOCATION, locationView.getText());
-            intent.putExtra(DATE, dateView.getText());
+            intent.putExtra(TAG, (String) v.getTag());
             startActivity(intent);
         }
     }

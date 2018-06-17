@@ -1,23 +1,34 @@
 package com.example.kongwenyao.weathertoday;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecast;
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecastViewModel;
 import com.example.kongwenyao.weathertoday.main_activity.MainActivity;
 
 import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import pl.droidsonroids.gif.GifImageView;
 
 public class HourlyForecastActivity extends AppCompatActivity {
 
+    private ConstraintLayout constraintLayout;
     private GifImageView weatherView;
     private TextView locationView;
     private TextView dateView;
@@ -29,6 +40,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
     private TextView timeView;
 
     private MainActivity mainActivity;
+    private HourlyForecastViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +52,8 @@ public class HourlyForecastActivity extends AppCompatActivity {
         toolBar.setTitle("Hourly Forecast");
         setSupportActionBar(toolBar);
 
-        //View assingments
+        //View assignments
+        //constraintLayout = findViewById(R.id.constraint_layout); //TODO: on swipe feature
         weatherView = findViewById(R.id.weather_Imageview);
         conditionView = findViewById(R.id.condition_view);
         locationView = findViewById(R.id.location_view);
@@ -53,6 +66,10 @@ public class HourlyForecastActivity extends AppCompatActivity {
 
         //Instance
         mainActivity = new MainActivity();
+
+        //View model reference
+        mViewModel = ViewModelProviders.of(this)
+                .get(HourlyForecastViewModel.class);
     }
 
     @Override
@@ -62,19 +79,25 @@ public class HourlyForecastActivity extends AppCompatActivity {
         //Shared Preferences
         SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.PREFS_NAME, 0);
         boolean enlargedVal = sharedPreferences.getBoolean("ENLARGED_SWITCH", false);
-        mainActivity.EnlargedTextSetting(enlargedVal, this); //TODO: test
+        mainActivity.EnlargedTextSetting(enlargedVal, this);
 
         //get intent
         Intent intent = getIntent();
-        String[] forecastData = intent.getStringArrayExtra(MainActivity.FORECAST);
         String location = intent.getStringExtra(MainActivity.LOCATION);
-        String date = intent.getStringExtra(MainActivity.DATE);
+        String tag = intent.getStringExtra(MainActivity.TAG);
 
-        //Display data
-        try {
-            displayData(forecastData, location, date);
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
+        //Get forecast data from Room Db
+        List<HourlyForecast> forecast = mViewModel.findForecastByTag(tag);
+
+        Log.e("forecast_length", String.valueOf(forecast.size())); //
+
+        if (forecast.size() != 0) {
+            try {
+                //Display data
+                displayData(forecast.get(0), location);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -105,21 +128,22 @@ public class HourlyForecastActivity extends AppCompatActivity {
         }
     }
 
-    private void displayData(String[] data, String location, String date) throws IOException, JSONException { //Eg. {condition, time, temp, uvIndex, humidity, sky}
-        int drawableID = mainActivity.getWeatherImageID(data[0], MainActivity.GIF_TYPE, this);
+    private void displayData(HourlyForecast data, String location) throws IOException, JSONException {
+        int drawableID = mainActivity.getWeatherImageID(data.condition, MainActivity.GIF_TYPE, this);
+        String date = data.dayOfWeek + ", " + data.date;
 
+        //Set content of view
         weatherView.setImageResource(drawableID);
+        conditionView.setText(data.condition);
+        humidityView.setText(data.humidity);
+        timeView.setText(data.time);
+        tempView.setText(data.temperature);
+        skyView.setText(data.sky);
         locationView.setText(location);
-        conditionView.setText(data[0]);
         dateView.setText(date);
-        timeView.setText(data[1]);
-        tempView.setText(data[2]);
-        skyView.setText(data[5]);
-        humidityView.setText(data[4]);
 
-        //If uvIndex is zero
-        if (!data[3].equals("0")) {
-            uvIndexView.setText(data[3]);
+        if (!data.uvindex.equals("0")) { //If uvIndex is zero
+            uvIndexView.setText(data.uvindex);
         } else {
             GridLayout gridLayout = findViewById(R.id.grid_layout);
             View view = findViewById(R.id.divider2);
@@ -129,6 +153,5 @@ public class HourlyForecastActivity extends AppCompatActivity {
             gridLayout.removeView(uvIndexView);
         }
     }
-
 
 }

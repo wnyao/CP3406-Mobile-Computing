@@ -2,6 +2,10 @@ package com.example.kongwenyao.weathertoday.main_activity;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecastDatabase;
+import com.example.kongwenyao.weathertoday.hourly_forecast_db.HourlyForecast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,11 +25,13 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
     private final String HOURLY = "hourly";
 
     private boolean isFahrenheit;
+    private HourlyForecastDatabase mDb;
     private OnDataSendToActivity onDataSendToActivity;
 
-    public DataRetrievalTask(Activity activity, boolean isFahrenheit) {
+    public DataRetrievalTask(Activity activity, HourlyForecastDatabase mDb, boolean isFahrenheit) {
         this.isFahrenheit = isFahrenheit;
         onDataSendToActivity = (OnDataSendToActivity) activity;
+        this.mDb = mDb;
     }
 
 
@@ -89,8 +95,8 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
 
             if (jsonTexts.containsKey(HOURLY)) {
                 jsonObject = new JSONObject(jsonTexts.get(HOURLY));
-                Map<String, String[]> hourlyWeather = getWeatherHourly(jsonObject, isFahrenheit);
-                onDataSendToActivity.onDataHourlySend(hourlyWeather);
+                getWeatherHourly(jsonObject, isFahrenheit);
+                onDataSendToActivity.onDataHourlySet(true);
             }
 
         } catch (JSONException | IOException e) {
@@ -98,19 +104,22 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
         }
     }
 
-    private Map<String, String[]> getWeatherHourly(JSONObject jsonObj, boolean isFahrenheit) throws JSONException {
-        String condition, time, temp, uvIndex, humidity, sky;
+    private void getWeatherHourly(JSONObject jsonObj, boolean isFahrenheit) throws JSONException {
+        String condition, time, temp, uvIndex, humidity, sky, date, dayOfWeek, tag;
         JSONObject forecastData;
+        JSONObject fctTime;
 
-        Map<String, String[]> weatherHourly = new HashMap<>();
         JSONArray hourlyForecasts = jsonObj.getJSONArray("hourly_forecast"); //Array of hourly forecast data
 
         for (int i = 0; i < hourlyForecasts.length(); i++) {
             forecastData = hourlyForecasts.getJSONObject(i);
+            fctTime = hourlyForecasts.getJSONObject(i).getJSONObject("FCTTIME");
 
-            //Get Data
+            //Get Data from JSON
             condition = forecastData.getString("condition"); //Eg. "Chance of Thunderstorm"
-            time = forecastData.getJSONObject("FCTTIME").getString("civil"); //Eg. "5:00 PM"
+            dayOfWeek = fctTime.getString("weekday_name"); //Eg. "Sunday"
+            time = fctTime.getString("civil"); //Eg. "5:00 PM"
+            date = fctTime.getString("mday"); //Eg. "17"
             humidity = forecastData.getString("humidity");
             uvIndex = forecastData.getString("uvi");
             sky = forecastData.getString("sky");
@@ -127,10 +136,28 @@ public class DataRetrievalTask extends AsyncTask<String, String, Map<String, Str
             time = processTimeFormat(time); //Process time format
             humidity = humidity + "%";
             sky = sky + "%";
+            tag = String.valueOf(i);
 
-            weatherHourly.put(String.valueOf(i), new String[]{condition, time, temp, uvIndex, humidity, sky});
+            //Add to database
+            addHourlyForecast(mDb, condition, time, temp, uvIndex, humidity, sky, date, dayOfWeek, tag);
         }
-        return weatherHourly;
+    }
+
+    //Add data to Room database
+    private static void addHourlyForecast(final HourlyForecastDatabase mDb, String condition, String time,
+                                             String temp, String uvIndex, String humidity, String sky,
+                                             String date, String dayOfWeek, String tag) {
+        HourlyForecast forecast = new HourlyForecast();
+        forecast.condition = condition;
+        forecast.time = time;
+        forecast.temperature = temp;
+        forecast.uvindex = uvIndex;
+        forecast.humidity = humidity;
+        forecast.sky = sky;
+        forecast.date = date;
+        forecast.dayOfWeek = dayOfWeek;
+        forecast.tag = tag;
+        mDb.hourlyForecastModel().insertForecast(forecast);
     }
 
     //Process time format for weather hourly data
