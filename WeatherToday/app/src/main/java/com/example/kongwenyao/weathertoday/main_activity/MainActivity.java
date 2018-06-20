@@ -231,12 +231,6 @@ public class MainActivity extends AppCompatActivity implements OnDataSendToActiv
         LinearLayout linearLayout;
         int drawableId = 0;
 
-        //Remove all child views if there are any
-        if (this.linearLayout.getChildCount() > 0) {
-            this.linearLayout.removeAllViews();
-        }
-
-
         for (HourlyForecast forecast: forecasts) {
             try {
                 //Get icon drawable ID

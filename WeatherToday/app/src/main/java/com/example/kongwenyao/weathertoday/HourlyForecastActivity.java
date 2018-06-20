@@ -26,7 +26,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class HourlyForecastActivity extends AppCompatActivity {
 
-    private ConstraintLayout constraintLayout; //TODO: swipe to switch forecast info
+    private ConstraintLayout constraintLayout;
     private GifImageView weatherView;
     private TextView locationView;
     private TextView dateView;
@@ -51,7 +51,7 @@ public class HourlyForecastActivity extends AppCompatActivity {
         setSupportActionBar(toolBar);
 
         //View assignments
-        //constraintLayout = findViewById(R.id.constraint_layout); //TODO: on swipe feature
+        constraintLayout = findViewById(R.id.constraint_layout); //TODO: on swipe feature
         weatherView = findViewById(R.id.weather_Imageview);
         conditionView = findViewById(R.id.condition_view);
         locationView = findViewById(R.id.location_view);
