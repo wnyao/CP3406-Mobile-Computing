@@ -2,7 +2,7 @@
 ### CP3406-Mobile-Computing
 ---
 
-This repository contains my attempts on CP3406 Mobile Computing weekly challenges and course assignments. If you will like to [get started](https://developer.android.com/guide/) with Android Development, feel free to use the [guideline](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md) for your programming challenges in testing out your abilities and knowledges.
+This repository contains my attempts on CP3406 Mobile Computing weekly challenges and course assignments. If you will like to [get started](https://developer.android.com/guide/) with Android Development, feel free to use the [guideline](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md) for your programming challenges in testing out your learnings and knowledges.
 
 ---
 Refer to the guidelines [here](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md).
