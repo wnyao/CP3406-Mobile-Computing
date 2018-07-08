@@ -126,6 +126,7 @@ Using SoundPool create a full screen app that present the user with a picture of
 
 **Requirements:**
 -	Create this app using the MVC design pattern. So, that means creating a utility class for managing the sound pool, loading its audio files, when all audio files are loaded then sounds can be played. 
+
 **Extra:** 
 -	Add a shared preferences activity using the PreferenceFrament coding style (See part 1 of Flag Quiz Demo). Allow the app to support small screen size portrait mode, and large screen size landscape mode.
 
