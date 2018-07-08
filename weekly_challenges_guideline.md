@@ -129,7 +129,7 @@ Using SoundPool create a full screen app that present the user with a picture of
 -	Create this app using the MVC design pattern. So, that means creating a utility class for managing the sound pool, loading its audio files, when all audio files are loaded then sounds can be played. 
 
 **Extra:** 
--	Add a shared preferences activity using the PreferenceFrament coding style (See part 1 of Flag Quiz Demo). Allow the app to support small screen size portrait mode, and large screen size landscape mode.
+-	Add a shared preferences activity using the PreferenceFrament coding style. Allow the app to support small screen size portrait mode, and large screen size landscape mode.
 
 ---
 ### #8 - [SpiritLevelApp](https://github.com/wnyao/cp3406_mobile_computing/tree/master/SpiritLevelApp)
@@ -153,6 +153,7 @@ Create an educational game targeting high-school students (years 7-9) that suppo
 -	Basic puzzle games (calculate the answer to a series of math questions)
 
 **Instructions:**
+
 The app consists of four screens:
 -	A main menu or landing page
 -	A game screen
