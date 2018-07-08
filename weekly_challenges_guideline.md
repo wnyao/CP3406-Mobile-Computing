@@ -60,6 +60,7 @@ Requirements and Behaviors:
 -	A button for closing the secondary activity and resuming the main activity.
 
 **Behaviors:**
+
 The main activity behaves as follows:
 -	When it enters the foreground, a random number is chosen between the minimum (default 1) and maximum numbers (default 10).
 -	The user is able to enter a guess into the text field.
