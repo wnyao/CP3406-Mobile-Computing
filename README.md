@@ -23,22 +23,22 @@ Refer to the guidelines [here](https://github.com/wnyao/cp3406_mobile_computing/
 * EducationalGame ([SumUp!](https://github.com/wnyao/cp3406_mobile_computing/tree/master/EducationalGame))
 
 ---
-## How to run
+### How to run
 
-Given that all project modules within this repository are not in production build, you can extract the particular project repository out from this single repository and import it into Android studio. The steps are as follow:
+Given that all project modules within this repository are not in production build, you will have to extract the particular repository out from this mono repository and import it into Android studio. The steps are as follow:
 
-** Steps **
-1. Download this mono repository from Github
+**Steps**
+1. Download this mono repo from Github
 2. Pull out the particular project repository that you are interested
 3. Launch Android Studio
-4. Go for 'Open an existing Android Studio Project'
+4. Go for **Open an existing Android Studio Project**
 5. Locate to the repository that were pulled out
 5. Run on an emulator with correct Sdk version
 
-** Note **
+**Note**
 - I don't recommend to checkout directly using the Web URL on Android studio. 
 - Beware on Gradle dependencies at builld.gradle, some of them might be outdated and required new version.
-- Project modules for 'Weekly Challenges' serve merely as coding playground with implementing features listed on this [gudelines](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md). Only project modules from 'Personal Project' are complete application.
+- Project modules for [**Weekly Challenges**](#weekly-challenges:) serve merely as coding playground with implementing features listed on this [gudelines](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md). Only project modules from [**Personal Project**](#personal-project:) are complete application.
 
 ---
 
