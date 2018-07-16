@@ -25,7 +25,7 @@ Refer to the guidelines [here](https://github.com/wnyao/cp3406_mobile_computing/
 ---
 ### How to run
 
-Given that all project modules within this repository are not in production build, you will have to extract the particular repository out from this mono repository and import it into Android studio. The steps are as follow:
+Given that all project modules within this repository are not in production build, you will have to extract the particular repository out from this mono repository and import it into Android Studio. The steps are as follows:
 
 **Steps**
 1. Download this mono repo from Github
