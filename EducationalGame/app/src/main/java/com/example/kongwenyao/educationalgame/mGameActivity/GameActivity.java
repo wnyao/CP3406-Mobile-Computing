@@ -26,6 +26,7 @@ import com.example.kongwenyao.educationalgame.R;
 import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity;
 
 import java.util.Objects;
+import android.util.Log;
 
 public class GameActivity extends AppCompatActivity implements View.OnTouchListener, SensorEventListener {
 

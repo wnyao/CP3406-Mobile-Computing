@@ -41,6 +41,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
+
 public class GameOverActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener {
 
     private static final String PREF_FILE = "SCORE_PREF_FILE";
@@ -51,7 +52,7 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
     private int score;
     private ProgressDialog pDialog;
 
-    //Twitter variable
+    //Twitter variables
     public static final int AUTHENTICATE = 1;
     private static RequestToken requestToken;
     private static Twitter twitter;
@@ -187,9 +188,15 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
                 playerName = leaderboardDatabase.capitalizeString(playerName);
                 boolean existed = leaderboardDatabase.isRecordExisted(playerName);
 
+                Log.w("playerName: ", playerName);
+
+
                 //Add score depending on specified conditions
                 if (existed) { //Check if record existed
                     Score recordedScore = leaderboardDatabase.getScoreRecord(playerName);
+
+                    Log.w("recordedScore: ", Integer.toString(recordedScore.getScore()));
+
                     if (recordedScore.getScore() != score) {
                         leaderboardDatabase.addScoreRecord(new Score(1, playerName, score));
                     }

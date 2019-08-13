@@ -13,6 +13,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.util.Log;
 
 import com.example.kongwenyao.educationalgame.mGameActivity.GameActivity;
 import com.example.kongwenyao.educationalgame.Objects.MediaPlayerManager;
@@ -23,6 +24,7 @@ import com.example.kongwenyao.educationalgame.mSettingsActivity.SettingsActivity
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import android.util.Log;
 
 public class LeaderboardActivity extends AppCompatActivity {
 
@@ -48,7 +50,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         db = new LeaderboardDatabase(this);
 
         //FOR TESTING ONLY
-        db.clearAllScoreRecords();
+        //db.clearAllScoreRecords();
         //test();
 
         //Process

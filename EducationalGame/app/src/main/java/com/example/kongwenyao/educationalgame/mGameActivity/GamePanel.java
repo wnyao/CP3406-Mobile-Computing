@@ -31,7 +31,7 @@ import com.example.kongwenyao.educationalgame.Enum.Total;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     //Canvas Parameter
-    private static final String CANVAS_COLOR = "#FFDF5F";
+    //private static final String CANVAS_COLOR = "#FFDF5F";
     private static final String CIRCLE_COLOR1 = "#FFB95F";
     private static final String CIRCLE_COLOR2 = "#E86A03";
     private static final int TARGET_VAL_TEXT_SIZE = 170;

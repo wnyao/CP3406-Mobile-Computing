@@ -30,7 +30,7 @@ public class GameThread extends Thread {
         long targetTime = 1000/ MAX_FPS;
         long totalTime = 0;
         int frameCount = 0;
-        Double averageFPS;
+        double averageFPS;
         Canvas canvas;
 
         while (running) {
@@ -76,7 +76,7 @@ public class GameThread extends Thread {
                 frameCount = 0;
 
                 //Report average FPS
-                System.out.println("Average FPS: " + averageFPS);
+                //System.out.println("Average FPS: " + averageFPS);
             }
         }
 

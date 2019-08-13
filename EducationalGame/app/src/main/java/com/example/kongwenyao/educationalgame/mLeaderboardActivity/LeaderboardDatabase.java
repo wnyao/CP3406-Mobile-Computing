@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kongwenyao on 1/9/18.
+ * Updated by kongwenyao on 12/8/2019.
  */
 
 public class LeaderboardDatabase extends SQLiteOpenHelper {
