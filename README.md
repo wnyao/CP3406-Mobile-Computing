@@ -1,6 +1,7 @@
 ### James Cook University Singapore
 ### CP3406-Mobile-Computing
 
+---
 
 This repository contains weekly challenges and course assignments on learning to build with Android. If you will like to [get started](https://developer.android.com/guide/), feel free to use its as a [guides](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md) to test your learnings and knowledges.
 
