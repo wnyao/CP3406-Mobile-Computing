@@ -1,8 +1,8 @@
 ### James Cook University Singapore
 ### CP3406-Mobile-Computing
----
 
-This repository contains my attempts on CP3406 Mobile Computing weekly challenges and course assignments. If you will like to [get started](https://developer.android.com/guide/) with Android Development, feel free to use the [guideline](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md) for your programming challenges in testing out your learnings and knowledges.
+
+This repository contains weekly challenges and course assignments on learning to build with Android. If you will like to [get started](https://developer.android.com/guide/), feel free to use its as a [guides](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md) to test your learnings and knowledges.
 
 ---
 Refer to the guidelines [here](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md).
@@ -18,7 +18,7 @@ Refer to the guidelines [here](https://github.com/wnyao/cp3406_mobile_computing/
 * Week8: SpiritLevelApp
 * Week9: EducationalGame (SumUp!)
 
-### Personal Project:
+### Course Assignments:
 * UtilityApp ([WeatherToday](https://github.com/wnyao/cp3406_mobile_computing/tree/master/WeatherToday))
 * EducationalGame ([SumUp!](https://github.com/wnyao/cp3406_mobile_computing/tree/master/EducationalGame))
 
@@ -35,10 +35,10 @@ Given that all project modules within this repository are not in production buil
 5. Locate to the repository that were pulled out
 5. Run on an emulator with correct Sdk version
 
-**Note**
-- I don't recommend to checkout directly using the Web URL on Android studio. 
-- Beware on Gradle dependencies at builld.gradle, some of them might be outdated and required new version.
-- Project modules for [**Weekly Challenges**](#weekly-challenges:) serve merely as coding playground with implementing features listed on this [gudelines](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md). Only project modules from [**Personal Project**](#personal-project:) are complete application.
+**Caveats**
+- I don't recommend you to checkout directly using the Web URL on Android studio. 
+- Beware on Gradle dependencies at `builld.gradle`, some of them might be outdated and required new version.
+- Project modules for [**Weekly Challenges**](#weekly-challenges:) serve merely as coding playground with the simple implementing features listed on the [gudelines](https://github.com/wnyao/cp3406_mobile_computing/blob/master/weekly_challenges_guideline.md). Only project modules from [**Course Assignments**](#course-assignments:) are considered complete application.
 
 ---
 
